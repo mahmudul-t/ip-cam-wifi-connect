@@ -60,12 +60,12 @@ IS_REG="${is_reg:-0}"
 HIDDEN="${hidden:-0}"
 COUNTRY="${country:-}"    # optional e.g., BD/US/GB
 
-# 1.5) Registration check
-if [ "$IS_REG" = "0" ]; then
-    log "[WIFI] Device not registered, switching to AP mode..."
-    exec "$AP_ENABLE"
-    exit 0
-fi
+# # 1.5) Registration check
+# if [ "$IS_REG" = "0" ]; then
+#     log "[WIFI] Device not registered, switching to AP mode..."
+#     exec "$AP_ENABLE"
+#     exit 0
+# fi
 
 
 [ -n "$SSID" ] || fail_to_ap "'ssid' missing in $CONFIG_FILE"
