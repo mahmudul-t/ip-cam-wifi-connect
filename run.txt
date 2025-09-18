@@ -1,0 +1,5 @@
+mips-linux-gnu-gcc -O2 -Wall -static -o tiny_server tiny_server.c
+
+mips-linux-gnu-gcc button_monitor.c -o button_monitor
+
+cp button_monitor tiny_server /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
