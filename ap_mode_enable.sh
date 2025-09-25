@@ -55,7 +55,8 @@ command -v iw >/dev/null 2>&1 && iw dev "$WLAN_IF" set type __ap 2>/dev/null || 
 ip link set "$WLAN_IF" up || ifconfig "$WLAN_IF" up
 
 # hostapd
-/system/tools/wifi/hostapd -B /etc/hostapd.conf
+# /system/tools/wifi/hostapd -B /etc/hostapd.conf
+/system/tools/wifi/hostapd -B /system/etc/hostapd.conf
 sleep 1
 pidof hostapd >/dev/null || { echo "[AP] hostapd failed" > /dev/console; goto_retry; }
 echo "[AP] hostapd OK" > /dev/console

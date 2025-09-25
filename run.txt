@@ -1,3 +1,15 @@
+export CROSS_COMPILE=/home/mahmudul/mahmudul_workspace/keo_cam_ingenic/toolchain/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-
+
+export PATH=/home/mahmudul/mahmudul_workspace/keo_cam_ingenic/toolchain/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin:$PATH
+
+mips-linux-gnu-gcc --version
+
+
+
+
+
+
+
 mips-linux-gnu-gcc -O2 -Wall -static -o tiny_server tiny_server.c
 
 mips-linux-gnu-gcc button_monitor.c -o button_monitor

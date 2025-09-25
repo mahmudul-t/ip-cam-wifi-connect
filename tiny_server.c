@@ -199,7 +199,9 @@ static int persist_all(const char *ssid, const char *wifi_password,
         "username=%s\n"
         "password=%s\n"
         "camera_id=%s\n"
-        "is_reg=1\n",
+        "is_reg=1\n"
+        "sensor=imx327\n"
+        "vendor=teton\n",
         ssid, wifi_password, username, user_password, camera_id);
 
     LOG("persist_all: writing config to %s", CFG_TXT_PATH);

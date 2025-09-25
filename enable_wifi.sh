@@ -1,5 +1,5 @@
 #!/bin/sh
-# wifi_enable.sh — Connect STA using /system/etc/device_wifi_config.txt
+# enable_wifi.sh — Connect STA using /system/etc/device_wifi_config.txt
 # BusyBox/ash friendly (Ingenic T23). Falls back to AP on failure.
 
 set -u
@@ -10,6 +10,9 @@ LOG="/tmp/wifi_debug.log"
 AP_ENABLE="/system/www/ap_mode_enable.sh"
 IFACE="wlan0"
 WPA_CONF="/etc/wpa_supplicant.conf"
+NFS_START="/system/start_nfs.sh"
+APPLICATION="/system/nfs/keo-cam"
+DEVICE_REG="/system/www/device_reg.sh"
 
 log() {
     echo "$1" >> "$LOG"
@@ -52,7 +55,7 @@ log "====== Starting Wi-Fi setup ======"
 . "$CONFIG_FILE"
 
 SSID="${ssid:-}"
-WIFI_PSK="${wifi_psk:-}"
+WIFI_PSK="${wifi_psk:-}" 
 APP_USER="${username:-}"
 APP_PASS="${password:-}"
 CAMERA_ID="${camera_id:-}"
@@ -61,11 +64,11 @@ HIDDEN="${hidden:-0}"
 COUNTRY="${country:-}"    # optional e.g., BD/US/GB
 
 # # 1.5) Registration check
-# if [ "$IS_REG" = "0" ]; then
-#     log "[WIFI] Device not registered, switching to AP mode..."
-#     exec "$AP_ENABLE"
-#     exit 0
-# fi
+if [ "$IS_REG" = "0" ]; then
+    log "[WIFI] Device not registered, switching to AP mode..."
+    exec "$AP_ENABLE"
+    exit 0
+fi
 
 
 [ -n "$SSID" ] || fail_to_ap "'ssid' missing in $CONFIG_FILE"
@@ -159,15 +162,32 @@ log "[WIFI] Associated to \"$SSID\". Starting DHCP…"
 udhcpc -i "$IFACE" -n -t 5 -T 3 >>"$LOG" 2>&1 || log "[WIFI] udhcpc did not acquire a lease yet"
 
 log "[WIFI] connect to \"$SSID\" is succesfull...."
-# # 13) Final IP
-# FINAL_IP=$(ip -4 addr show "$IFACE" | awk '/inet /{print $2}' | awk -F/ '{print $1}' | head -n1)
 
-# if [ -n "$FINAL_IP" ]; then
-#     echo "[wifi_enable.sh] Connected with IP: $FINAL_IP" > /dev/console
-#     log "[WIFI] Final IP: $FINAL_IP"
+
+# run the NFS start script
+if [ -x "$NFS_START" ]; then
+    echo "Starting NFS..."
+    sh "$NFS_START"
+else
+    echo "Error: $NFS_START not found or not executable"
+fi
+
+# run the registration
+# if [ -x "$DEVICE_REG" ]; then
+#     echo "Running registration..."
+#     "$DEVICE_REG"
 # else
-#     echo "[wifi_enable.sh] Associated to \"$SSID\" but no DHCP lease yet" > /dev/console
-#     log "[WIFI] Associated but no DHCP lease."
+#     echo "Error: $DEVICE_REG not found or not executable"
 # fi
+
+
+# run the application
+if [ -x "$APPLICATION" ]; then
+    echo "Running application..."
+    "$APPLICATION" &
+else
+    echo "Error: $APPLICATION not found or not executable"
+fi
+
 
 exit 0
