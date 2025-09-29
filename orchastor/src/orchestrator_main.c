@@ -26,12 +26,12 @@ int main(void) {
 
     for (;;) {
         if (!gpio_wait_long_press()) continue;
-        time_t now = time(NULL);
-        if (now - last_trigger < RETRIGGER_GUARD_S) { continue; }
-        last_trigger = now;
+        // time_t now = time(NULL);
+        // if (now - last_trigger < RETRIGGER_GUARD_S) { continue; }
+        // last_trigger = now;
 
         logf_tag("flow", "Starting onboarding sequence");
-
+        printf("flow stop and onboarding sequence\n");
         flow_stop_wifi_and_app();
         if (!flow_start_ap_mode())   continue;
         if (!flow_start_tiny_server()) continue;

@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "flow.h": "c",
+        "gpio_btn.h": "c"
+    }
+}
