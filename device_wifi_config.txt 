@@ -1,6 +1,9 @@
+# /system/etc/device_wifi_config.txt 
 ssid=Teton-HQ
 wifi_psk=tet09-HQ
 username=Shakran
 password=123456
 camera_id=cam_0001
 is_reg=1
+sensor=imx327
+vendor=teton

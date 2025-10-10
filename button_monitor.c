@@ -15,6 +15,8 @@
 #define AP_MODE_SCRIPT "/system/www/ap_mode_enable.sh"
 #define ENABLE_WIFI_SCRIPT "/system/www/enable_wifi.sh"
 
+#define APP_NAME "keo-cam"  
+
 void export_gpio() {
     int fd = open("/sys/class/gpio/export", O_WRONLY);
     if (fd >= 0) {
@@ -109,6 +111,44 @@ static int stop_wifi_script(void)
     return -1; // no process running
 }
 
+ 
+
+int stop_application(void)
+{
+    char cmd[64];
+    snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
+
+    FILE *fp = popen(cmd, "r");
+    if (!fp) {
+        perror("popen");
+        return -1;
+    }
+
+    char pid_str[16];
+    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
+    {
+        pid_t pid = (pid_t)atoi(pid_str);
+        printf("Found %s PID: %d\n", APP_NAME, pid);
+
+        if (kill(pid, SIGTERM) == 0) 
+        {
+            printf("Sent SIGTERM to %s\n", APP_NAME);
+        } 
+        else 
+        {
+            perror("kill");
+        }
+    } 
+    else 
+    {
+        printf("%s not running\n", APP_NAME);
+    }
+
+    pclose(fp);
+    return 0;
+}
+
+
 int main() {
 
     export_gpio();
@@ -147,6 +187,7 @@ int main() {
             if (read_gpio_value() == 0) {
                 printf("[BOOT BTN] Long press detected. Stop wifi.... Launching AP mode ...\n");
                 stop_wifi_script();
+                stop_application();
                 run_ap_script();
                 sleep(20);  // prevent rapid retriggering
             } else {
