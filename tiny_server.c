@@ -355,21 +355,41 @@ static void handle_status(int client){
 }
 
 int main(void){
-    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0){ perror("socket"); return 1; }
-    int one = 1; setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(one));
+    int sockfd;
 
-    struct sockaddr_in serv = {0};
+    struct sockaddr_in serv;
+    int one = 1;
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (sockfd < 0)
+    { 
+        perror("socket"); 
+        return 1; 
+    }
+
+    // int one = 1; 
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(one));
+
+    // struct sockaddr_in serv = {0};
+
     serv.sin_family = AF_INET;
     serv.sin_addr.s_addr = INADDR_ANY;
     serv.sin_port = htons(PORT);
 
-    if (bind(sockfd, (struct sockaddr*)&serv, sizeof(serv)) < 0){
+    if (bind(sockfd, (struct sockaddr*)&serv, sizeof(serv)) < 0)
+    {
         perror("bind");
         LOG("bind failed on port %d. Is something else listening?", PORT);
-        return 1;
+        // return 1;
     }
-    if (listen(sockfd, 8) < 0){ perror("listen"); return 1; }
+
+    if (listen(sockfd, 8) < 0)
+    { 
+        perror("listen"); 
+        LOG("listening error");
+        // return 1; 
+    }
 
     LOG("tiny_onboard_server listening on 0.0.0.0:%d", PORT);
     printf("tiny_onboard_server listening on 0.0.0.0:%d\n", PORT);
