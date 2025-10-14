@@ -14,4 +14,6 @@ mips-linux-gnu-gcc -O2 -Wall -static -o tiny_server tiny_server.c
 
 mips-linux-gnu-gcc button_monitor.c -o button_monitor
 
-cp button_monitor tiny_server /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
+mips-linux-gnu-gcc i2c_scan.c -o i2c_scan
+
+cp button_monitor tiny_server i2c_scan /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
