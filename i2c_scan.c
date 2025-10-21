@@ -40,7 +40,11 @@ int main(int argc, char **argv)
     const char *dev = (argc > 1) ? argv[1] : "/dev/i2c-2";
 
     int fd = open(dev, O_RDWR);
-    if (fd < 0) { perror("open"); return 1; }
+    if (fd < 0) 
+    { 
+        perror("open"); 
+        return 1; 
+    }
 
     printf("Scanning %s Starting address: 0x%02x and ending address: 0x%02x \n", dev, START_ADDR, END_ADDR);
 
@@ -68,7 +72,7 @@ int main(int argc, char **argv)
             else                         
                 printf("-- ");
         }
-        
+
         printf("\n");
     }
     close(fd);

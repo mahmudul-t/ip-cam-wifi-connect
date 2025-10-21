@@ -16,4 +16,14 @@ mips-linux-gnu-gcc button_monitor.c -o button_monitor
 
 mips-linux-gnu-gcc i2c_scan.c -o i2c_scan
 
-cp button_monitor tiny_server i2c_scan /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
+mips-linux-gnu-gcc bq_driver.c -o bq_driver
+
+mips-linux-gnu-gcc -o bq27426/bq_single bq27426/main.c bq27426/bq27426.c
+
+mips-linux-gnu-gcc -O2 -Wall -Wextra -o bq27426n/bq_demo bq27426n/main.c bq27426n/bq27426_t23.c
+
+mips-linux-gnu-gcc -O2 -Wall -Wextra -o bq27426n/bqMon bq27426n/main.c bq27426n/bq27426_t23.c
+
+
+
+cp button_monitor tiny_server i2c_scan bq_driver bq27426/bq_single bq27426n/bq_demo bq27426n/bqMon /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
