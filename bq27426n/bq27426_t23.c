@@ -102,7 +102,7 @@ int bq_unseal_try(bq27426_t *ctx)
 {
     if (bq_control(ctx, CNTL_UNSEAL_KEY) < 0) 
     {
-        perror("[BQ] ERROR: first key write failed");
+        printf("[BQ] ERROR: first key write failed");
         return -1;
     }
     
@@ -110,7 +110,7 @@ int bq_unseal_try(bq27426_t *ctx)
 
     if (bq_control(ctx, CNTL_UNSEAL_KEY) < 0) 
     {
-        perror("[BQ] ERROR: second key write failed");
+        printf("[BQ] ERROR: second key write failed");
         return -1;
     }
     usleep(20000);
@@ -282,13 +282,13 @@ int bq_read_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, uint8_t 
 
     if (bq_unseal_try(ctx) < 0) 
     {
-        perror("unseal\n");
+        printf("unseal\n");
         return -1;
     }   
 
     if (bq_enter_cfg(ctx)   < 0) 
     {
-        perror("enter_cfg");
+        printf("enter_cfg");
         return -1;
     }
 
@@ -368,7 +368,7 @@ int bq_verify_state_params_verbose(bq27426_t *ctx,
     } 
     else 
     { 
-        perror("Read Design Capacity failed"); return -1; 
+        printf("Read Design Capacity failed"); return -1; 
     }
 
     if ((rc = bq_read_extended(ctx, CLASS_STATE, OFFS_DESIGN_EN_mWh, b, 2)) == 0) 
@@ -390,14 +390,14 @@ int bq_verify_state_params_verbose(bq27426_t *ctx,
         printf("Terminate Voltage   : %u mV", tv);
         if (expect_tv_mV) printf("  (expected %u) %s", expect_tv_mV, tv==expect_tv_mV?"OK":"MISMATCH");
         printf("\n");
-    } else { perror("Read Terminate Voltage"); return -1; }
+    } else { printf("Read Terminate Voltage"); return -1; }
 
     if ((rc = bq_read_extended(ctx, CLASS_STATE, OFFS_TAPER_RATE_0p1h, b, 2)) == 0) {
         taper = (b[0]<<8) | b[1];
         printf("Taper Rate          : %u (0.1h units)", taper);
         if (expect_taper_01h) printf("  (expected %u) %s", expect_taper_01h, taper==expect_taper_01h?"OK":"MISMATCH");
         printf("\n");
-    } else { perror("Read Taper Rate"); return -1; }
+    } else { printf("Read Taper Rate"); return -1; }
 
     printf("------------------------------------------\n\n");
     return 0;
@@ -685,11 +685,11 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
             break;
         }
 
-        /* Timeout? */
-        if (t_deadline && time(NULL) > t_deadline) {
-            printf("\n--- Learning monitor: timed out after %u minute(s) ---\n", max_minutes);
-            break;
-        }
+        // /* Timeout? */
+        // if (t_deadline && time(NULL) > t_deadline) {
+        //     printf("\n--- Learning monitor: timed out after %u minute(s) ---\n", max_minutes);
+        //     break;
+        // }
 
         /* Sleep */
         usleep(period_ms * 1000U);
@@ -706,4 +706,117 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     bq_print_qmax_and_ra(ctx);
 
     return 0;
+}
+
+int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id)
+{
+    if (!ctx || !chem_id) return -1;
+
+    /* Issue CHEM_ID control subcommand */
+    if (bq_control(ctx, CNTL_CHEM_ID) < 0) 
+    {
+        fprintf(stderr, "[BQ] ChemID subcmd failed\n");
+        return -1;
+    }
+
+    /* Small dwell so the gauge places the result at 0x00/0x01 */
+    usleep(5000);
+
+    /* Read raw bytes at Control() registers 0x00/0x01 */
+    uint8_t raw[2];
+    uint8_t reg = BQ27426_CMD_CNTL; /* 0x00 */
+    if (write(ctx->fd, &reg, 1) != 1) 
+    {
+        printf("error:ChemID: write(0x00) failed\n");
+        return -1;
+    }
+    if (read(ctx->fd, raw, 2) != 2) {
+        printf("error:ChemID: read(2) failed\n");
+        return -1;
+    }
+
+    printf("[BQ][CHEM] raw bytes @0x00: 0x%02X 0x%02X\n", raw[0], raw[1]);
+
+    /* Little-endian: LSB first */
+    *chem_id = (uint16_t)(raw[0] | (raw[1] << 8));
+    printf("[BQ] -> ChemID current: 0x%04X\n", *chem_id);
+    return 0;
+}
+
+
+int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id)
+{
+    uint8_t be[2] = { (chem_id >> 8), (chem_id & 0xFF) };
+
+    printf("[BQ] Setting ChemID = 0x%04X ...\n", chem_id);
+
+    if (bq_unseal_try(ctx) < 0) { printf("error unseal\n"); return -1; }
+    if (bq_enter_cfg(ctx) < 0)  { printf("error enter_cfg\n"); return -1; }
+
+    if (bq_write_extended(ctx, CLASS_CHEM_ID, 0, be, 2) < 0) 
+    {
+        printf("error ChemID write failed\n");
+        bq_exit_cfg(ctx, 1);
+        return -1;
+    }
+
+    bq_exit_cfg(ctx, 1);
+    bq_make_sealed(ctx);
+
+    printf("[BQ] -> ChemID 0x%04X set successfully.\n", chem_id);
+    return 0;
+}
+
+// Map the 3 chemistry subcommands
+#define CNTL_CHEM_A 0x0030  // 0x3230
+#define CNTL_CHEM_B 0x0031  // 0x1202  <-- 4.20 V
+#define CNTL_CHEM_C 0x0032  // 0x3142
+
+int bq_set_chem_1202(bq27426_t *ctx)
+{
+    uint8_t flags[2];
+    int tries;
+
+    printf("[BQ] Change chemistry -> CHEM_B (0x1202)\n");
+
+    // 1) Unseal
+    if (bq_unseal_try(ctx) < 0) { fprintf(stderr,"[BQ] unseal failed\n"); return -1; }
+
+    // 2) Enter CFGUPDATE
+    if (bq_control(ctx, CNTL_SET_CFGUPDATE) < 0) return -1;
+
+    // 3) Wait Flags[CFGUPMODE] (bit4) = 1
+    for (tries = 0; tries < 10; tries++) {
+        uint8_t reg = 0x06;
+        if (write(ctx->fd, &reg, 1) == 1 && read(ctx->fd, flags, 2) == 2) {
+            if (flags[0] & 0x10) break;
+        }
+        usleep(100000);
+    }
+
+    // 4) Send CHEM_B subcommand (select profile 0x1202)
+    if (bq_control(ctx, CNTL_CHEM_B) < 0) return -1;
+    usleep(50000);
+
+    // 5) Exit CFGUPDATE via SOFT_RESET
+    if (bq_control(ctx, CNTL_SOFT_RESET) < 0) return -1;
+
+    // 6) Wait until CFGUPMODE clears
+    for (tries = 0; tries < 10; tries++) {
+        uint8_t reg = 0x06;
+        if (write(ctx->fd, &reg, 1) == 1 && read(ctx->fd, flags, 2) == 2) {
+            if (!(flags[0] & 0x10)) break;
+        }
+        usleep(100000);
+    }
+
+    // 7) Verify ChemID via Control(CHEM_ID=0x0008)
+    uint16_t chem = 0;
+    if (bq_get_chem_id(ctx, &chem) == 0)
+        printf("[BQ] ChemID now: 0x%04X %s\n", chem, (chem==0x1202)?"OK":"(unexpected)");
+
+    // 8) Seal (optional)
+    bq_make_sealed(ctx);
+
+    return (chem == 0x1202) ? 0 : -1;
 }

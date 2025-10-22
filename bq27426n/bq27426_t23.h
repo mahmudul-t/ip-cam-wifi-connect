@@ -68,6 +68,10 @@
 #define FLAG_VOK   (1u << 2)
 
 
+#define CNTL_CHEM_ID          0x0008
+#define CLASS_CHEM_ID         82      // subclass ID for ChemID
+#define DEFAULT_CHEMID        0x1202  // LiCoO₂ 4.2 V cell (typical)
+
 typedef struct {
     int fd;
     int addr;
@@ -144,7 +148,9 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
 
 
 
-/* Quick probe */
-int  bq_device_type(bq27426_t *ctx, uint16_t *devtype);
+int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id);
+int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id);
+
+int bq_set_chem_1202(bq27426_t *ctx);
 
 #endif /* BQ27426_T23_H */

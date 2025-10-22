@@ -145,8 +145,31 @@ int main(int argc, char **argv)
     printf("  BQ27426 Fuel Gauge Monitor (T23)  \n");
     printf("====================================\n");
 
+    bq_set_chem_1202(&g);
+
     // Optionally program design parameters once
-    if (do_program) {
+    //     uint16_t chemid = 0;
+    // if (bq_get_chem_id(&g, &chemid) == 0) 
+    // {
+    //     if (chemid != DEFAULT_CHEMID) 
+    //     {
+    //         printf("[BQ] ChemID mismatch (0x%04X). Updating to 0x%04X ...\n", chemid, DEFAULT_CHEMID);
+    //         bq_set_chem_id(&g, DEFAULT_CHEMID);
+    //         sleep(1);
+    //         bq_get_chem_id(&g, &chemid); // read back to confirm
+    //     } 
+    //     else 
+    //     {
+    //         printf("[BQ] ChemID already correct (0x%04X)\n", chemid);
+    //     }
+    // } 
+    // else 
+    // {
+    //     printf("[BQ] Failed to read ChemID\n");
+    // }
+
+    if (do_program) 
+    {
         printf("Setting battery design parameters...\n");
         if (bq_set_design_capacity(&g,   3600) < 0) perror("set design cap");
         if (bq_set_design_energy(&g,    11400) < 0) perror("set design energy");
@@ -157,6 +180,8 @@ int main(int argc, char **argv)
 
     // Verify (read-back) the design parameters
     (void)bq_verify_state_params_verbose(&g, 3600, 11400, 3400, 1000);
+
+
 
     // One-shot status dump
     bq_dump_control_status(&g);
