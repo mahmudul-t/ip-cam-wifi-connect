@@ -229,7 +229,7 @@ static int bq_wait_ready(bq27426_t *ctx, int max_ms)
     {
         if (bq_rd16(ctx, BQ27426_CMD_FLAGS, &f) == 0) 
         {
-            if ( (f & FLAG_CFGUP) == 0 && (f & FLAG_VOK) ) return 0;
+            if ( (f & FLAG_CFGUP) == 0) return 0;
         }
         usleep(50*1000);
     }
@@ -576,23 +576,30 @@ int bq_dump_control_status(bq27426_t *ctx)
 /* FLAGS (Command 0x06) — runtime status */
 int bq_dump_flags(bq27426_t *ctx)
 {
-    uint16_t flags = 0;
-    if (bq_rd16(ctx, BQ27426_CMD_FLAGS, &flags) < 0) 
-    {
-        printf("error: FLAGS read failed");
+    uint16_t f;
+    if (bq_rd16(ctx, BQ27426_CMD_FLAGS, &f) < 0) {
+        printf("error: FLAGS read failed\n");
         return -1;
     }
 
-    printf("[BQ] FLAGS = 0x%04X\n", flags);
-    printf("     [%-3s] FC (full charge)\n", (flags & (1<<9)) ? "ON" : "OFF");
-    printf("     [%-3s] DSG (discharging)\n", (flags & (1<<0)) ? "ON" : "OFF");
-    printf("     [%-3s] BAT_DET\n", (flags & (1<<2)) ? "ON" : "OFF");
-    printf("     [%-3s] VOK (voltage OK)\n", (flags & (1<<7)) ? "ON" : "OFF");
-    printf("     [%-3s] CHG (charging)\n", (flags & (1<<8)) ? "ON" : "OFF");
-    printf("     [%-3s] TCA (terminate charge alert)\n", (flags & (1<<11)) ? "ON" : "OFF");
+    printf("[BQ] FLAGS = 0x%04X\n", f);
+    printf("     [%d] OT (over-temp)\n",        !!(f & FLAG_OT));
+    printf("     [%d] UT (under-temp)\n",       !!(f & FLAG_UT));
+    printf("     [%d] FC (full charge)\n",      !!(f & FLAG_FC));
+    printf("     [%d] CHG (charging)\n",        !!(f & FLAG_CHG));
+    printf("     [%d] OCVTAKEN\n",              !!(f & FLAG_OCVTAKEN));
+    printf("     [%d] DOD_CORRECT\n",           !!(f & FLAG_DODCORRECT));
+    printf("     [%d] ITPOR (reset occurred)\n",!!(f & FLAG_ITPOR));
+    printf("     [%d] CFGUPMODE\n",             !!(f & FLAG_CFGUP));
+    printf("     [%d] BAT_DET\n",               !!(f & FLAG_BAT_DET));
+    printf("     [%d] SOC1\n",                  !!(f & FLAG_SOC1));
+    printf("     [%d] SOCF\n",                  !!(f & FLAG_SOCF));
+    printf("     [%d] DSG (discharging)\n",     !!(f & FLAG_DSG));
     printf("-------------------------------------------\n");
     return 0;
 }
+
+
 
 
 

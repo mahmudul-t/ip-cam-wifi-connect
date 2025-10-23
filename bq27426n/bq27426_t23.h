@@ -61,11 +61,24 @@
 #define CLASS_R_A_RAM                 0x59 /* Ra RAM subclass ID for BQ27426 */
 #endif
 
-/* Flags bits (common ones) */
-#define FLAG_DSG   (1u << 0)
-#define FLAG_FC    (1u << 9)
-#define FLAG_CFGUP (1u << 4)
-#define FLAG_VOK   (1u << 2)
+
+
+
+/* FLAGS (Command 0x06) — runtime status for BQ27426 */
+#define FLAG_DSG        (1u << 0)
+#define FLAG_SOCF       (1u << 1)
+#define FLAG_SOC1       (1u << 2)
+#define FLAG_BAT_DET    (1u << 3)
+#define FLAG_CFGUP      (1u << 4)
+#define FLAG_ITPOR      (1u << 5)
+#define FLAG_DODCORRECT (1u << 6)
+#define FLAG_OCVTAKEN   (1u << 7)
+
+#define FLAG_CHG        (1u << 8)
+#define FLAG_FC         (1u << 9)
+/* bits 10..13 reserved */
+#define FLAG_UT         (1u << 14)
+#define FLAG_OT         (1u << 15)
 
 
 #define CNTL_CHEM_ID          0x0008
