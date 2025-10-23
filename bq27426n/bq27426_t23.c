@@ -527,24 +527,48 @@ void bq_print_qmax_and_ra(bq27426_t *ctx)
 
 
 
-/* CONTROL_STATUS (SubCmd 0x0000) */
+/* CONTROL_STATUS (SubCmd 0x0000) bit masks per TRM table */
+#define CS_SHUTDOWNEN   (1u << 15)
+#define CS_WDRESET      (1u << 14)
+#define CS_SS           (1u << 13)
+#define CS_CALMODE      (1u << 12)
+#define CS_CCA          (1u << 11)
+#define CS_BCA          (1u << 10)
+#define CS_QMAX_UP      (1u << 9)
+#define CS_RES_UP       (1u << 8)
+#define CS_INITCOMP     (1u << 7)
+/* bit6,5 reserved */
+#define CS_SLEEP        (1u << 4)
+#define CS_LDMD         (1u << 3)
+#define CS_RUP_DIS      (1u << 2)
+#define CS_VOK          (1u << 1)
+#define CS_CHEMCHANGE   (1u << 0)
+
 int bq_dump_control_status(bq27426_t *ctx)
 {
     uint16_t val = 0;
-    if (/*bq_control(ctx, BQ27426_CMD_CNTL) < 0 || */ bq_rd16(ctx, BQ27426_CMD_CNTL, &val) < 0) 
-    {
-        printf("error: CONTROL_STATUS read failed");
+
+    /* Issue CONTROL_STATUS subcommand (0x0000), then read CNTL (0x00) */
+    if (/*bq_control(ctx, CNTL_STATUS) < 0 ||*/ bq_rd16(ctx, BQ27426_CMD_CNTL, &val) < 0) {
+        printf("error: CONTROL_STATUS read failed\n");
         return -1;
     }
 
     printf("[BQ] CONTROL_STATUS = 0x%04X\n", val);
-    printf("     [%-3s] SS (sealed)\n",  (val & (1<<13)) ? "ON" : "OFF");
-    printf("     [%-3s] FAS (full access sealed)\n", (val & (1<<14)) ? "ON" : "OFF");
-    printf("     [%-3s] CFGUPMODE (config update mode)\n", (val & (1<<4)) ? "ON" : "OFF");
-    printf("     [%-3s] VOK (voltage OK)\n", (val & (1<<15)) ? "ON" : "OFF");
-    printf("     [%-3s] QMAX_UP (Qmax updated)\n", (val & (1<<9)) ? "ON" : "OFF");
-    printf("     [%-3s] RUP_DIS (Ra update disabled)\n", (val & (1<<12)) ? "ON" : "OFF");
-    printf("     [%-3s] BAT_DET (battery detected)\n", (val & (1<<3)) ? "ON" : "OFF");
+    printf("     [%d] SHUTDOWNEN\n", !!(val & CS_SHUTDOWNEN));
+    printf("     [%d] WDRESET\n",     !!(val & CS_WDRESET));
+    printf("     [%d] SS (sealed)\n", !!(val & CS_SS));
+    printf("     [%d] CALMODE\n",     !!(val & CS_CALMODE));
+    printf("     [%d] CCA (coulomb counter calib)\n", !!(val & CS_CCA));
+    printf("     [%d] BCA (board calib)\n",          !!(val & CS_BCA));
+    printf("     [%d] QMAX_UP\n",     !!(val & CS_QMAX_UP));
+    printf("     [%d] RES_UP\n",      !!(val & CS_RES_UP));
+    printf("     [%d] INITCOMP\n",    !!(val & CS_INITCOMP));
+    printf("     [%d] SLEEP\n",       !!(val & CS_SLEEP));
+    printf("     [%d] LDMD (const-power model)\n", !!(val & CS_LDMD));
+    printf("     [%d] RUP_DIS (Ra updates disabled)\n", !!(val & CS_RUP_DIS));
+    printf("     [%d] VOK (OCV valid for Qmax updates)\n", !!(val & CS_VOK));
+    printf("     [%d] CHEMCHANGE\n",  !!(val & CS_CHEMCHANGE));
     printf("-------------------------------------------\n");
     return 0;
 }

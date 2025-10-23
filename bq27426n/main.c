@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     printf("  BQ27426 Fuel Gauge Monitor (T23)  \n");
     printf("====================================\n");
 
-    bq_set_chem_1202(&g);
+    // bq_set_chem_1202(&g);
 
     // Optionally program design parameters once
     //     uint16_t chemid = 0;
