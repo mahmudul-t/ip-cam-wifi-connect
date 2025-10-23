@@ -58,7 +58,7 @@
 
 /* If you already have this under another name, keep yours */
 #ifndef CLASS_R_A_RAM
-#define CLASS_R_A_RAM                 0x58 /* Ra RAM subclass ID for BQ27426 */
+#define CLASS_R_A_RAM                 0x59 /* Ra RAM subclass ID for BQ27426 */
 #endif
 
 /* Flags bits (common ones) */
