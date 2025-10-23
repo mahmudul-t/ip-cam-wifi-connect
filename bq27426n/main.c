@@ -121,7 +121,9 @@ int main(int argc, char **argv)
     //   --program   : write design params first
     //   --seal      : seal after programming/verify
     //   --skipmon   : skip learning monitor
-    int do_program = 0, do_seal = 0, skip_monitor = 0;
+    int do_program = 0;
+    int do_seal = 0;
+    int skip_monitor = 0;
 
     for (int i = 1; i < argc; i++) 
     {
@@ -142,10 +144,10 @@ int main(int argc, char **argv)
     }
 
     printf("====================================\n");
-    printf("  BQ27426 Fuel Gauge Monitor (T23)  \n");
+    printf("  BQ27426 Fuel Gauge Monitor <<<<<>>>>> \n");
     printf("====================================\n");
 
-    bq_set_chem_1202(&g);
+    
 
     // Optionally program design parameters once
     //     uint16_t chemid = 0;
@@ -168,35 +170,53 @@ int main(int argc, char **argv)
     //     printf("[BQ] Failed to read ChemID\n");
     // }
 
-    if (do_program) 
+
+
+
+    // bq_set_chem_1202(&g);
+    // if (do_program ) 
+    if(1)
     {
+       
         printf("Setting battery design parameters...\n");
-        if (bq_set_design_capacity(&g,   3600) < 0) perror("set design cap");
-        if (bq_set_design_energy(&g,    11400) < 0) perror("set design energy");
-        if (bq_set_terminate_voltage(&g, 3400) < 0) perror("set term volt");
-        if (bq_set_taper_rate(&g,        1000) < 0) perror("set taper");
+        bq_pre_reading_writing(&g);
+
+
+
+        if (bq_set_design_capacity(&g,   3600) < 0) printf("error: set design cap\n");
+        if (bq_set_design_energy(&g,    13320) < 0) printf("error: set design energy\n");
+        if (bq_set_terminate_voltage(&g, 3400) < 0) printf("error: set term volt\n");
+        if (bq_set_v_at_charge_term(&g,    4190) < 0) printf("error: set v at charge\n");
+        if (bq_set_taper_rate(&g,        200) < 0) printf("error: set taper\n");
+
+        if (bq_set_taper_voltage(&g,       4170) < 0) printf("error: set taper voltage\n");
+
+
+       bq_post_reading_writing(&g);
+
         printf("Design parameters configured.\n");
     }
 
     // Verify (read-back) the design parameters
-    (void)bq_verify_state_params_verbose(&g, 3600, 11400, 3400, 1000);
+    (void)bq_verify_state_params_verbose(&g, 3600, 13320, 3400, 200, 4170,4190);
 
-
+     
 
     // One-shot status dump
     bq_dump_control_status(&g);
     bq_dump_flags(&g);
 
     // Optional: seal after programming/verify
-    if (do_seal) {
-        puts("\nSealing gauge...");
-        (void)bq_make_sealed(&g);
-        // show status after sealing
-        bq_dump_control_status(&g);
-    }
+    // if (do_seal) {
+    //     puts("\nSealing gauge...");
+    //     (void)bq_make_sealed(&g);
+    //     // show status after sealing
+    //     bq_dump_control_status(&g);
+    // }
 
     // Optional learning monitor: watches FC/DSG/Qmax/Ra
-    if (!skip_monitor) {
+    if (!skip_monitor) 
+    {
         // Put gauge into learning mode (optional but helpful)
         (void)bq_set_learning_mode(&g, 1);
         // poll every 3s, stop after 90 minutes if no stop-condition met

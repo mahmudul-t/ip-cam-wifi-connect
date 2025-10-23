@@ -41,15 +41,17 @@
 #define CNTL_EXIT_CFGUPDATE        0x0043
 #define CNTL_SEAL                  0x0020
 
-/* Classes (subclass IDs) you touched in the ESP code */
+/* --- Data Memory: State (ID 82) offsets --- */
 #define CLASS_STATE                0x52   /* “State” subclass */
 
 /* Offsets inside CLASS_STATE (verify against your datasheet) */
 
-#define OFFS_DESIGN_CAP_mAh        0x06   /* uint16 LE */
-#define OFFS_DESIGN_EN_mWh         0x08   /* uint16 LE */
-#define OFFS_TERMINATE_VOLT_mV     0x0A   /* uint16 LE */
-#define OFFS_TAPER_RATE_0p1h       0x15   /* uint16 LE (decimal 21) */
+#define OFFS_DESIGN_CAP_mAh        6 //0x06   /* uint16 LE */
+#define OFFS_DESIGN_EN_mWh         8//0x08   /* uint16 LE */
+#define OFFS_TERMINATE_VOLT_mV     10//0x0A   /* uint16 LE */
+#define OFFS_TAPER_RATE_0p1h       21//0x15   /* uint16 LE (decimal 21) */
+#define OFFS_TAPER_VOLT_mV        29   /* I2 */
+#define OFFS_V_AT_CHG_TERM_mV     0x21//33   /* I2 */
 
 
 /* STATE class offsets (you already use these) */
@@ -58,13 +60,18 @@
 
 /* If you already have this under another name, keep yours */
 #ifndef CLASS_R_A_RAM
-#define CLASS_R_A_RAM                 0x58 /* Ra RAM subclass ID for BQ27426 */
+#define CLASS_R_A_RAM                 0x59 /* Ra RAM subclass ID for BQ27426 */
 #endif
 
 /* Flags bits (common ones) */
-#define FLAG_DSG   (1u << 0)
-#define FLAG_FC    (1u << 9)
-#define FLAG_CFGUP (1u << 4)
+#define FLAG_DSG        (1u << 0)
+#define FLAG_BAT_DET    (1u << 3)
+#define FLAG_CFGUP      (1u << 4)
+#define FLAG_ITPOR      (1u << 5)
+#define FLAG_CHG        (1u << 8)
+#define FLAG_FC         (1u << 9)
+
+
 #define FLAG_VOK   (1u << 2)
 
 
@@ -99,6 +106,9 @@ int  bq_select_class_block(bq27426_t *ctx, uint8_t class_id, uint8_t block_idx);
 int  bq_block_read(bq27426_t *ctx, uint8_t *blk32);
 int  bq_block_write_with_checksum(bq27426_t *ctx, const uint8_t *blk32);
 
+int bq_pre_reading_writing(bq27426_t *ctx);
+int bq_post_reading_writing(bq27426_t *ctx);
+
 /* High-level “write few bytes in class/offset” helper */
 int  bq_write_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, const uint8_t *data, size_t len);
 int  bq_read_extended (bq27426_t *ctx, uint8_t class_id, uint16_t offset, uint8_t *data, size_t len);
@@ -108,14 +118,17 @@ int  bq_set_design_capacity(bq27426_t *ctx, uint16_t mAh);
 int  bq_set_design_energy  (bq27426_t *ctx, uint16_t mWh);
 int  bq_set_terminate_voltage(bq27426_t *ctx, uint16_t mV);   /* clamp 2500..3700 like your code */
 int  bq_set_taper_rate     (bq27426_t *ctx, uint16_t rate0p1h);
+int bq_set_taper_voltage(bq27426_t *ctx, uint16_t mV);
+int bq_set_v_at_charge_term(bq27426_t *ctx, uint16_t mV);
 
 
-int bq_verify_state_params_verbose(bq27426_t *ctx,
+ int bq_verify_state_params_verbose(bq27426_t *ctx,
                                    uint16_t expect_cap_mAh,
                                    uint16_t expect_en_mWh,
                                    uint16_t expect_tv_mV,
-                                   uint16_t expect_taper_01h);
-
+                                   uint16_t expect_taper_01h,
+                                    uint16_t expect_taper_volt,
+                                    uint16_t expect_v_at_charge_term);                                  
 
 /* Getters */
 int  bq_voltage_mV (bq27426_t *ctx, uint16_t *mV);
@@ -148,8 +161,8 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
 
 
 
-int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id);
-int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id);
+// int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id);
+// int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id);
 
 int bq_set_chem_1202(bq27426_t *ctx);
 
