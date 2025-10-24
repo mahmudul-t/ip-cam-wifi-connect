@@ -168,18 +168,18 @@ int main(int argc, char **argv)
     //     printf("[BQ] Failed to read ChemID\n");
     // }
 
-    if (do_program) 
+    if (do_program || 1) 
     {
         printf("Setting battery design parameters...\n");
         if (bq_set_design_capacity(&g,   3600) < 0) perror("set design cap");
-        if (bq_set_design_energy(&g,    11400) < 0) perror("set design energy");
+        if (bq_set_design_energy(&g,    13320) < 0) perror("set design energy");
         if (bq_set_terminate_voltage(&g, 3400) < 0) perror("set term volt");
-        if (bq_set_taper_rate(&g,        1000) < 0) perror("set taper");
+        if (bq_set_taper_rate(&g,        200) < 0) perror("set taper");
         printf("Design parameters configured.\n");
     }
 
     // Verify (read-back) the design parameters
-    (void)bq_verify_state_params_verbose(&g, 3600, 11400, 3400, 1000);
+    (void)bq_verify_state_params_verbose(&g, 3600, 13320, 3400, 200);
 
 
 
