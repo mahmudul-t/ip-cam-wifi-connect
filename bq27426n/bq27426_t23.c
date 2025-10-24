@@ -727,19 +727,19 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     // bq_control(ctx, 0x0000);
     // bq_rd16(ctx, BQ27426_CMD_CNTL, &cstat);
 
-    bq_rd16(ctx, 0x06, &flags);
+    bq_rd16(ctx, BQ27426_CMD_FLAGS, &flags);
     printf("\n--- Learning Monitor Started ---\n");
 
     printf("Initial Qmax   : %u mAh\n", qmax0);
-    printf("Initial FC/DSG : FC=%d, DSG=%d\n",!!(flags & (1<<9)), !!(flags & (1<<0)));
+    printf("Initial FC/DSG : FC=%d, DSG=%d\n",!!(flags & FLAG_FC), !!(flags & FLAG_DSG));
 
     printf("Stop criteria  : See FC, then DSG, and (Qmax change OR any Ra change)\n");
 
     printf("Polling every  : %u ms (Ctrl+C to stop)\n\n", period_ms);
 
     /* Track milestones */
-    int saw_fc  = !!(flags & (1<<9));   /* already full when we start? */
-    int saw_dsg = !!(flags & (1<<0));
+    int saw_fc  = !!(flags & FLAG_FC);   /* already full when we start? */
+    int saw_dsg = !!(flags & FLAG_DSG);
 
     const time_t t_start = time(NULL);
     const time_t t_deadline = max_minutes ? (t_start + (time_t)(max_minutes*60)) : 0;
@@ -775,13 +775,13 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
 
         /* Print a single status line */
         printf("V=%4u mV | I=%5d mA | P=%6d mW | SOC=%3u%% | T=%.1f C | "
-               "FC=%d DSG=%d\n",
+               "FC=%d DSG=%d CHG=%d\n",
                volt, curr, pwr, soc, (bq_k01_to_c(t01k)), 
-               !!(flags & (1<<9)), !!(flags & (1<<0)));
+               !!(flags & FLAG_FC), !!(flags & FLAG_DSG), !!(flags & FLAG_CHG));
 
         /* Detect milestones */
-        if (flags & (1<<9))  saw_fc  = 1;  /* FC */
-        if (flags & (1<<0))  saw_dsg = 1;  /* DSG */
+        if (flags & FLAG_FC)  saw_fc  = 1;  /* FC */
+        if (flags & FLAG_DSG)  saw_dsg = 1;  /* DSG */
 
         /* Check learning changes */
         // int qmax_changed = (qmax_now != qmax0);

@@ -146,11 +146,11 @@ int main(int argc, char **argv)
     printf("  BQ27426 Fuel Gauge Monitor (T23)  \n");
     printf("====================================\n");
 
-    bq_set_chem_1202(&g);
-
 
     if (do_program || 1) 
     {
+        bq_set_chem_1202(&g);
+
         printf("Setting battery design parameters...\n");
         if (bq_set_design_capacity(&g,   3600) < 0) perror("set design cap");
         if (bq_set_design_energy(&g,    13320) < 0) perror("set design energy");
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 
     // Optional: seal after programming/verify
     if (do_seal) {
-        puts("\nSealing gauge...");
+        puts("\nSealing gauge...\n");
         bq_make_sealed(&g);
         // show status after sealing
         bq_dump_control_status(&g);
@@ -188,7 +188,7 @@ int main(int argc, char **argv)
 
 
     signal(SIGINT, on_sigint);
-    printf("\n--- Live stream (Ctrl-C to stop) ---");
+    printf("\n--- Live stream (Ctrl-C to stop) ---\n");
     while (g_run) 
     {
         print_line(&g);
