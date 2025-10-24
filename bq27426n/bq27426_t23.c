@@ -664,6 +664,11 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     const time_t t_start = time(NULL);
     const time_t t_deadline = max_minutes ? (t_start + (time_t)(max_minutes*60)) : 0;
 
+
+
+    bq_dump_control_status(ctx);
+    bq_dump_flags(ctx);
+
     while (!g_stop) 
     {
         /* Refresh */
