@@ -497,19 +497,104 @@ int bq_ra_table_read(bq27426_t *ctx, uint16_t ra[15])
     return 0;
 }
 
-/* ---- Learning mode bit (STATE: offset 2, bit0/bit1) ---- */
-int bq_set_learning_mode(bq27426_t *ctx, int enable)
+
+
+/* 
+ * Control learning / production state via UpdateStatus.
+ *
+ * - BQ_LEARN_ENABLE:
+ *      set bits [1:0] = 0b11
+ *      bit7 = 0
+ *      -> learning mode ON (Qmax/Ra free to update)
+ *
+ * - BQ_LEARN_FREEZE_UNSEALED:
+ *      clear bits [1:0]
+ *      bit7 = 0
+ *      -> learning mode OFF, gauge keeps current Qmax/Ra,
+ *         won't freely update them anymore, stays UNSEALED on next reset
+ *
+ * - BQ_LEARN_FREEZE_SEALED:
+ *      clear bits [1:0]
+ *      set bit7 = 1
+ *      -> lock in learned data, device will boot SEALED after reset
+ *         (this is what you ship in production units)
+ *
+ * Returns 0 on success, -1 on error.
+ */
+int bq_set_learning_mode(bq27426_t *ctx, bq_learn_mode_t mode)
 {
-    /* UpdateStatus (offset 2): set bits [1:0] = 0b11 to allow Qmax/Ra updates. */
-    uint8_t v;
-    if (bq_read_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &v, 1) < 0)
+    uint8_t us; // UpdateStatus byte
+
+    // Read current UpdateStatus from STATE subclass offset OFFS_UPDATE_STATUS
+    if (bq_read_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &us, 1) < 0) {
+        printf("[BQ] bq_set_learning_mode: read UpdateStatus failed\n");
         return -1;
+    }
 
-    if (enable) v = (v | 0x03);
-    else        v = (v & ~0x03);
+    // Work on a local copy
+    uint8_t new_us = us;
 
-    return bq_write_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &v, 1);
+    // First deal with bits [1:0] (Qmax/Ra learn enable)
+    switch (mode) {
+    case BQ_LEARN_ENABLE:
+        // set bits 0 and 1 => 0b11
+        new_us |= 0x03;      // allow Qmax/Ra updates
+        new_us &= ~(1u<<7);  // make sure bit7 = 0 (don’t force seal on exit)
+        break;
+
+    case BQ_LEARN_FREEZE_UNSEALED:
+        // clear bits 0 and 1
+        new_us &= ~0x03;
+        // keep bit7 = 0 so the gauge does NOT auto-seal after reset
+        new_us &= ~(1u<<7);
+        break;
+
+    case BQ_LEARN_FREEZE_SEALED:
+        // clear bits 0 and 1
+        new_us &= ~0x03;
+        // set bit7 = 1 => after reset / exit config it’ll come up SEALED
+        new_us |=  (1u<<7);
+        break;
+
+    default:
+        printf("[BQ] bq_set_learning_mode: invalid mode %d\n", mode);
+        return -1;
+    }
+
+    // If nothing changed, just report success
+    if (new_us == us) {
+        printf("[BQ] bq_set_learning_mode: no change (mode=%d)\n", mode);
+        return 0;
+    }
+
+    // Write it back
+    if (bq_write_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &new_us, 1) < 0) {
+        printf("[BQ] bq_set_learning_mode: write UpdateStatus failed\n");
+        return -1;
+    }
+
+    printf("[BQ] bq_set_learning_mode: UpdateStatus 0x%02X -> 0x%02X (mode=%d)\n",
+           us, new_us, mode);
+
+    return 0;
 }
+
+
+
+
+// /* ---- Learning mode bit (STATE: offset 2, bit0/bit1) ---- */
+// int bq_set_learning_mode(bq27426_t *ctx, int enable)
+// {
+//     /* UpdateStatus (offset 2): set bits [1:0] = 0b11 to allow Qmax/Ra updates. */
+//     uint8_t v;
+//     if (bq_read_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &v, 1) < 0)
+//         return -1;
+
+//     if (enable) v = (v | 0x03);
+//     else        v = (v & ~0x03);
+
+//     return bq_write_extended(ctx, CLASS_STATE, OFFS_UPDATE_STATUS, &v, 1);
+// }
 
 /* ---- Pretty printer ---- */
 void bq_print_qmax_and_ra(bq27426_t *ctx)
@@ -534,22 +619,7 @@ void bq_print_qmax_and_ra(bq27426_t *ctx)
 
 
 
-/* CONTROL_STATUS (SubCmd 0x0000) bit masks per TRM table */
-#define CS_SHUTDOWNEN   (1u << 15)
-#define CS_WDRESET      (1u << 14)
-#define CS_SS           (1u << 13)
-#define CS_CALMODE      (1u << 12)
-#define CS_CCA          (1u << 11)
-#define CS_BCA          (1u << 10)
-#define CS_QMAX_UP      (1u << 9)
-#define CS_RES_UP       (1u << 8)
-#define CS_INITCOMP     (1u << 7)
-/* bit6,5 reserved */
-#define CS_SLEEP        (1u << 4)
-#define CS_LDMD         (1u << 3)
-#define CS_RUP_DIS      (1u << 2)
-#define CS_VOK          (1u << 1)
-#define CS_CHEMCHANGE   (1u << 0)
+
 
 int bq_dump_control_status(bq27426_t *ctx)
 {

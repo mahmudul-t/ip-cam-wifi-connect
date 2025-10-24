@@ -61,7 +61,22 @@
 #define CLASS_R_A_RAM                 0x59 /* Ra RAM subclass ID for BQ27426 */
 #endif
 
-
+/* CONTROL_STATUS (SubCmd 0x0000) bit masks per TRM table */
+#define CS_SHUTDOWNEN   (1u << 15)
+#define CS_WDRESET      (1u << 14)
+#define CS_SS           (1u << 13)
+#define CS_CALMODE      (1u << 12)
+#define CS_CCA          (1u << 11)
+#define CS_BCA          (1u << 10)
+#define CS_QMAX_UP      (1u << 9)
+#define CS_RES_UP       (1u << 8)
+#define CS_INITCOMP     (1u << 7)
+/* bit6,5 reserved */
+#define CS_SLEEP        (1u << 4)
+#define CS_LDMD         (1u << 3)
+#define CS_RUP_DIS      (1u << 2)
+#define CS_VOK          (1u << 1)
+#define CS_CHEMCHANGE   (1u << 0)
 
 
 /* FLAGS (Command 0x06) — runtime status for BQ27426 */
@@ -85,11 +100,23 @@
 #define CLASS_CHEM_ID         82      // subclass ID for ChemID
 #define DEFAULT_CHEMID        0x1202  // LiCoO₂ 4.2 V cell (typical)
 
+
+typedef enum 
+{
+    BQ_LEARN_ENABLE = 0,      // allow Qmax/Ra updates (learning ON)
+    BQ_LEARN_FREEZE_UNSEALED, // stop updating, stay unsealed
+    BQ_LEARN_FREEZE_SEALED    // stop updating, seal after reset
+} bq_learn_mode_t;
+
+
+
+
 typedef struct {
     int fd;
     int addr;
     char devpath[64];
 } bq27426_t;
+
 
 /* Open/close */
 int  bq27426_open(bq27426_t *ctx, const char *devpath, int addr);
@@ -150,7 +177,8 @@ int bq_qmax_read(bq27426_t *ctx, uint16_t *qmax_mAh);
 int bq_qmax_write(bq27426_t *ctx, uint16_t qmax_mAh);        /* optional */
 int bq_ra_table_read(bq27426_t *ctx, uint16_t ra[15]);
 void bq_print_qmax_and_ra(bq27426_t *ctx);
-int bq_set_learning_mode(bq27426_t *ctx, int enable);        /* 1=on, 0=off */
+// int bq_set_learning_mode(bq27426_t *ctx, int enable);        /* 1=on, 0=off */
+int bq_set_learning_mode(bq27426_t *ctx, bq_learn_mode_t mode);
 
 
 int bq_dump_control_status(bq27426_t *ctx);

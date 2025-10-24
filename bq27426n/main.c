@@ -196,12 +196,13 @@ int main(int argc, char **argv)
     }
 
     // Optional learning monitor: watches FC/DSG/Qmax/Ra
-    if (!skip_monitor) {
+    if (!skip_monitor) 
+    {
         // Put gauge into learning mode (optional but helpful)
-        (void)bq_set_learning_mode(&g, 1);
+        bq_set_learning_mode(&g, BQ_LEARN_ENABLE);
         // poll every 3s, stop after 90 minutes if no stop-condition met
         bq_learning_monitor(&g, 3000, 90);
-        (void)bq_set_learning_mode(&g, 0);
+        bq_set_learning_mode(&g, BQ_LEARN_FREEZE_UNSEALED);
     }
 
     // Continuous live print every 3s until Ctrl-C
