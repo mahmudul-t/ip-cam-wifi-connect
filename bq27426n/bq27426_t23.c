@@ -741,58 +741,57 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
 
     while (!g_stop) 
     {
-        /* Refresh */
-        (void)bq_rd16(ctx, 0x06, &flags);
-        (void)bq_control(ctx, 0x0000);
-        (void)bq_rd16(ctx, BQ27426_CMD_CNTL, &cstat);
+        bq_rd16(ctx, 0x06, &flags);
+        // bq_control(ctx, 0x0000);
+        // bq_rd16(ctx, BQ27426_CMD_CNTL, &cstat);
 
-        (void)bq_voltage_mV(ctx, &volt);
-        (void)bq_current_mA(ctx, &curr);
-        (void)bq_power_mW(ctx, &pwr);
-        (void)bq_soc_pct(ctx, &soc);
-        (void)bq_temp_cell_c01K(ctx, &t01k);
+        bq_voltage_mV(ctx, &volt);
+        bq_current_mA(ctx, &curr);
+        bq_power_mW(ctx, &pwr);
+        bq_soc_pct(ctx, &soc);
+        bq_temp_cell_c01K(ctx, &t01k);
 
-        (void)bq_qmax_read(ctx, &qmax_now);
-        (void)bq_ra_table_read(ctx, ra_now);
+        // bq_qmax_read(ctx, &qmax_now);
+        // bq_ra_table_read(ctx, ra_now);
 
         /* Print a single status line */
         printf("V=%4u mV | I=%5d mA | P=%6d mW | SOC=%3u%% | T=%.1f C | "
-               "FC=%d DSG=%d | Qmax=%u mAh\n",
+               "FC=%d DSG=%d\n",
                volt, curr, pwr, soc, (bq_k01_to_c(t01k)), 
-               !!(flags & (1<<9)), !!(flags & (1<<0)), qmax_now);
+               !!(flags & (1<<9)), !!(flags & (1<<0)));
 
         /* Detect milestones */
         if (flags & (1<<9))  saw_fc  = 1;  /* FC */
         if (flags & (1<<0))  saw_dsg = 1;  /* DSG */
 
         /* Check learning changes */
-        int qmax_changed = (qmax_now != qmax0);
-        int ra_changed   = ra_differs(ra0, ra_now);
+        // int qmax_changed = (qmax_now != qmax0);
+        // int ra_changed   = ra_differs(ra0, ra_now);
 
         /* Optional: log when changes first appear */
-        static int logged_qmax = 0, logged_ra = 0;
-        if (qmax_changed && !logged_qmax) 
-        {
-            printf(">>> Qmax changed: %u -> %u mAh\n", qmax0, qmax_now);
-            logged_qmax = 1;
-        }
-        if (ra_changed && !logged_ra) 
-        {
-            printf(">>> Ra table changed\n");
-            for (int i = 0; i < 15; i++) 
-            {
-                if (ra0[i] != ra_now[i])
-                    printf("    Ra[%02d]: %u -> %u\n", i, ra0[i], ra_now[i]);
-            }
+        // static int logged_qmax = 0, logged_ra = 0;
+        // if (qmax_changed && !logged_qmax) 
+        // {
+        //     printf(">>> Qmax changed: %u -> %u mAh\n", qmax0, qmax_now);
+        //     logged_qmax = 1;
+        // }
+        // if (ra_changed && !logged_ra) 
+        // {
+        //     printf(">>> Ra table changed\n");
+        //     for (int i = 0; i < 15; i++) 
+        //     {
+        //         if (ra0[i] != ra_now[i])
+        //             printf("    Ra[%02d]: %u -> %u\n", i, ra0[i], ra_now[i]);
+        //     }
 
-            logged_ra = 1;
-        }
+        //     logged_ra = 1;
+        // }
 
         /* Stop condition:
            - We’ve seen FC at some point (top of charge),
            - We’ve seen DSG (discharging),
            - And either Qmax changed or Ra changed. */
-        if (saw_fc && saw_dsg && (qmax_changed || ra_changed)) 
+        if (saw_fc && saw_dsg) 
         {
             printf("\n--- Learning monitor: stop condition met ---\n");
             break;
