@@ -243,9 +243,17 @@ int bq_write_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, const u
 
     /* Enter cfg */
     // if (bq_unseal_try(ctx), bq_enter_cfg(ctx) < 0) return -1;
-    if (bq_unseal_try(ctx) < 0) return -1;   // or ignore on purpose
-    if (bq_enter_cfg(ctx)   < 0) return -1;
+ if (bq_unseal_try(ctx) < 0) 
+    {
+        printf("error :unseal\n");
+        return -1;
+    }   
 
+    if (bq_enter_cfg(ctx)   < 0) 
+    {
+        printf("error: enter_cfg");
+        return -1;
+    }
 
     size_t done = 0;
     while (done < len) 
@@ -282,13 +290,13 @@ int bq_read_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, uint8_t 
 
     if (bq_unseal_try(ctx) < 0) 
     {
-        printf("unseal\n");
+        printf("error :unseal\n");
         return -1;
     }   
 
     if (bq_enter_cfg(ctx)   < 0) 
     {
-        printf("enter_cfg");
+        printf("error: enter_cfg");
         return -1;
     }
 
