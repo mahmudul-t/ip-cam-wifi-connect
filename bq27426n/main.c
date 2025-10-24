@@ -97,21 +97,21 @@ static void print_line(bq27426_t *g)
     int16_t  ma=0, mw=0;
     uint8_t  soc=0, soh=0;
 
-    (void)bq_voltage_mV(g, &mv);
-    (void)bq_current_mA(g, &ma);
-    (void)bq_power_mW(g, &mw);
-    (void)bq_soc_pct(g, &soc);
-    (void)bq_soh_pct(g, &soh);
-    (void)bq_temp_cell_c01K(g, &t01k);
-    (void)bq_capacity_remain_mAh(g, &rem);
-    (void)bq_capacity_full_mAh(g,   &full);
-    (void)bq_capacity_nom_mAh(g,    &nom);
-    (void)bq_capacity_avail_mAh(g,  &avail);
+    bq_voltage_mV(g, &mv);
+    bq_current_mA(g, &ma);
+    bq_power_mW(g, &mw);
+    bq_soc_pct(g, &soc);
+    // bq_soh_pct(g, &soh);
+    bq_temp_cell_c01K(g, &t01k);
+    bq_capacity_remain_mAh(g, &rem);
+    bq_capacity_full_mAh(g,   &full);
+    bq_capacity_nom_mAh(g,    &nom);
+    bq_capacity_avail_mAh(g,  &avail);
 
     printf("Volt=%4u mV | Curr=%5d mA | Power=%6d mW | "
-           "SOC=%3u%% | SOH=%3u%% | Temp=%.1f °C | "
+           "SOC=%3u%% | Temp=%.1f °C | "
            "RemCap=%4u mAh | fullC=%4u mAh | nomC=%4u mAh | availC=%4u mAh\n",
-           mv, ma, mw, soc, soh, bq_k01_to_c(t01k),
+           mv, ma, mw, soc, bq_k01_to_c(t01k),
            rem, full, nom, avail);
 }
 
@@ -136,8 +136,9 @@ int main(int argc, char **argv)
     }
 
     bq27426_t g;
-    if (bq27426_open(&g, I2C_DEV, I2C_ADDR) < 0) {
-        perror("bq27426_open");
+    if (bq27426_open(&g, I2C_DEV, I2C_ADDR) < 0) 
+    {
+        printf("bq27426_open\n");
         return 1;
     }
 
@@ -147,26 +148,6 @@ int main(int argc, char **argv)
 
     bq_set_chem_1202(&g);
 
-    // Optionally program design parameters once
-    //     uint16_t chemid = 0;
-    // if (bq_get_chem_id(&g, &chemid) == 0) 
-    // {
-    //     if (chemid != DEFAULT_CHEMID) 
-    //     {
-    //         printf("[BQ] ChemID mismatch (0x%04X). Updating to 0x%04X ...\n", chemid, DEFAULT_CHEMID);
-    //         bq_set_chem_id(&g, DEFAULT_CHEMID);
-    //         sleep(1);
-    //         bq_get_chem_id(&g, &chemid); // read back to confirm
-    //     } 
-    //     else 
-    //     {
-    //         printf("[BQ] ChemID already correct (0x%04X)\n", chemid);
-    //     }
-    // } 
-    // else 
-    // {
-    //     printf("[BQ] Failed to read ChemID\n");
-    // }
 
     if (do_program || 1) 
     {
@@ -179,7 +160,7 @@ int main(int argc, char **argv)
     }
 
     // Verify (read-back) the design parameters
-    (void)bq_verify_state_params_verbose(&g, 3600, 13320, 3400, 200);
+    bq_verify_state_params_verbose(&g, 3600, 13320, 3400, 200);
 
 
 
@@ -190,12 +171,12 @@ int main(int argc, char **argv)
     // Optional: seal after programming/verify
     if (do_seal) {
         puts("\nSealing gauge...");
-        (void)bq_make_sealed(&g);
+        bq_make_sealed(&g);
         // show status after sealing
         bq_dump_control_status(&g);
     }
 
-    // Optional learning monitor: watches FC/DSG/Qmax/Ra
+    
     if (!skip_monitor) 
     {
         // Put gauge into learning mode (optional but helpful)
@@ -205,15 +186,16 @@ int main(int argc, char **argv)
         bq_set_learning_mode(&g, BQ_LEARN_FREEZE_UNSEALED);
     }
 
-    // Continuous live print every 3s until Ctrl-C
+
     signal(SIGINT, on_sigint);
-    puts("\n--- Live stream (Ctrl-C to stop) ---");
-    while (g_run) {
+    printf("\n--- Live stream (Ctrl-C to stop) ---");
+    while (g_run) 
+    {
         print_line(&g);
         usleep(3000 * 1000);
     }
 
     bq27426_close(&g);
-    puts("bye!");
+    printf("bye...\n");
     return 0;
 }
