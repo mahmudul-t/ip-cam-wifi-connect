@@ -119,17 +119,16 @@ int bq_unseal_try(bq27426_t *ctx)
     for (int i = 0; i < 50; i++) 
     {
         uint16_t status;
-
         if (bq_control(ctx, CNTL_CONTROL_STATUS) < 0) 
         {
             printf("ERROR: control_status subcmd write failed\n");
-            return -1;
+            // return -1;
         }
 
         if (bq_rd16(ctx, BQ27426_CMD_CNTL, &status) < 0) 
         {
             printf("ERROR: failed to read CONTROL_STATUS\n");
-            return -1;
+            // return -1;
         }
 
         if ((status & (1u << 13)) == 0) 
@@ -754,7 +753,7 @@ int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id)
     /* Issue CHEM_ID control subcommand */
     if (bq_control(ctx, CNTL_CHEM_ID) < 0) 
     {
-        fprintf(stderr, "[BQ] ChemID subcmd failed\n");
+        printf("[BQ] ChemID subcmd failed\n");
         return -1;
     }
 
@@ -766,17 +765,17 @@ int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id)
     uint8_t reg = BQ27426_CMD_CNTL; /* 0x00 */
     if (write(ctx->fd, &reg, 1) != 1) 
     {
-        printf("error:ChemID: write(0x00) failed\n");
+        printf("error:chemID write failed\n");
         return -1;
     }
-    if (read(ctx->fd, raw, 2) != 2) {
+
+    if (read(ctx->fd, raw, 2) != 2) 
+    {
         printf("error:ChemID: read(2) failed\n");
         return -1;
     }
 
-    printf("[BQ][CHEM] raw bytes @0x00: 0x%02X 0x%02X\n", raw[0], raw[1]);
-
-    /* Little-endian: LSB first */
+    printf("[BQ][CHEM] raw bytes: 0x%02X 0x%02X\n", raw[0], raw[1]);
     *chem_id = (uint16_t)(raw[0] | (raw[1] << 8));
     printf("[BQ] -> ChemID current: 0x%04X\n", *chem_id);
     return 0;
@@ -799,7 +798,7 @@ int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id)
         return -1;
     }
 
-    bq_exit_cfg(ctx, 1);
+    bq_exit_cfg(ctx, 0);
     bq_make_sealed(ctx);
 
     printf("[BQ] -> ChemID 0x%04X set successfully.\n", chem_id);
@@ -818,11 +817,18 @@ int bq_set_chem_1202(bq27426_t *ctx)
 
     printf("[BQ] Change chemistry -> CHEM_B (0x1202)\n");
 
-    // 1) Unseal
-    if (bq_unseal_try(ctx) < 0) { fprintf(stderr,"[BQ] unseal failed\n"); return -1; }
+    if (bq_unseal_try(ctx) < 0) 
+    {
+        printf("error :unseal\n");
+        return -1;
+    }   
 
-    // 2) Enter CFGUPDATE
-    if (bq_control(ctx, CNTL_SET_CFGUPDATE) < 0) return -1;
+    if (bq_enter_cfg(ctx)   < 0) 
+    {
+        printf("error: enter_cfg");
+        return -1;
+    }
+
 
     // 3) Wait Flags[CFGUPMODE] (bit4) = 1
     for (tries = 0; tries < 10; tries++) {
@@ -838,16 +844,22 @@ int bq_set_chem_1202(bq27426_t *ctx)
     usleep(50000);
 
     // 5) Exit CFGUPDATE via SOFT_RESET
-    if (bq_control(ctx, CNTL_SOFT_RESET) < 0) return -1;
+
+    (void)bq_exit_cfg(ctx, /*resim*/0);
+    // if (bq_control(ctx, CNTL_SOFT_RESET) < 0) return -1;
 
     // 6) Wait until CFGUPMODE clears
-    for (tries = 0; tries < 10; tries++) {
-        uint8_t reg = 0x06;
-        if (write(ctx->fd, &reg, 1) == 1 && read(ctx->fd, flags, 2) == 2) {
-            if (!(flags[0] & 0x10)) break;
-        }
-        usleep(100000);
-    }
+
+    // usleep(100000);
+    // for (tries = 0; tries < 10; tries++) 
+    // {
+    //     uint8_t reg = 0x06;
+    //     if (write(ctx->fd, &reg, 1) == 1 && read(ctx->fd, flags, 2) == 2) 
+    //     {
+    //         if (!(flags[0] & 0x10)) break;
+    //     }
+    //     usleep(100000);
+    // }
 
     // 7) Verify ChemID via Control(CHEM_ID=0x0008)
     uint16_t chem = 0;
