@@ -228,7 +228,11 @@ static int bq_wait_ready(bq27426_t *ctx, int max_ms)
     {
         if (bq_rd16(ctx, BQ27426_CMD_FLAGS, &f) == 0) 
         {
-            if ( (f & FLAG_CFGUP) == 0) return 0;
+            if ( (f & FLAG_CFGUP) == 0) 
+            {
+                printf("CFGUPMODE bit is now: %d\n ", (f & FLAG_CFGUP));
+                return 0;
+            }
         }
         usleep(50*1000);
     }
@@ -274,11 +278,12 @@ int bq_write_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, const u
         done   += chunk;
     }
 
-    (void)bq_exit_cfg(ctx, /*resim*/1);
-    (void)bq_wait_ready(ctx, 5000);
+    bq_exit_cfg(ctx, /*resim*/1);
+    bq_wait_ready(ctx, 5000);
     return 0;
 err:
-    (void)bq_exit_cfg(ctx, /*resim*/1);
+    bq_exit_cfg(ctx, /*resim*/1);
+    bq_wait_ready(ctx, 5000);
     return -1;
 }
 
@@ -317,10 +322,12 @@ int bq_read_extended(bq27426_t *ctx, uint8_t class_id, uint16_t offset, uint8_t 
         done   += chunk;
     }
 
-    (void)bq_exit_cfg(ctx, /*resim*/0);
+    bq_exit_cfg(ctx, /*resim*/0);
+    bq_wait_ready(ctx, 5000);
     return 0;
 err:
-    (void)bq_exit_cfg(ctx, /*resim*/0);
+    bq_exit_cfg(ctx, /*resim*/0);
+    bq_wait_ready(ctx, 5000);
     return -1;
 }
 
@@ -713,18 +720,21 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     uint16_t t01k = 0;
 
     /* Read baselines */
-    (void)bq_qmax_read(ctx, &qmax0);
-    (void)bq_ra_table_read(ctx, ra0);
+    bq_qmax_read(ctx, &qmax0);
+    bq_ra_table_read(ctx, ra0);
 
-    /* Tell user where we start */
-    (void)bq_control(ctx, 0x0000);
-    (void)bq_rd16(ctx, BQ27426_CMD_CNTL, &cstat);
-    (void)bq_rd16(ctx, 0x06, &flags);
+    // /* Tell user where we start */
+    // bq_control(ctx, 0x0000);
+    // bq_rd16(ctx, BQ27426_CMD_CNTL, &cstat);
+
+    bq_rd16(ctx, 0x06, &flags);
     printf("\n--- Learning Monitor Started ---\n");
+
     printf("Initial Qmax   : %u mAh\n", qmax0);
-    printf("Initial FC/DSG : FC=%d, DSG=%d\n",
-           !!(flags & (1<<9)), !!(flags & (1<<0)));
+    printf("Initial FC/DSG : FC=%d, DSG=%d\n",!!(flags & (1<<9)), !!(flags & (1<<0)));
+
     printf("Stop criteria  : See FC, then DSG, and (Qmax change OR any Ra change)\n");
+
     printf("Polling every  : %u ms (Ctrl+C to stop)\n\n", period_ms);
 
     /* Track milestones */
@@ -734,7 +744,16 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     const time_t t_start = time(NULL);
     const time_t t_deadline = max_minutes ? (t_start + (time_t)(max_minutes*60)) : 0;
 
+    /***********************************************************/
 
+    // force exit config mode cleanly
+    bq_exit_cfg(ctx, 1);      // resim = 1 (soft reset / resim)
+    usleep(300000);          // 300 ms settle
+    // now re-check FLAGS
+    bq_rd16(ctx, BQ27426_CMD_FLAGS, &flags);
+    printf("CFGUPMODE bit is now: %d\n",!!(flags & (1 << 4)));
+
+    /*************************************************************/
 
     bq_dump_control_status(ctx);
     bq_dump_flags(ctx);
@@ -873,7 +892,8 @@ int bq_set_chem_id(bq27426_t *ctx, uint16_t chem_id)
     }
 
     bq_exit_cfg(ctx, 0);
-    bq_make_sealed(ctx);
+    bq_wait_ready(ctx, 5000);
+    // bq_make_sealed(ctx);
 
     printf("[BQ] -> ChemID 0x%04X set successfully.\n", chem_id);
     return 0;
