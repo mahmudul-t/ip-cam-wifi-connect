@@ -826,7 +826,11 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
         usleep(period_ms * 1000U);
     }
 
-    if (g_stop) puts("\n--- Learning monitor: interrupted by user ---");
+    if (g_stop)
+    {
+       printf("\n--- Learning monitor: interrupted by user ---\n");
+    } 
+    
 
     /* Final dump */
     puts("\nFinal CONTROL_STATUS / FLAGS:");
