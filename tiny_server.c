@@ -1,16 +1,3 @@
-/* tiny_onboard_server.c
- * Endpoints:
- *   POST /onboard   JSON: ssid, wifi_password, username, password, camera_id
- *   GET  /status    JSON: mode(AP/STA/UNKNOWN), ip, saved meta (no passwords)
- *
- * Files:
- *   - /system/etc/device_wifi_config.txt  (plain key=value)
- *   - (optional) /etc/wpa_supplicant.conf (uses ssid + wifi_password)
- *
- * Build (cross):  mips-linux-gnu-gcc -O2 -Wall -static -DDEBUG=1 -o tiny_server tiny_onboard_server.c
- * Build (native): gcc -O2 -Wall -DDEBUG=1 -o tiny_server tiny_onboard_server.c
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
