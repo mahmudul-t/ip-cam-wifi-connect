@@ -12,7 +12,7 @@ mips-linux-gnu-gcc --version
 
 mips-linux-gnu-gcc -O2 -Wall -static -o tiny_server tiny_server.c
 
-mips-linux-gnu-gcc button_monitor.c -o button_monitor
+mips-linux-gnu-gcc button_monitor.c -o button_monitor -lpthread
 
 mips-linux-gnu-gcc i2c_scan.c -o i2c_scan
 

@@ -7,10 +7,15 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <signal.h>
+
 
 #define GPIO_NUM "64"
 #define GPIO_PATH "/sys/class/gpio/gpio64/"
 #define AP_MODE_SCRIPT "/system/www/ap_mode_enable.sh"
+#define ENABLE_WIFI_SCRIPT "/system/www/enable_wifi.sh"
+
+#define APP_NAME "keo-cam"  
 
 void export_gpio() {
     int fd = open("/sys/class/gpio/export", O_WRONLY);
@@ -55,6 +60,11 @@ int read_gpio_value() {
     return (buf == '0') ? 0 : 1;
 }
 
+////////////////////////////////////
+
+static pid_t ap_pid = -1;   // store child pid
+static pid_t wifi_pid = -1;   // store child pid
+
 static int run_ap_script(void){
     pid_t pid = fork();
     if (pid == 0) {
@@ -65,11 +75,82 @@ static int run_ap_script(void){
         perror("fork");
         return -1;
     }
+
+    ap_pid = pid;  // save child pid
+    return 0; // parent returns immediately
+}
+
+static int run_wifi_script(void){
+    pid_t pid = fork();
+    if (pid == 0) {
+        execl("/bin/sh", "sh", ENABLE_WIFI_SCRIPT, (char*)NULL);
+        _exit(127); // exec failed
+    }
+    if (pid < 0) {
+        perror("fork");
+        return -1;
+    }
+
+    wifi_pid = pid;
     return 0; // parent returns immediately
 }
 
 
+static int stop_wifi_script(void) 
+{
+    if (wifi_pid > 0) {
+        if (kill(wifi_pid, SIGTERM) == 0) {
+            printf("Sent SIGTERM to %d\n", wifi_pid);
+            wifi_pid = -1;
+            return 0;
+        } else {
+            perror("kill");
+            return -1;
+        }
+    }
+    return -1; // no process running
+}
+
+ 
+
+int stop_application(void)
+{
+    char cmd[64];
+    snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
+
+    FILE *fp = popen(cmd, "r");
+    if (!fp) {
+        perror("popen");
+        return -1;
+    }
+
+    char pid_str[16];
+    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
+    {
+        pid_t pid = (pid_t)atoi(pid_str);
+        printf("Found %s PID: %d\n", APP_NAME, pid);
+
+        if (kill(pid, SIGTERM) == 0) 
+        {
+            printf("Sent SIGTERM to %s\n", APP_NAME);
+        } 
+        else 
+        {
+            perror("kill");
+        }
+    } 
+    else 
+    {
+        printf("%s not running\n", APP_NAME);
+    }
+
+    pclose(fp);
+    return 0;
+}
+
+
 int main() {
+
     export_gpio();
     set_gpio_direction();
     set_gpio_edge();
@@ -87,6 +168,9 @@ int main() {
     char buf[8];
 
     printf("[BOOT BTN] Monitoring GPIO64 for long press...\n");
+    
+    run_wifi_script();
+
 
     while (1) {
         // Clear old value
@@ -101,7 +185,9 @@ int main() {
             sleep(2);
 
             if (read_gpio_value() == 0) {
-                printf("[BOOT BTN] Long press detected. Launching AP mode...\n");
+                printf("[BOOT BTN] Long press detected. Stop wifi.... Launching AP mode ...\n");
+                stop_wifi_script();
+                stop_application();
                 run_ap_script();
                 sleep(20);  // prevent rapid retriggering
             } else {
