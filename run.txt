@@ -33,3 +33,5 @@ mips-linux-gnu-gcc -O2 -Wall -Wextra -o sync_time sync_time.c
 cp button_monitor tiny_server i2c_scan bq_driver bq27426/bq_single bq27426n/bq_demo bq27426n/bqMon bq2589x/charger sample-IspOsd2 sync_time /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
 
 cp sync_time /home/mahmudul/mahmudul_workspace/keo_cam_ingenic/nfs-drive/
+
+/system/tools/wifi/wpa_cli -i wlan0 disconnect

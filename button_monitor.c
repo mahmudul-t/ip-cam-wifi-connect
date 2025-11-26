@@ -156,6 +156,7 @@ int stop_application(void)
 }
 
 
+
 // int main() {
 
 //     export_gpio();
@@ -261,6 +262,12 @@ void *button_thread(void *arg)
 }
 
 
+void wifi_soft_reconnect(void)
+{
+    system("/system/tools/wifi/wpa_cli -i wlan0 reconnect");
+}
+
+
 // Returns 1 if connected, 0 if not.
 static int is_wifi_connected(void)
 {
@@ -287,15 +294,24 @@ void *wifi_watchdog_thread(void *arg)
             printf("[WiFi] Disconnected. Trying to reconnect...\n");
 
             // Only start new script if nothing already running
-            if (wifi_pid <= 0) 
-            {
-                // run_wifi_script();
-                printf("have to run wifi script..............\n");
-            } 
-            else 
-            {
-                printf("[WiFi] Script already running with pid %d, skip restart.\n", wifi_pid);
-            }
+            // if (wifi_pid <= 0) 
+            // {
+                wifi_soft_reconnect();
+
+                // if (is_wifi_connected())
+                // {
+                //     printf("[WiFi] Reconnected..\n");
+                // }
+                // else
+                // {
+                //     printf("[WiFi] Reconnection Failed..\n");
+                // }
+                
+            // } 
+            // else 
+            // {
+            //     printf("[WiFi] Script already running with pid %d, skip restart.\n", wifi_pid);
+            // }
         } 
         else 
         {
