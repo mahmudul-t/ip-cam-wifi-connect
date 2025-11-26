@@ -9,7 +9,8 @@ AP_ENABLE="/system/www/ap_mode_enable.sh"
 IFACE="wlan0"
 WPA_CONF="/etc/wpa_supplicant.conf"
 NFS_START="/system/start_nfs.sh"
-APPLICATION="/system/nfs/keo-cam"
+# APPLICATION="/system/nfs/keo-cam"
+APPLICATION="/system/mmc_ext/keo-cam"
 
 echo "====== Wi-Fi setup starting ======"
 
@@ -49,7 +50,10 @@ echo "[WIFI] Connecting to SSID: $SSID"
 # Kill old clients
 killall wpa_supplicant  || true
 killall udhcpc          || true
-usleep 500000 # 500ms
+usleep 100000 # 100ms
+
+# mound sd card
+mount /dev/mmcblk0p1 /system/mmc_ext/
 
 # Interface up
 ifconfig "$IFACE" up || true
@@ -75,12 +79,14 @@ mkdir -p /var/run/wpa_supplicant
         || fail_to_ap "Unable to start wpa_supplicant"
 }
 
-usleep 500000 # 500ms
+usleep 100000 # 100ms
 
 # # Configure network quickly via wpa_cli
 # "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" remove_network all  || true
 
-NET_ID=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" add_network )
+NET_ID=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" add_network  || echo "")
+NET_ID=$(printf '%s' "$NET_ID" | tr -cd '0-9')
+[ -n "$NET_ID" ] || fail_to_ap "Failed to allocate WPA network ID"
 
 
 # NET_ID=$(echo " network id is ... $NET_ID" | tr -cd '0-9')
@@ -101,19 +107,16 @@ fi
 "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" select_network "$NET_ID"   
 # "$WIFI_TOOL_DIR/wpa_cli" save_config 2>&1
 
-# Wait for association (short & quiet)
-echo "[WIFI] Waiting for link (max ~20s)..." 
-MAX_RETRIES=40
+
+echo "[WIFI] Waiting for link (max ~12s)..." 
+MAX_RETRIES=120        # 120 * 200ms = 24s
 i=1
 LINK_OK=0
 
 while [ $i -le $MAX_RETRIES ]; do
     STATUS=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" status 2>/dev/null || true)
-
     WPA_STATE_LINE=$(printf '%s\n' "$STATUS" | grep '^wpa_state=' || true)
-
     WPA_STATE=${WPA_STATE_LINE#wpa_state=}
-
 
     if [ "$WPA_STATE" = "COMPLETED" ]; then
         LINK_OK=1
@@ -121,7 +124,7 @@ while [ $i -le $MAX_RETRIES ]; do
     fi
 
     i=$((i+1))
-    usleep 500000 # 500ms
+    usleep 200000    # 200ms
 done
 
 [ "$LINK_OK" -eq 1 ] || fail_to_ap "Link not established (state=$WPA_STATE)"
