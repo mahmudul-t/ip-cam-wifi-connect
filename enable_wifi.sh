@@ -109,7 +109,7 @@ fi
 
 
 echo "[WIFI] Waiting for link (max ~12s)..." 
-MAX_RETRIES=120        # 120 * 200ms = 24s
+MAX_RETRIES=60        # 60 * 200ms = 12s
 i=1
 LINK_OK=0
 
@@ -127,16 +127,33 @@ while [ $i -le $MAX_RETRIES ]; do
     usleep 200000    # 200ms
 done
 
-[ "$LINK_OK" -eq 1 ] || fail_to_ap "Link not established (state=$WPA_STATE)"
+# [ "$LINK_OK" -eq 1 ] || fail_to_ap "Link not established (state=$WPA_STATE)"
 
-echo "[WIFI] Link up. Running DHCP..." 
+# echo "[WIFI] Link up. Running DHCP..." 
 
-# DHCP (shorter timeout)
-udhcpc -i "$IFACE" -n -t 3 -T 2 >/dev/console 2>&1 || \
-    echo "[WIFI] Warning: udhcpc could not get a lease yet" 
+# # DHCP (shorter timeout)
+# udhcpc -i "$IFACE" -n -t 3 -T 2 >/dev/console 2>&1 || \
+#     echo "[WIFI] Warning: udhcpc could not get a lease yet" 
 
-IP_ADDR=$(ifconfig "$IFACE" | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
-echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" 
+# IP_ADDR=$(ifconfig "$IFACE" | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
+# echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" 
+
+
+if [ "$LINK_OK" -eq 1 ]; then
+    echo "[WIFI] Link up. Running DHCP..." > /dev/console
+
+    # DHCP (shorter timeout)
+    udhcpc -i "$IFACE" -n -t 3 -T 2 >/dev/console 2>&1 || \
+        echo "[WIFI] Warning: udhcpc could not get a lease yet" > /dev/console
+
+    IP_ADDR=$(ifconfig "$IFACE" | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
+    echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" > /dev/console
+else
+    echo "[WIFI] WARN: Wi-Fi link not established yet (state=$WPA_STATE)." > /dev/console
+    echo "[WIFI] Staying in STA mode. wpa_supplicant will keep trying in background." > /dev/console
+fi
+
+echo "====== Wi-Fi setup finished ======" 
 
 # Start NFS in background (so Wi-Fi is "ready" faster)
 if [ -x "$NFS_START" ]; then
@@ -146,6 +163,8 @@ else
     echo "[WIFI] NFS script not found or not executable: $NFS_START" 
 fi
 
+sleep 2
+
 # Start application
 if [ -x "$APPLICATION" ]; then
     echo "[WIFI] Starting application: $APPLICATION" 
@@ -154,5 +173,5 @@ else
     echo "[WIFI] Application not found or not executable: $APPLICATION" 
 fi
 
-echo "====== Wi-Fi setup finished ======" 
+
 exit 0
