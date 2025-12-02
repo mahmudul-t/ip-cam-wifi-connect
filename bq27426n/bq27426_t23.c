@@ -133,7 +133,7 @@ int bq_unseal_try(bq27426_t *ctx)
 
         if ((status & (1u << 13)) == 0) 
         {
-            printf("[BQ] -> Device successfully unsealed!\n");
+            // printf("[BQ] -> Device successfully unsealed!\n");
             return 0;
         }
         usleep(20000);
@@ -230,7 +230,7 @@ static int bq_wait_ready(bq27426_t *ctx, int max_ms)
         {
             if ( (f & FLAG_CFGUP) == 0) 
             {
-                printf("CFGUPMODE bit is now: %d\n ", (f & FLAG_CFGUP));
+                // printf("CFGUPMODE bit is now: %d\n ", (f & FLAG_CFGUP));
                 return 0;
             }
         }
@@ -751,7 +751,7 @@ int bq_learning_monitor(bq27426_t *ctx, unsigned period_ms, unsigned max_minutes
     usleep(300000);          // 300 ms settle
     // now re-check FLAGS
     bq_rd16(ctx, BQ27426_CMD_FLAGS, &flags);
-    printf("CFGUPMODE bit is now: %d\n",!!(flags & (1 << 4)));
+    // printf("CFGUPMODE bit is now: %d\n",!!(flags & (1 << 4)));
 
     /*************************************************************/
 
@@ -872,7 +872,7 @@ int bq_get_chem_id(bq27426_t *ctx, uint16_t *chem_id)
         return -1;
     }
 
-    printf("[BQ][CHEM] raw bytes: 0x%02X 0x%02X\n", raw[0], raw[1]);
+    // printf("[BQ][CHEM] raw bytes: 0x%02X 0x%02X\n", raw[0], raw[1]);
     *chem_id = (uint16_t)(raw[0] | (raw[1] << 8));
     printf("[BQ] -> ChemID current: 0x%04X\n", *chem_id);
     return 0;

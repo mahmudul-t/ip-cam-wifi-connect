@@ -141,7 +141,7 @@ echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}"
 # Start NFS in background (so Wi-Fi is "ready" faster)
 if [ -x "$NFS_START" ]; then
     echo "[WIFI] Starting NFS in background..."
-    sh "$NFS_START" &
+    sh "$NFS_START"
 else
     echo "[WIFI] NFS script not found or not executable: $NFS_START" 
 fi

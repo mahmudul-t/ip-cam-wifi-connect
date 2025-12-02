@@ -9,9 +9,10 @@ AP_ENABLE="/system/www/ap_mode_enable.sh"
 IFACE="wlan0"
 WPA_CONF="/etc/wpa_supplicant.conf"
 NFS_START="/system/start_nfs.sh"
-APPLICATION="/system/nfs/keo-cam"
+# APPLICATION="/system/nfs/keo-cam"
+APPLICATION="/system/mmc_ext/keo-cam"
 
-echo "====== Wi-Fi setup (FAST) starting ======" > /dev/console
+echo "====== Wi-Fi setup starting ======"
 
 fail_to_ap() {
     echo "[WIFI] ERROR: $1" > /dev/console
@@ -40,23 +41,26 @@ IS_REG="${is_reg:-0}"
 
 # Registration check
 if [ "$IS_REG" = "0" ]; then
-    echo "[WIFI] Device not registered (is_reg=0). Going to AP mode..." > /dev/console
+    echo "[WIFI] Device not registered (is_reg=0). Going to AP mode..."
     exec "$AP_ENABLE"
 fi
 
-echo "[WIFI] Connecting to SSID: $SSID" > /dev/console
+echo "[WIFI] Connecting to SSID: $SSID"
 
 # Kill old clients
-killall wpa_supplicant 2>/dev/null || true
-killall udhcpc         2>/dev/null || true
-sleep 1
+killall wpa_supplicant  || true
+killall udhcpc          || true
+usleep 100000 # 100ms
+
+# mound sd card
+mount /dev/mmcblk0p1 /system/mmc_ext/
 
 # Interface up
-ifconfig "$IFACE" up 2>/dev/null || true
+ifconfig "$IFACE" up || true
 
 # Minimal wpa_supplicant.conf
 if [ ! -f "$WPA_CONF" ]; then
-    echo "[WIFI] Creating $WPA_CONF" > /dev/console
+    echo "[WIFI] Creating $WPA_CONF"
     cat > "$WPA_CONF" <<'CFG'
 ctrl_interface=/var/run/wpa_supplicant
 update_config=1
@@ -67,45 +71,52 @@ fi
 mkdir -p /var/run/wpa_supplicant
 
 # Start wpa_supplicant
-echo "[WIFI] Starting wpa_supplicant..." > /dev/console
-"$WIFI_TOOL_DIR/wpa_supplicant" -B -D nl80211 -i "$IFACE" -c "$WPA_CONF" 2>/dev/console || {
-    echo "[WIFI] nl80211 failed, trying wext..." > /dev/console
-    "$WIFI_TOOL_DIR/wpa_supplicant" -B -D wext -i "$IFACE" -c "$WPA_CONF" 2>/dev/console \
+
+"$WIFI_TOOL_DIR/wpa_supplicant" -B -D nl80211 -i "$IFACE" -c "$WPA_CONF"  || 
+{
+    echo "[WIFI] nl80211 failed, trying wext..." 
+    "$WIFI_TOOL_DIR/wpa_supplicant" -B -D wext -i "$IFACE" -c "$WPA_CONF"  \
         || fail_to_ap "Unable to start wpa_supplicant"
 }
-sleep 1
 
-# Configure network quickly via wpa_cli
-"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" remove_network all >/dev/null 2>&1 || true
+usleep 100000 # 100ms
 
-NET_ID=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" add_network 2>/dev/null)
-NET_ID=$(echo "$NET_ID" | tr -cd '0-9')
+# # Configure network quickly via wpa_cli
+# "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" remove_network all  || true
+
+NET_ID=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" add_network  || echo "")
+NET_ID=$(printf '%s' "$NET_ID" | tr -cd '0-9')
 [ -n "$NET_ID" ] || fail_to_ap "Failed to allocate WPA network ID"
 
+
+# NET_ID=$(echo " network id is ... $NET_ID" | tr -cd '0-9')
+# [ -n "$NET_ID" ] || fail_to_ap "Failed to allocate WPA network ID"
+
 SSID_QUOTED="\"$SSID\""
-"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" ssid "$SSID_QUOTED" >/dev/null 2>&1
+"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" ssid "$SSID_QUOTED"
 
 if [ -n "$WIFI_PSK" ]; then
     PSK_QUOTED="\"$WIFI_PSK\""
-    "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" psk "$PSK_QUOTED" >/dev/null 2>&1
+    "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" psk "$PSK_QUOTED" 
 else
     echo "[WIFI] Empty PSK, assuming open network" > /dev/console
-    "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" key_mgmt NONE >/dev/null 2>&1
+    "$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" set_network "$NET_ID" key_mgmt NONE  
 fi
 
-"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" enable_network "$NET_ID"  >/dev/null 2>&1
-"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" select_network "$NET_ID"  >/dev/null 2>&1
-"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" save_config                >/dev/null 2>&1
+"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" enable_network "$NET_ID"  
+"$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" select_network "$NET_ID"   
+# "$WIFI_TOOL_DIR/wpa_cli" save_config 2>&1
 
-# Wait for association (short & quiet)
-echo "[WIFI] Waiting for link (max ~8s)..." > /dev/console
-MAX_RETRIES=8
+
+echo "[WIFI] Waiting for link (max ~12s)..." 
+MAX_RETRIES=120        # 120 * 200ms = 24s
 i=1
 LINK_OK=0
 
 while [ $i -le $MAX_RETRIES ]; do
-    STATUS=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" status 2>/dev/null)
-    WPA_STATE=$(echo "$STATUS" | grep '^wpa_state=' | cut -d= -f2)
+    STATUS=$("$WIFI_TOOL_DIR/wpa_cli" -i "$IFACE" status 2>/dev/null || true)
+    WPA_STATE_LINE=$(printf '%s\n' "$STATUS" | grep '^wpa_state=' || true)
+    WPA_STATE=${WPA_STATE_LINE#wpa_state=}
 
     if [ "$WPA_STATE" = "COMPLETED" ]; then
         LINK_OK=1
@@ -113,35 +124,35 @@ while [ $i -le $MAX_RETRIES ]; do
     fi
 
     i=$((i+1))
-    sleep 1
+    usleep 200000    # 200ms
 done
 
 [ "$LINK_OK" -eq 1 ] || fail_to_ap "Link not established (state=$WPA_STATE)"
 
-echo "[WIFI] Link up. Running DHCP..." > /dev/console
+echo "[WIFI] Link up. Running DHCP..." 
 
 # DHCP (shorter timeout)
 udhcpc -i "$IFACE" -n -t 3 -T 2 >/dev/console 2>&1 || \
-    echo "[WIFI] Warning: udhcpc could not get a lease yet" > /dev/console
+    echo "[WIFI] Warning: udhcpc could not get a lease yet" 
 
-IP_ADDR=$(ifconfig "$IFACE" 2>/dev/null | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
-echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" > /dev/console
+IP_ADDR=$(ifconfig "$IFACE" | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
+echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" 
 
 # Start NFS in background (so Wi-Fi is "ready" faster)
 if [ -x "$NFS_START" ]; then
-    echo "[WIFI] Starting NFS in background..." > /dev/console
-    sh "$NFS_START" &
+    echo "[WIFI] Starting NFS in background..."
+    sh "$NFS_START"
 else
-    echo "[WIFI] NFS script not found or not executable: $NFS_START" > /dev/console
+    echo "[WIFI] NFS script not found or not executable: $NFS_START" 
 fi
 
 # Start application
 if [ -x "$APPLICATION" ]; then
-    echo "[WIFI] Starting application: $APPLICATION" > /dev/console
+    echo "[WIFI] Starting application: $APPLICATION" 
     "$APPLICATION" &
 else
-    echo "[WIFI] Application not found or not executable: $APPLICATION" > /dev/console
+    echo "[WIFI] Application not found or not executable: $APPLICATION" 
 fi
 
-echo "====== Wi-Fi setup finished ======" > /dev/console
+echo "====== Wi-Fi setup finished ======" 
 exit 0
