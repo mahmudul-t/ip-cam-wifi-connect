@@ -25,7 +25,8 @@ static pid_t wifi_pid       = -1;
 static void export_gpio(void)
 {
     int fd = open("/sys/class/gpio/export", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, GPIO_NUM, strlen(GPIO_NUM));
         close(fd);
     }
@@ -35,7 +36,8 @@ static void export_gpio(void)
 static void unexport_gpio(void)
 {
     int fd = open("/sys/class/gpio/unexport", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, GPIO_NUM, strlen(GPIO_NUM));
         close(fd);
     }
@@ -44,7 +46,8 @@ static void unexport_gpio(void)
 static void set_gpio_direction(void)
 {
     int fd = open(GPIO_PATH "direction", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, "in", 2);
         close(fd);
     }
@@ -53,7 +56,8 @@ static void set_gpio_direction(void)
 static void set_gpio_edge(void)
 {
     int fd = open(GPIO_PATH "edge", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, "falling", 7);  // falling edge = button pressed (active low)
         close(fd);
     }
@@ -65,7 +69,8 @@ static int read_gpio_value(void)
     if (fd < 0) return -1;
 
     char buf;
-    if (read(fd, &buf, 1) != 1) {
+    if (read(fd, &buf, 1) != 1) 
+    {
         close(fd);
         return -1;
     }
@@ -79,11 +84,13 @@ static int read_gpio_value(void)
 static int run_ap_script(void)
 {
     pid_t pid = fork();
-    if (pid == 0) {
+    if (pid == 0) 
+    {
         execl("/bin/sh", "sh", AP_MODE_SCRIPT, (char *)NULL);
         _exit(127); // exec failed
     }
-    if (pid < 0) {
+    if (pid < 0) 
+    {
         perror("fork (AP)");
         return -1;
     }
@@ -95,11 +102,13 @@ static int run_ap_script(void)
 static int run_wifi_script(void)
 {
     pid_t pid = fork();
-    if (pid == 0) {
+    if (pid == 0) 
+    {
         execl("/bin/sh", "sh", ENABLE_WIFI_SCRIPT, (char *)NULL);
         _exit(127); // exec failed
     }
-    if (pid < 0) {
+    if (pid < 0) 
+    {
         perror("fork (WIFI)");
         return -1;
     }
@@ -110,12 +119,16 @@ static int run_wifi_script(void)
 
 static int stop_wifi_script(void)
 {
-    if (wifi_pid > 0) {
-        if (kill(wifi_pid, SIGTERM) == 0) {
+    if (wifi_pid > 0) 
+    {
+        if (kill(wifi_pid, SIGTERM) == 0) 
+        {
             printf("Sent SIGTERM to WIFI script pid=%d\n", wifi_pid);
             wifi_pid = -1;
             return 0;
-        } else {
+        } 
+        else 
+        {
             perror("kill (wifi_pid)");
             return -1;
         }
@@ -129,22 +142,29 @@ static int stop_application(void)
     snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
 
     FILE *fp = popen(cmd, "r");
-    if (!fp) {
+    if (!fp) 
+    {
         perror("popen (pgrep)");
         return -1;
     }
 
     char pid_str[16];
-    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) {
+    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
+    {
         pid_t pid = (pid_t)atoi(pid_str);
         printf("Found %s PID: %d\n", APP_NAME, pid);
 
-        if (kill(pid, SIGTERM) == 0) {
+        if (kill(pid, SIGTERM) == 0) 
+        {
             printf("Sent SIGTERM to %s\n", APP_NAME);
-        } else {
+        } 
+        else 
+        {
             perror("kill (APP)");
         }
-    } else {
+    } 
+    else 
+    {
         printf("%s not running\n", APP_NAME);
     }
 
@@ -174,7 +194,8 @@ static int run_cmd_capture(const char *cmd, char *out, size_t out_len)
     size_t total = 0;
     out[0] = '\0';
 
-    while (fgets(out + total, out_len - total, fp)) {
+    while (fgets(out + total, out_len - total, fp)) 
+    {
         total = strlen(out);
         if (total >= out_len - 1) break;
     }
@@ -191,22 +212,29 @@ static void wifi_get_status(wifi_status_t *st)
 
     char buf[2048] = {0};
 
-    if (run_cmd_capture("/system/tools/wifi/wpa_cli -i wlan0 status", buf, sizeof(buf)) != 0) {
+    if (run_cmd_capture("/system/tools/wifi/wpa_cli -i wlan0 status", buf, sizeof(buf)) != 0) 
+    {
         return;
     }
 
     char *saveptr;
     char *line = strtok_r(buf, "\n", &saveptr);
     while (line) {
-        if (strncmp(line, "wpa_state=", 10) == 0) {
+        if (strncmp(line, "wpa_state=", 10) == 0) 
+        {
             const char *v = line + 10;
-            if (strcmp(v, "COMPLETED") == 0) {
+            if (strcmp(v, "COMPLETED") == 0) 
+            {
                 st->state = WIFI_STATE_COMPLETED;
-            } else {
+            } 
+            else 
+            {
                 // Treat any non-COMPLETED as "not ready"
                 st->state = WIFI_STATE_DISCONNECTED;
             }
-        } else if (strncmp(line, "ip_address=", 11) == 0) {
+        } 
+        else if (strncmp(line, "ip_address=", 11) == 0) 
+        {
             snprintf(st->ip, sizeof(st->ip), "%s", line + 11);
         }
 
@@ -230,12 +258,14 @@ static int wifi_wait_for_completed(int timeout_ms)
     while (waited < timeout_ms) {
         wifi_get_status(&st);
 
-        if (st.state == WIFI_STATE_COMPLETED) {
+        if (st.state == WIFI_STATE_COMPLETED) 
+        {
             printf("[WiFi] State COMPLETED. ip=%s\n",
                    st.ip[0] ? st.ip : "(none)");
 
             // If wpa_cli has no IP, run DHCP
-            if (st.ip[0] == '\0') {
+            if (st.ip[0] == '\0') 
+            {
                 wifi_run_dhcp();
             }
             return 0;  // success
@@ -286,17 +316,21 @@ static void *button_thread(void *arg)
 
         int ret = poll(&pfd, 1, -1);  // block forever until event
 
-        if (ret > 0 && (pfd.revents & POLLPRI)) {
+        if (ret > 0 && (pfd.revents & POLLPRI)) 
+        {
             // Debounce / long press check
             sleep(2);
 
-            if (read_gpio_value() == 0) {
+            if (read_gpio_value() == 0) 
+            {
                 printf("[BOOT BTN] Long press detected. Stop WIFI + APP, launch AP mode...\n");
                 stop_wifi_script();
                 stop_application();
                 run_ap_script();
                 ap_mode_active = 1;
-            } else {
+            } 
+            else 
+            {
                 printf("[BOOT BTN] Short press ignored.\n");
             }
         }
@@ -316,30 +350,37 @@ static void *wifi_watchdog_thread(void *arg)
     wifi_status_t st;
     wifi_state_t last_state = WIFI_STATE_UNKNOWN;
 
-    while (1) {
+    while (1) 
+    {
         sleep(10);  // check every 10s (tune as you like)
 
-        if (ap_mode_active) {
+        if (ap_mode_active) 
+        {
             // In AP mode, do not try STA reconnect
             continue;
         }
 
         wifi_get_status(&st);
 
-        if (st.state != last_state) {
+        if (st.state != last_state) 
+        {
             printf("[WiFi] State changed: %d -> %d, ip=%s\n",
                    last_state, st.state,
                    st.ip[0] ? st.ip : "(none)");
         }
 
-        if (st.state != WIFI_STATE_COMPLETED) {
+        if (st.state != WIFI_STATE_COMPLETED) 
+        {
             printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
 
             wifi_soft_reconnect();
 
-            if (wifi_wait_for_completed(10000) == 0) {
+            if (wifi_wait_for_completed(10000) == 0) 
+            {
                 printf("[WiFi] Reconnected successfully.\n");
-            } else {
+            } 
+            else 
+            {
                 printf("[WiFi] Reconnection failed or timed out.\n");
             }
 
@@ -375,13 +416,15 @@ int main(void)
     }
 
     // Start initial WiFi / application script
-    if (run_wifi_script() != 0) {
+    if (run_wifi_script() != 0) 
+    {
         fprintf(stderr, "Failed to start WIFI script\n");
     }
 
 
 
-    if (pthread_create(&tid_wifi, NULL, wifi_watchdog_thread, NULL) != 0) {
+    if (pthread_create(&tid_wifi, NULL, wifi_watchdog_thread, NULL) != 0) 
+    {
         perror("pthread_create wifi_watchdog_thread");
     }
 
