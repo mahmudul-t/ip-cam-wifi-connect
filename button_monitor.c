@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <pthread.h>
+#include <errno.h>
 
 #define GPIO_NUM           "64"
 #define GPIO_PATH          "/sys/class/gpio/gpio64/"
@@ -174,16 +175,81 @@ static int stop_application(void)
 
 /* ====================== WIFI STATUS / RECONNECT ====================== */
 
-typedef enum {
+typedef enum 
+{
     WIFI_STATE_UNKNOWN = 0,
     WIFI_STATE_DISCONNECTED,
     WIFI_STATE_COMPLETED
 } wifi_state_t;
 
-typedef struct {
+typedef struct 
+{
     wifi_state_t state;
     char ip[64];
 } wifi_status_t;
+
+
+typedef enum {
+    WIFI_SM_DISCONNECTED =0,
+    WIFI_SM_CONNECTED = 1
+} wifi_sm_state_t;
+
+typedef struct {
+    wifi_sm_state_t state; // connected / disconnected
+    int internet_ok; // 0/1
+    char ip[64]; // current IP
+} wifi_sm_status_t;
+
+static const char *WIFI_STATE_FILE = "/tmp/wifi_state";
+static const char *WIFI_STATE_TMP = "/tmp/wifi_state.tmp";
+
+
+static int write_wifi_state(const wifi_sm_status_t *st)
+{
+    int fd = open(WIFI_STATE_TMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if(fd < 0)
+    {
+        perror("[Boot Manager] open wifi_state.tmp failed\n");
+        return -1;
+    }
+
+    char buf[256];
+    int len = snprintf(buf, sizeof(buf),
+                        "STATE=%s\nIP=%s\nINTERNET=%d\n",
+        (st->state == WIFI_SM_CONNECTED) ? "CONNECTED" : "DISCONNECTED",
+        st->ip[0] ? st->ip : "",
+        st->internet_ok ? 1 : 0
+    );
+
+    ssize_t w = write(fd,  buf, len);
+
+    if(w!=len)
+    {
+        perror("[Boot Manager] write wifi_state.tmp failed\n");
+        close(fd);
+        return -1;
+    }
+
+    // Ensure data hits disk
+    if(fsync(fd) < 0)
+    {
+        perror("[Boot Manager] fsync wifi_state.tmp failed\n");
+        // not fatal , but log it
+    }
+
+    close(fd);
+
+    // Atomic rename // reader see either old or new file, never partial file
+    if(rename(WIFI_STATE_TMP, WIFI_STATE_FILE) < 0)
+    {
+        perror("[Boot Manager] rename wifi_state.tmp failed\n");
+        return -1;
+    }
+
+    return 0;
+
+
+}
 
 // Run a shell command and capture output into buffer
 static int run_cmd_capture(const char *cmd, char *out, size_t out_len)
@@ -219,7 +285,8 @@ static void wifi_get_status(wifi_status_t *st)
 
     char *saveptr;
     char *line = strtok_r(buf, "\n", &saveptr);
-    while (line) {
+    while (line) 
+    {
         if (strncmp(line, "wpa_state=", 10) == 0) 
         {
             const char *v = line + 10;
@@ -343,24 +410,37 @@ static void *button_thread(void *arg)
 
 /* ====================== WIFI WATCHDOG THREAD ====================== */
 
+
+
+
 static void *wifi_watchdog_thread(void *arg)
 {
     (void)arg;
 
     wifi_status_t st;
     wifi_state_t last_state = WIFI_STATE_UNKNOWN;
+    wifi_sm_status_t sm = {0};
 
     while (1) 
     {
-        sleep(10);  // check every 10s (tune as you like)
+        sleep(10);  // check every 10s 
 
         if (ap_mode_active) 
         {
-            // In AP mode, do not try STA reconnect
+            // In AP mode, mark Wi-Fi as disconnected for keo-cam
+            sm.state       = WIFI_SM_DISCONNECTED;
+            sm.internet_ok = 0;
+            sm.ip[0]       = '\0';
+            write_wifi_state(&sm);
             continue;
         }
 
         wifi_get_status(&st);
+
+        // Default values for this loop
+        sm.state       = WIFI_SM_DISCONNECTED;
+        sm.internet_ok = 0;
+        sm.ip[0]       = '\0';
 
         if (st.state != last_state) 
         {
@@ -369,33 +449,53 @@ static void *wifi_watchdog_thread(void *arg)
                    st.ip[0] ? st.ip : "(none)");
         }
 
-        if (st.state != WIFI_STATE_COMPLETED) 
+        if (st.state == WIFI_STATE_COMPLETED) 
         {
-            printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
+            // We have link
+            sm.state = WIFI_SM_CONNECTED;
 
-            wifi_soft_reconnect();
-
-            if (wifi_wait_for_completed(10000) == 0) 
+            if (st.ip[0]) 
             {
-                printf("[WiFi] Reconnected successfully.\n");
+                snprintf(sm.ip, sizeof(sm.ip), "%s", st.ip);
+            }
+
+            // Check internet reachability ONCE per loop here
+            int ping_ret = system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1");
+            sm.internet_ok = (ping_ret == 0);
+
+            // If ping failed, we can try DHCP again
+            if (!sm.internet_ok) 
+            {
+                printf("[WiFi] COMPLETED but internet check failed. Re-running DHCP.\n");
+                wifi_run_dhcp();
             } 
             else 
             {
-                printf("[WiFi] Reconnection failed or timed out.\n");
+                printf("[WiFi] COMPLETED and internet OK.\n");
             }
 
+            // Publish status to /tmp/wifi_state
+            write_wifi_state(&sm);
+
             last_state = st.state;
-            continue;
+            continue; // nothing else to do in this loop
         }
 
-        // Here: state == COMPLETED
-        // Optional "internet" check using ping:
-        int ret = system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1");
-        if (ret != 0) {
-            printf("[WiFi] COMPLETED but internet check failed. Re-running DHCP.\n");
-            wifi_run_dhcp();
-        } else {
-            printf("[WiFi] COMPLETED and internet OK.\n");
+        // If we reach here, not COMPLETED
+        // Publish "disconnected" status for keo-cam
+        write_wifi_state(&sm);
+
+        printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
+
+        wifi_soft_reconnect();
+
+        if (wifi_wait_for_completed(10000) == 0) 
+        {
+            printf("[WiFi] Reconnected successfully.\n");
+        } 
+        else 
+        {
+            printf("[WiFi] Reconnection failed or timed out.\n");
         }
 
         last_state = st.state;
