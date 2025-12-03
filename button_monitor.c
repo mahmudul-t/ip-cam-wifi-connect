@@ -466,12 +466,12 @@ static void *wifi_watchdog_thread(void *arg)
             // If ping failed, we can try DHCP again
             if (!sm.internet_ok) 
             {
-                printf("[WiFi] COMPLETED but internet check failed. Re-running DHCP.\n");
+                printf("[WiFi] internet check failed. Re-running DHCP.\n");
                 wifi_run_dhcp();
             } 
             else 
             {
-                printf("[WiFi] COMPLETED and internet OK.\n");
+                printf("[WiFi] internet OK.\n");
             }
 
             // Publish status to /tmp/wifi_state
