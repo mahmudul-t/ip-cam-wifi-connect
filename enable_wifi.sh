@@ -9,8 +9,8 @@ AP_ENABLE="/system/www/ap_mode_enable.sh"
 IFACE="wlan0"
 WPA_CONF="/etc/wpa_supplicant.conf"
 NFS_START="/system/start_nfs.sh"
-# APPLICATION="/system/nfs/keo-cam"
-APPLICATION="/system/mmc_ext/keo-cam"
+APPLICATION="/system/nfs/keo-cam"
+#APPLICATION="/system/mmc_ext/keo-cam"
 
 echo "====== Wi-Fi setup starting ======"
 
@@ -127,16 +127,6 @@ while [ $i -le $MAX_RETRIES ]; do
     usleep 200000    # 200ms
 done
 
-# [ "$LINK_OK" -eq 1 ] || fail_to_ap "Link not established (state=$WPA_STATE)"
-
-# echo "[WIFI] Link up. Running DHCP..." 
-
-# # DHCP (shorter timeout)
-# udhcpc -i "$IFACE" -n -t 3 -T 2 >/dev/console 2>&1 || \
-#     echo "[WIFI] Warning: udhcpc could not get a lease yet" 
-
-# IP_ADDR=$(ifconfig "$IFACE" | awk '/inet addr/ {sub("addr:", "", $2); print $2}')
-# echo "[WIFI] Connected. IP: ${IP_ADDR:-unknown}" 
 
 
 if [ "$LINK_OK" -eq 1 ]; then

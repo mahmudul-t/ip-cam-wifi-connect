@@ -369,14 +369,17 @@ int main(void)
 {
     pthread_t tid_btn, tid_wifi;
 
+    if (pthread_create(&tid_btn, NULL, button_thread, NULL) != 0) 
+    {
+        perror("pthread_create button_thread");
+    }
+
     // Start initial WiFi / application script
     if (run_wifi_script() != 0) {
         fprintf(stderr, "Failed to start WIFI script\n");
     }
 
-    if (pthread_create(&tid_btn, NULL, button_thread, NULL) != 0) {
-        perror("pthread_create button_thread");
-    }
+
 
     if (pthread_create(&tid_wifi, NULL, wifi_watchdog_thread, NULL) != 0) {
         perror("pthread_create wifi_watchdog_thread");
