@@ -1,0 +1,1601 @@
+WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 932.19 MB sent, packets=919466                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[TIME] 2025-12-18 18:26:34.207399 UTC                                           
+[SRT] TX STATS: 932.95 MB sent, packets=920191                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 933.84 MB sent, packets=921032                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[SRT] TX STATS: 935.16 MB sent, packets=922266                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 936.74 MB sent, packets=923730                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[SRT] TX STATS: 938.36 MB sent, packets=925230                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 940.00 MB sent, packets=926746                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[TIME] 2025-12-18 18:27:04.211548 UTC                                           
+VBUS: 2600 mV | Battery: 2304 mV |  System: 2304 mV |  Temp:   2.1 °C |  Charge)
+[SRT] TX STATS: 941.60 MB sent, packets=928231                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 943.18 MB sent, packets=929703                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[SRT] TX STATS: 944.53 MB sent, packets=930965                                  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[WiFi] COMPLETED and internet OK.                                               
+[SRT] TX STATS: 945.50 MB sent, packets=931884                                  
+Volt=2755 mV | Curr= -376 mA | Power= -1036 mW | SOC=  0%  [BQ] FLAGS = 0x014F  
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[26926.973670] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[SRT] TX STATS: 946.40 MB sent, packets=932740                                  
+[26929.541653] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[ keo-th::th_mm ] :  server_cmd : [ cam_0001 1766055544 1 0 ]                   
+                                                                                
+                                                                                
+[26930.498775] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26931.540274] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1B010920: cmd=53, state1
+[26931.547792] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26931.554778] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26931.584831] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26931.986788] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.187742] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[WiFi] COMPLETED and internet OK.                                               
+[26932.266653] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.309495] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.319699] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.328401] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.384855] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.393485] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.509119] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.517535] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.529966] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.623808] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.707934] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.750530] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1F011960: cmd=53, state1
+[26932.758027] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.765400] brcmfmac: brcmf_sdio_readframes: RXHEADER FAILED: -1             
+[26932.780554] brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, senK
+[26932.824934] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x11010920: cmd=53, state1
+[26932.832510] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.839610] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.909216] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.919552] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x19010920: cmd=53, state1
+[26932.929652] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26932.936719] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.961510] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.975148] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26932.986469] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.001492] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.077418] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1F011960: cmd=53, state1
+[26933.085301] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.094343] brcmfmac: brcmf_sdio_readframes: RXHEADER FAILED: -1             
+[26933.100853] brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, senK
+[26933.116791] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.127779] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.135735] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.144323] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.182202] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.191819] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.202566] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.220971] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.235572] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.305119] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.317246] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.330809] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.345117] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.393025] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.425538] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.472796] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1C000920: cmd=53, state1
+[26933.480399] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.489792] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.512932] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.527937] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.540955] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.579499] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.590627] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.601650] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.613437] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.623402] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.659205] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.668741] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.715678] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.728535] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.758188] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1F001110: cmd=53, state0
+[26933.768441] jzmmc_v1.2 jzmmc_v1.2.1: polling status(0x00001000) error, op=530
+[26933.777860] brcmfmac: brcmf_sdio_readframes: read 104 bytes from channel 2 f5
+[26933.786833] brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame      
+[26933.797518] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.807577] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.818437] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x14000D20: cmd=53, state1
+[26933.826037] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.833040] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.843568] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.853318] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[SRT] TX STATS: 947.44 MB sent, packets=933722                                  
+[26933.907933] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.921391] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.930337] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.942335] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x1D010920: cmd=53, state1
+[26933.949925] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26933.956908] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26933.970445] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.008893] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.018307] jzmmc_v1.2 jzmmc_v1.2.1: Error status->0x16000920: cmd=53, state1
+[26934.026130] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26934.033435] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.060677] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.081014] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.096133] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.107216] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.118927] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.127618] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26934.140465] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.159168] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.219209] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.232026] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.279384] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.292476] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.303596] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.314039] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.328670] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.349669] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.371114] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.382104] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.392486] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.403995] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.416679] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26934.427735] jzmmc_v1.2 jzmmc_v1.2.1: cmd53 crc error, retry.                 
+[26934.433856] jzmmc_v1.2 jzmmc_v1.2.1: WARN: enter state machine with IDLE     
+[26934.939791] jzmmc_v1.2 jzmmc_v1.2.1: timeout 500ms op:53 r sz:512 state:2 STe
+[26935.449790] jzmmc_v1.2 jzmmc_v1.2.1: timeout 1000ms op:53 r sz:512 state:2 Se
+[TIME] 2025-12-18 18:27:34.237268 UTC                                           
+[26935.959772] jzmmc_v1.2 jzmmc_v1.2.1: timeout 1500ms op:53 r sz:512 state:2 Se
+[26936.469792] jzmmc_v1.2 jzmmc_v1.2.1: timeout 2000ms op:53 r sz:512 state:2 Se
+[26936.979774] jzmmc_v1.2 jzmmc_v1.2.1: timeout 2500ms op:53 r sz:512 state:2 Se
+[26937.489793] jzmmc_v1.2 jzmmc_v1.2.1: timeout 3000ms op:53 r sz:512 state:2 Se
+[SRT] TX STATS: 948.37 MB sent, packets=934610                                  
+[SRT] srt_send msg failed: Connection was broken                                
+[SRT] srt write fail .                                                          
+Error: Failed to write audio packet.                                            
+[ keo-th::th_mm ] :  rcv signal SRT_SOC_TX_FAIL                                 
+[SRT] SRT socket closed successfully.                                           
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[ th-streamer ] no data from server for 30s, treat as dead, reconnect           
+[ th-streamer ]Server Closed ..                                                 
+[ th-streamer ] Socket successfully created..                                   
+[ th-streamer ] connecting to server ....                                       
+[ th-streamer ] connection with the server failed...and retry                   
+[ th-streamer ] connection with the server failed...and retry                   
+[ th-streamer ] connection with the server failed...and retry                   
+[TIME] 2025-12-18 18:28:04.240447 UTC                                           
+[26966.499775] jzmmc_v1.2 jzmmc_v1.2.1: request time out, op=53 arg=0x21000040,1
+[26966.513049] jzmmc_v1.2 jzmmc_v1.2.1: Descriptor dump:                        
+[26966.518281] jzmmc_v1.2 jzmmc_v1.2.1:                                         
+[26966.522108] jzmmc_v1.2 jzmmc_v1.2.1: operate timeout over 3000ms, so do not !
+[26966.532588] brcmfmac: brcmf_sdio_readframes: RXHEADER FAILED: -159           
+[26966.539091] brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, senK
+[26966.643391] brcmfmac: brcmf_sdio_rxfail: count never zeroed: last 0xffff     
+[26966.650685] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26966.658897] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.666916] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26966.675185] brcmfmac: brcmf_sdio_dpc: failed backplane access over SDIO, haln
+[26966.683827] brcmfmac: brcmf_sdio_txfail: sdio error, abort command and termie
+[26966.692508] brcmfmac: brcmf_sdio_dpc: failed backplane access over SDIO, haln
+[26966.719826] brcmfmac: brcmf_sdio_bus_sleep: error while changing bus sleep s9
+[26966.743721] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.751899] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[26966.779834] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.812801] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[26966.834244] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.842502] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.859994] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[26966.875508] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26966.889947] ieee80211 phy0: brcmf_netdev_start_xmit: xmit rejected state=0   
+[26966.905507] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.926510] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[26966.946508] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.966993] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[26966.978251] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26966.986460] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[ th-streamer ] connection with the server failed...and retry                   
+VBUS: 2600 mV | Battery: 2304 mV |  System: 2304 mV |  Temp:   2.1 °C |  Charge)
+Sending discover...                                                             
+Sending discover...                                                             
+No lease, failing                                                               
+[ th-streamer ] connection with the server failed...and retry                   
+[ th-streamer ] Wi-Fi lost while connecting. Close socket and wait for Wi-Fi.   
+[ th-streamer ]connected to the server..                                        
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[26983.210852] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.234592] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26983.265486] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.295484] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+Sending discover...                                                             
+[26983.314480] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.336685] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[26983.357484] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.380004] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.403592] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.436706] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26983.468508] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.501511] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[26983.532540] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.562616] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[26983.588486] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26983.608900] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+Volt=2633 mV | Curr= -315 mA | Power=  -829 mW | SOC=  0%  [BQ] FLAGS = 0x014F  
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+No lease, failing                                                               
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[TIME] 2025-12-18 18:28:34.250319 UTC                                           
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[26999.631188] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.653592] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26999.682567] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.714687] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[26999.736556] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[26999.755591] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[26999.780450] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.798481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.829670] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.855482] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[26999.887693] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.918584] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[26999.952511] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[26999.984663] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27000.007520] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27000.026557] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+Sending discover...                                                             
+No lease, failing                                                               
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[27008.226084] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27008.259554] ieee80211 phy0: send_key_to_dongle: wsec_key error (-5)          
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27016.068586] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.095340] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27016.128476] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.154594] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27016.176590] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[27016.195480] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27016.220486] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.239446] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.259793] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.278478] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27016.301442] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.319589] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27016.341552] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.359481] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27016.383595] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27016.402692] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+Sending discover...                                                             
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+No lease, failing                                                               
+[TIME] 2025-12-18 18:29:04.253584 UTC                                           
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+VBUS: 2600 mV | Battery: 2304 mV |  System: 2304 mV |  Temp:   2.1 °C |  Charge)
+[BOOT BTN] Short press ignored.                                                 
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[BOOT BTN] Short press ignored.                                                 
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27032.480692] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.505150] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27032.537481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.570329] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27032.589436] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[27032.611756] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27032.633481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.654479] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.680460] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.709479] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27032.743481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.775498] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27032.808664] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.837483] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27032.860480] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27032.878675] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[BOOT BTN] Short press ignored.                                                 
+Sending discover...                                                             
+[BOOT BTN] Short press ignored.                                                 
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+[BOOT BTN] Short press ignored.                                                 
+No lease, failing                                                               
+[BOOT BTN] Short press ignored.                                                 
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[BOOT BTN] Short press ignored.                                                 
+[BOOT BTN] Short press ignored.                                                 
+Volt=2523 mV | Curr= -288 mA | Power=  -727 mW | SOC=  0%  [BQ] FLAGS = 0x014F  
+[BOOT BTN] Short press ignored.                                                 
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[BOOT BTN] Short press ignored.                                                 
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27048.880266] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27048.914972] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27048.948446] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27048.976448] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+Sending discover...                                                             
+[27048.998682] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.020482] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27049.041486] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.061556] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.079694] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.102482] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27049.120468] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.143478] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27049.161552] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.183594] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27049.206758] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27049.225481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[BOOT BTN] Short press ignored.                                                 
+Sending discover...                                                             
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[BOOT BTN] Short press ignored.                                                 
+Sending discover...                                                             
+[BOOT BTN] Short press ignored.                                                 
+No lease, failing                                                               
+[TIME] 2025-12-18 18:29:34.260167 UTC                                           
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27065.281286] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.305514] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27065.339998] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.370790] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+Sending discover...                                                             
+[27065.390465] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.412538] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27065.434445] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.454592] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.480460] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.509448] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27065.543510] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.576445] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27065.606946] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.637598] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27065.660664] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27065.678594] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+Sending discover...                                                             
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+No lease, failing                                                               
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27081.680763] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.710498] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27081.741488] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.772535] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+Sending discover...                                                             
+[27081.791556] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.813533] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27081.834479] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.855444] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.873492] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.895482] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27081.913681] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.936483] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27081.954480] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27081.976482] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27081.996484] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27082.018691] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[TIME] 2025-12-18 18:30:04.263259 UTC                                           
+Sending discover...                                                             
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+No lease, failing                                                               
+VBUS: 2600 mV | Battery: 2304 mV |  System: 2304 mV |  Temp:   2.1 °C |  Charge)
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27098.074169] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.098594] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27098.131564] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.159786] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+Sending discover...                                                             
+[27098.182482] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.200465] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27098.224597] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.243485] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.270465] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.299587] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27098.332901] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.363654] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27098.396508] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.426613] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27098.449832] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27098.468485] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+Sending discover...                                                             
+No lease, failing                                                               
+Volt=2389 mV | Curr= -293 mA | Power=  -700 mW | SOC=  0%  [BQ] FLAGS = 0x014F  
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+[WiFi] COMPLETED but internet check failed. Re-running DHCP.                    
+[WiFi] Running DHCP via udhcpc...                                               
+udhcpc (v1.22.1) started                                                        
+[27114.528248] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.553615] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27114.586792] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.616012] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27114.634481] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+Sending discover...                                                             
+[27114.656556] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27114.676680] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.699484] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.722589] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.755561] ieee80211 phy0: _brcmf_set_multicast_list: Setting mcast_list fa5
+[27114.788600] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.823646] ieee80211 phy0: _brcmf_set_multicast_list: Setting allmulti fail5
+[27114.853614] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.881561] ieee80211 phy0: _brcmf_set_multicast_list: Setting BRCMF_C_SET_P5
+[27114.908486] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[27114.929613] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have nothing.
+[TIME] 2025-12-18 18:30:34.269318 UTC                                           
+fail to register cam ...                                                        
+[ th-streamer ] registration fail ..                                            
+                                                                                
+                                                                                
+U-Boot SPL 2013.07 (Nov 21 2025 - 16:40:04)                                     
+Board info: T23X                                                                
+                                                                                
+apll_freq = 1188000000                                                          
+mpll_freq = 1200000000                                                          
+sdram init start                                                                
+DDR clk rate 600000000                                                          
+DDR_PAR of eFuse: 00000000 00000000                                             
+sdram init finished                                                             
+image entry point: 0x80100000                                                   
+                                                                                
+                                                                                
+U-Boot 2013.07 (Nov 21 2025 - 16:40:04)                                         
+                                                                                
+Board: ISVP (Ingenic XBurst T23 SoC)                                            
+DRAM:  128 MiB                                                                  
+Top of RAM usable for U-Boot at: 84000000                                       
+Reserving 446k for U-Boot at: 83f90000                                          
+Reserving 32784k for malloc() at: 81f8c000                                      
+Reserving 32 Bytes for Board Info at: 81f8bfe0                                  
+Reserving 124 Bytes for Global Data at: 81f8bf64                                
+Reserving 128k for boot params() at: 81f6bf64                                   
+Stack Pointer at: 81f6bf48                                                      
+Now running in RAM - U-Boot at: 83f90000                                        
+MMC:   msc: 0                                                                   
+the manufacturer ef                                                             
+SF: Detected W25Q128                                                            
+                                                                                
+*** Warning - bad CRC, using default environment                                
+                                                                                
+In:    serial                                                                   
+Out:   serial                                                                   
+Err:   serial                                                                   
+Net:   ====>PHY not found!Jz4775-9161                                           
+******************Entered Custom Boot Main.[func:line][main_loop:449]***********
+*************[bootcmd:sf probe;sf read 0x80601000 0x40000 0x280000; bootm 0x806*
+Hit any key to stop autoboot:  0                                                
+the manufacturer ef                                                             
+SF: Detected W25Q128                                                            
+                                                                                
+--->probe spend 4 ms                                                            
+SF: 2621440 bytes @ 0x40000 Read: OK                                            
+--->read spend 842 ms                                                           
+## Booting kernel from Legacy Image at 80601000 ...                             
+   Image Name:   Linux-3.10.14-Archon                                           
+   Image Type:   MIPS Linux Kernel Image (lzma compressed)                      
+   Data Size:    1572786 Bytes = 1.5 MiB                                        
+   Load Address: 80010000                                                       
+   Entry Point:  80353cc0                                                       
+   Verifying Checksum ... OK                                                    
+   Uncompressing Kernel Image ... OK                                            
+                                                                                
+Starting kernel ...                                                             
+                                                                                
+[    0.000000] Initializing cgroup subsys cpu                                   
+[    0.000000] Initializing cgroup subsys cpuacct                               
+[    0.000000] Linux version 3.10.14-Archon (mahmudul@TETON-HW-Mahmudul) (gcc v5
+[    0.000000] bootconsole [early0] enabled                                     
+[    0.000000] CPU0 RESET ERROR PC:1880160E                                     
+[    0.000000] CPU0 revision is: 00d00100 (Ingenic Xburst)                      
+[    0.000000] FPU revision is: 00b70000                                        
+[    0.000000] cgu_vpu clk should be opened!                                    
+[    0.000000] CCLK:1188MHz L2CLK:594Mhz H0CLK:200MHz H2CLK:200Mhz PCLK:100Mhz  
+[    0.000000] Determined physical RAM map:                                     
+[    0.000000]  memory: 0045a000 @ 00010000 (usable)                            
+[    0.000000]  memory: 00036000 @ 0046a000 (usable after init)                 
+[    0.000000] User-defined physical RAM map:                                   
+[    0.000000]  memory: 06000000 @ 00000000 (usable)                            
+[    0.000000] Zone ranges:                                                     
+[    0.000000]   Normal   [mem 0x00000000-0x05ffffff]                           
+[    0.000000] Movable zone start for each node                                 
+[    0.000000] Early memory node ranges                                         
+[    0.000000]   node   0: [mem 0x00000000-0x05ffffff]                          
+[    0.000000] Primary instruction cache 16kB, 8-way, VIPT, linesize 32 bytes.  
+[    0.000000] Primary data cache 16kB, 8-way, VIPT, no aliases, linesize 32 bys
+[    0.000000] pls check processor_id[0x00d00100],sc_jz not support!            
+[    0.000000] MIPS secondary cache 64kB, 8-way, linesize 32 bytes.             
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping off.  Total p4
+[    0.000000] Kernel command line: console=ttyS1,115200n8 mem=96M@0x0 rmem=32M)
+[    0.000000] PID hash table entries: 512 (order: -1, 2048 bytes)              
+[    0.000000] Dentry cache hash table entries: 16384 (order: 4, 65536 bytes)   
+[    0.000000] Inode-cache hash table entries: 8192 (order: 3, 32768 bytes)     
+[    0.000000] Memory: 92008k/98304k available (3373k kernel code, 6296k reserv)
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1       
+[    0.000000] Preemptible hierarchical RCU implementation.                     
+[    0.000000] NR_IRQS:347                                                      
+[    0.000000] clockevents_config_and_register success.                         
+[    0.000020] Calibrating delay loop... 1185.38 BogoMIPS (lpj=5926912)         
+[    0.087811] pid_max: default: 32768 minimum: 301                             
+[    0.092704] Mount-cache hash table entries: 512                              
+[    0.097730] Initializing cgroup subsys debug                                 
+[    0.101989] Initializing cgroup subsys freezer                               
+[    0.108769] regulator-dummy: no parameters                                   
+[    0.113008] NET: Registered protocol family 16                               
+[    0.128702] bio: create slab <bio-0> at 0                                    
+[    0.134729] jz-dma jz-dma: JZ SoC DMA initialized                            
+[    0.139794] usbcore: registered new interface driver usbfs                   
+[    0.145387] usbcore: registered new interface driver hub                     
+[    0.150820] usbcore: registered new device driver usb                        
+[    0.156098] i2c-gpio i2c-gpio.2: using pins 49 (SDA) and 50 (SCL)            
+[    0.162294]  (null): set:249  hold:250 dev=100000000 h=500 l=500             
+[    0.168472]  (null): set:249  hold:250 dev=100000000 h=500 l=500             
+[    0.175232] Bluetooth: Core ver 2.16                                         
+[    0.178824] NET: Registered protocol family 31                               
+[    0.183281] Bluetooth: HCI device and connection manager initialized         
+[    0.189773] Bluetooth: HCI socket layer initialized                          
+[    0.194676] Bluetooth: L2CAP socket layer initialized                        
+[    0.199840] Bluetooth: SCO socket layer initialized                          
+[    0.204822] Switching to clocksource jz_clocksource                          
+[    0.210349] NET: Registered protocol family 2                                
+[    0.215314] TCP established hash table entries: 1024 (order: 1, 8192 bytes)  
+[    0.222437] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)         
+[    0.228822] TCP: Hash tables configured (established 1024 bind 1024)         
+[    0.235341] TCP: reno registered                                             
+[    0.238541] UDP hash table entries: 256 (order: 0, 4096 bytes)               
+[    0.244506] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)          
+[    0.251048] NET: Registered protocol family 1                                
+[    0.255718] RPC: Registered named UNIX socket transport module.              
+[    0.261715] RPC: Registered udp transport module.                            
+[    0.266416] RPC: Registered tcp transport module.                            
+[    0.271200] RPC: Registered tcp NFSv4.1 backchannel transport module.        
+[    0.278010] freq_udelay_jiffys[0].max_num = 10                               
+[    0.282480] cpufreq  udelay  loops_per_jiffy                                 
+[    0.286852] 12000     59867   59867                                          
+[    0.290131] 24000     119735  119735                                         
+[    0.293562] 60000     299338  299338                                         
+[    0.297005] 120000    598677  598677                                         
+[    0.300583] 200000    997796  997796                                         
+[    0.304069] 300000    1496694         1496694                                
+[    0.307777] 600000    2993389         2993389                                
+[    0.311508] 792000    3951274         3951274                                
+[    0.315194] 1008000   5028895         5028895                                
+[    0.318990] 1200000   5986779         5986779                                
+[    0.327382] squashfs: version 4.0 (2009/01/31) Phillip Lougher               
+[    0.334170] jffs2: version 2.2. © 2001-2006 Red Hat, Inc.                    
+[    0.340099] msgmni has been set to 179                                       
+[    0.345740] io scheduler noop registered                                     
+[    0.349666] io scheduler cfq registered (default)                            
+[    0.354710] wait stable.[288][cgu_vpu]                                       
+[    0.358433] cgu_vpu can not set to 450000000, will change!!!                 
+[    0.365657] jz-uart.0: ttyS0 at MMIO 0x10030000 (irq = 59) is a uart0        
+[    0.372350] jz-uart.1: ttyS1 at MMIO 0x10031000 (irq = 58) is a uart1        
+[    0.380160] console [ttyS1] enabled, bootconsole disabled                    
+[    0.380160] console [ttyS1] enabled, bootconsole disabled                    
+[    0.394983] brd: module loaded                                               
+[    0.400258] loop: module loaded                                              
+[    0.404110] zram: Created 2 device(s) ...                                    
+[    0.408324] wifi regulator missing                                           
+[    0.412005] logger: created 256K log 'log_main'                              
+[    0.417070] jz TCU driver register completed                                 
+[    0.422006] the id code = ef4018, the flash name is WIN25Q128                
+[    0.427965] jz-sfc jz-sfc: sfc use DMA mode                                  
+[    0.432329] jz-sfc jz-sfc: nor flash now use standard mode!                  
+[    0.438097] JZ SFC Controller for SFC channel 0 driver register              
+[    0.444261] 5 cmdlinepart partitions found on MTD device jz_sfc              
+[    0.450408] Creating 5 MTD partitions on "jz_sfc":                           
+[    0.455372] 0x000000000000-0x000000040000 : "boot"                           
+[    0.460863] 0x000000040000-0x0000002c0000 : "kernel"                         
+[    0.466541] 0x0000002c0000-0x0000006c0000 : "root"                           
+[    0.472047] 0x0000006c0000-0x000000ec0000 : "dtb"                            
+[    0.477420] 0x000000ec0000-0x000001000000 : "appfs"                          
+[    0.483036] SPI NOR MTD LOAD OK                                              
+[    0.486348] tun: Universal TUN/TAP device driver, 1.6                        
+[    0.491621] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>           
+[    0.498197] DWC IN OTG MODE                                                  
+[    0.501787] dwc2 dwc2: Keep PHY ON                                           
+[    0.505311] dwc2 dwc2: Using Buffer DMA mode                                 
+[    0.509769] dwc2 dwc2: Core Release: 3.00a                                   
+[    0.514054] dwc2 dwc2: DesignWare USB2.0 High-Speed Host Controller          
+[    0.520592] dwc2 dwc2: new USB bus registered, assigned bus number 1         
+[    0.527912] hub 1-0:1.0: USB hub found                                       
+[    0.531879] hub 1-0:1.0: 1 port detected                                     
+[    0.536074] dwc2 dwc2: DWC2 Host Initialized                                 
+[    0.540640] i2c /dev entries driver                                          
+[    0.544534] [BQ] i2c driver registered,,,,,,,,,,,,,,,                        
+[    0.550084] Bluetooth: HCI UART driver ver 2.2                               
+[    0.554688] Bluetooth: HCI H4 protocol initialized                           
+[    0.559785] mmc hostname:mmc0                                                
+[    0.562862] cgu_msc0 can not set to 24000000, will change!!!                 
+[    0.568741] jzmmc_v1.2 jzmmc_v1.2.0: vmmc regulator missing                  
+[    0.574562] mmc hostname:mmc0                                                
+[    0.577816] =========================cd:62    wp:-1   rst:-1  pwr:-1=========
+[    0.585918] jzmmc_v1.2 jzmmc_v1.2.0: register success!                       
+[    0.591322] mmc hostname:mmc1                                                
+[    0.594398] cgu_msc1 can not set to 24000000, will change!!!                 
+[    0.600332] jzmmc_v1.2 jzmmc_v1.2.1: vmmc regulator missing                  
+[    0.606145] mmc hostname:mmc1                                                
+[    0.609412] =========================cd:18    wp:-1   rst:-1  pwr:-1=========
+[    0.617393] dwc2 dwc2: ID PIN CHANGED!                                       
+[    0.621406] jzmmc_v1.2 jzmmc_v1.2.1: no detect pin available                 
+[    0.627273] jzmmc_v1.2 jzmmc_v1.2.1: card-detect pin must be valid when host6
+[    0.637506] jzmmc_v1.2 jzmmc_v1.2.1: register success!                       
+[    0.642903] wait stable.[288][cgu_msc0]                                      
+[    0.647014] sdhci: Secure Digital Host Controller Interface driver           
+[    0.653458] sdhci: Copyright(c) Pierre Ossman                                
+[    0.657966] sdhci-pltfm: SDHCI platform and OF driver helper                 
+[    0.663874] wait stable.[288][cgu_msc1]                                      
+[    0.668095] TCP: cubic registered                                            
+[    0.671577] NET: Registered protocol family 17                               
+[    0.676549] soc_vpu probe success,version:1.0.0-03203fd46d                   
+[    0.682601] input: gpio-keys as /devices/platform/gpio-keys/input/input0     
+[    0.689991] drivers/rtc/hctosys.c: unable to open rtc device (rtc0)          
+[    0.700456] VFS: Mounted root (squashfs filesystem) readonly on device 31:2. 
+[    0.708162] Freeing unused kernel memory: 216K (8046a000 - 804a0000)         
+[    1.079779] jzmmc_v1.2 jzmmc_v1.2.0: card inserted, state=0                  
+mdev is ok......                                                                
+net.core.wmem_max = 26214400                                                    
+net.core.wmem_default = 26214400                                                
+[    2.286671] host name:mmc0    host->ocr_avail:0x300000                       
+[    2.454805] wait stable.[288][cgu_msc0]                                      
+[    2.458831] cgu_msc0 can not set to 24000000, will change!!!                 
+[    2.499838] cgu_msc0 can not set to 24000000, will change!!!                 
+[    2.539763] mmc0: new SDHC card at address 0001                              
+[    2.547323] mmcblk0: mmc0:0001 EITSD 3.75 GiB                                
+[    2.554201]  mmcblk0: p1                                                     
+                                                                                
+Ingenic-g1_1 login: [    4.658481] cgu_isp can not set to 153000000, will chang!
+[    4.664514] cgu_vpu can not set to 416000000, will change!!!                 
+[    4.702172] @@@@ tx-isp-probe ok(version H20240204a), compiler date=Feb  4 2@
+[    4.761722] pipe_request_dma: paddr = 0x4c00000                              
+[    4.766458] dma dma0chan24: Channel 24 have been requested.(phy id 7,type 0x)
+[    4.778257] pipe_request_dma: paddr = 0x4dc0000                              
+[    4.783245] dma dma0chan25: Channel 25 have been requested.(phy id 6,type 0x)
+[    4.792461] pipe_request_dma: paddr = 0x4b80000                              
+[    4.797195] dma dma0chan26: Channel 26 have been requested.(phy id 5,type 0x)
+[    4.809649] **********************************************[codec_probe:674]**
+[    4.823795] **********************************************[inner_codec_regis*
+[    4.849779] @@@@@ inner codec power up@@@@@@                                 
+[    4.854209] **********************************************[codec_init:89]****
+[    5.269828] @@@@ audio driver ok(version H20230614a) @@@@@                   
+[    5.326757] Loading modules backported from Linux version v5.10.9-2022_0909-2
+[    5.337976] Backport generated by backports.git v5.10.42-1-0-gbee5c545       
+[    5.566291] cfg80211: failed to load regulatory.db                           
+ifconfig: SIOCGIFFLAGS: No such device                                          
+Configuration file: /etc/hostapd.conf                                           
+rfkill: Cannot open RFKILL control device                                       
+Could not read interface wlan0 flags: No such device                            
+nl80211: Driver does not support authentication/association or connect commands 
+nl80211: deinit ifname=wlan0 disabled_11b_rates=0                               
+Could not read interface wlan0 flags: No such device                            
+nl80211 driver initialization failed.                                           
+wlan0: interface state UNINITIALIZED->DISABLED                                  
+wlan0: AP-DISABLED                                                              
+hostapd_free_hapd_data: Interface wlan0 wasn't started                          
+ip: can't find device 'wlan0'                                                   
+start button monitoring............                                             
+====== Wi-Fi setup starting ======                                              
+[WIFI] Connecting to SSID: Teton-HQ                                             
+killall: wpa_supplicant: no process killed                                      
+killall: udhcpc: no process killed                                              
+[    7.898784] FAT-fs (mmcblk0p1): Volume was not properly unmounted. Some data.
+ifconfig: SIOCGIFFLAGS: No such device                                          
+[BOOT BTN] Monitoring GPIO64 for long press...                                  
+Successfully initialized wpa_supplicant                                         
+Could not read interface wlan0 flags: No such device                            
+nl80211: Driver does not support authentication/association or connect commands 
+nl80211: deinit ifname=wlan0 disabled_11b_rates=0                               
+Could not read interface wlan0 flags: No such device                            
+wlan0: Failed to initialize driver interface                                    
+[WIFI] nl80211 failed, trying wext...                                           
+Successfully initialized wpa_supplicant                                         
+rfkill: Cannot get wiphy information                                            
+Could not read interface wlan0 flags: No such device                            
+WEXT: Could not set interface 'wlan0' UP                                        
+wlan0: Failed to initialize driver interface                                    
+[WIFI] ERROR: Unable to start wpa_supplicant                                    
+[WIFI] Switching to AP mode...                                                  
+[AP] switching to AP mode                                                       
+ip: SIOCGIFFLAGS: No such device                                                
+ifconfig: SIOCGIFFLAGS: No such device                                          
+ip: SIOCGIFFLAGS: No such device                                                
+ifconfig: SIOCGIFFLAGS: No such device                                          
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+                                                                                
+                                                                                
+U-Boot SPL 2013.07 (Nov 21 2025 - 16:40:04)                                     
+Board info: T23X                                                                
+                                                                                
+apll_freq = 1188000000                                                          
+mpll_freq = 1200000000                                                          
+sdram init start                                                                
+DDR clk rate 600000000                                                          
+DDR_PAR of eFuse: 00000000 00000000                                             
+sdram init finished                                                             
+image entry point: 0x80100000                                                   
+                                                                                
+                                                                                
+U-Boot 2013.07 (Nov 21 2025 - 16:40:04)                                         
+                                                                                
+Board: ISVP (Ingenic XBurst T23 SoC)                                            
+DRAM:  128 MiB                                                                  
+Top of RAM usable for U-Boot at: 84000000                                       
+Reserving 446k for U-Boot at: 83f90000                                          
+Reserving 32784k for malloc() at: 81f8c000                                      
+Reserving 32 Bytes for Board Info at: 81f8bfe0                                  
+Reserving 124 Bytes for Global Data at: 81f8bf64                                
+Reserving 128k for boot params() at: 81f6bf64                                   
+Stack Pointer at: 81f6bf48                                                      
+Now running in RAM - U-Boot at: 83f90000                                        
+MMC:   msc: 0                                                                   
+the manufacturer ef                                                             
+SF: Detected W25Q128                                                            
+                                                                                
+*** Warning - bad CRC, using default environment                                
+                                                                                
+In:    serial                                                                   
+Out:   serial                                                                   
+Err:   serial                                                                   
+Net:   ====>PHY not found!Jz4775-9161                                           
+******************Entered Custom Boot Main.[func:line][main_loop:449]***********
+*************[bootcmd:sf probe;sf read 0x80601000 0x40000 0x280000; bootm 0x806*
+Hit any key to stop autoboot:  0                                                
+the manufacturer ef                                                             
+SF: Detected W25Q128                                                            
+                                                                                
+--->probe spend 4 ms                                                            
+SF: 2621440 bytes @ 0x40000 Read: OK                                            
+--->read spend 842 ms                                                           
+## Booting kernel from Legacy Image at 80601000 ...                             
+   Image Name:   Linux-3.10.14-Archon                                           
+   Image Type:   MIPS Linux Kernel Image (lzma compressed)                      
+   Data Size:    1572786 Bytes = 1.5 MiB                                        
+   Load Address: 80010000                                                       
+   Entry Point:  80353cc0                                                       
+   Verifying Checksum ... OK                                                    
+   Uncompressing Kernel Image ... OK                                            
+                                                                                
+Starting kernel ...                                                             
+                                                                                
+[    0.000000] Initializing cgroup subsys cpu                                   
+[    0.000000] Initializing cgroup subsys cpuacct                               
+[    0.000000] Linux version 3.10.14-Archon (mahmudul@TETON-HW-Mahmudul) (gcc v5
+[    0.000000] bootconsole [early0] enabled                                     
+[    0.000000] CPU0 RESET ERROR PC:1488120E                                     
+[    0.000000] CPU0 revision is: 00d00100 (Ingenic Xburst)                      
+[    0.000000] FPU revision is: 00b70000                                        
+[    0.000000] cgu_vpu clk should be opened!                                    
+[    0.000000] CCLK:1188MHz L2CLK:594Mhz H0CLK:200MHz H2CLK:200Mhz PCLK:100Mhz  
+[    0.000000] Determined physical RAM map:                                     
+[    0.000000]  memory: 0045a000 @ 00010000 (usable)                            
+[    0.000000]  memory: 00036000 @ 0046a000 (usable after init)                 
+[    0.000000] User-defined physical RAM map:                                   
+[    0.000000]  memory: 06000000 @ 00000000 (usable)                            
+[    0.000000] Zone ranges:                                                     
+[    0.000000]   Normal   [mem 0x00000000-0x05ffffff]                           
+[    0.000000] Movable zone start for each node                                 
+[    0.000000] Early memory node ranges                                         
+[    0.000000]   node   0: [mem 0x00000000-0x05ffffff]                          
+[    0.000000] Primary instruction cache 16kB, 8-way, VIPT, linesize 32 bytes.  
+[    0.000000] Primary data cache 16kB, 8-way, VIPT, no aliases, linesize 32 bys
+[    0.000000] pls check processor_id[0x00d00100],sc_jz not support!            
+[    0.000000] MIPS secondary cache 64kB, 8-way, linesize 32 bytes.             
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping off.  Total p4
+[    0.000000] Kernel command line: console=ttyS1,115200n8 mem=96M@0x0 rmem=32M)
+[    0.000000] PID hash table entries: 512 (order: -1, 2048 bytes)              
+[    0.000000] Dentry cache hash table entries: 16384 (order: 4, 65536 bytes)   
+[    0.000000] Inode-cache hash table entries: 8192 (order: 3, 32768 bytes)     
+[    0.000000] Memory: 92008k/98304k available (3373k kernel code, 6296k reserv)
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1       
+[    0.000000] Preemptible hierarchical RCU implementation.                     
+[    0.000000] NR_IRQS:347                                                      
+[    0.000000] clockevents_config_and_register success.                         
+[    0.000020] Calibrating delay loop... 1185.38 BogoMIPS (lpj=5926912)         
+[    0.087811] pid_max: default: 32768 minimum: 301                             
+[    0.092704] Mount-cache hash table entries: 512                              
+[    0.097730] Initializing cgroup subsys debug                                 
+[    0.101988] Initializing cgroup subsys freezer                               
+[    0.108769] regulator-dummy: no parameters                                   
+[    0.113009] NET: Registered protocol family 16                               
+[    0.128705] bio: create slab <bio-0> at 0                                    
+[    0.134730] jz-dma jz-dma: JZ SoC DMA initialized                            
+[    0.139795] usbcore: registered new interface driver usbfs                   
+[    0.145388] usbcore: registered new interface driver hub                     
+[    0.150822] usbcore: registered new device driver usb                        
+[    0.156099] i2c-gpio i2c-gpio.2: using pins 49 (SDA) and 50 (SCL)            
+[    0.162296]  (null): set:249  hold:250 dev=100000000 h=500 l=500             
+[    0.168474]  (null): set:249  hold:250 dev=100000000 h=500 l=500             
+[    0.175236] Bluetooth: Core ver 2.16                                         
+[    0.178827] NET: Registered protocol family 31                               
+[    0.183284] Bluetooth: HCI device and connection manager initialized         
+[    0.189776] Bluetooth: HCI socket layer initialized                          
+[    0.194679] Bluetooth: L2CAP socket layer initialized                        
+[    0.199843] Bluetooth: SCO socket layer initialized                          
+[    0.204825] Switching to clocksource jz_clocksource                          
+[    0.210353] NET: Registered protocol family 2                                
+[    0.215320] TCP established hash table entries: 1024 (order: 1, 8192 bytes)  
+[    0.222443] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)         
+[    0.228829] TCP: Hash tables configured (established 1024 bind 1024)         
+[    0.235348] TCP: reno registered                                             
+[    0.238548] UDP hash table entries: 256 (order: 0, 4096 bytes)               
+[    0.244513] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)          
+[    0.251055] NET: Registered protocol family 1                                
+[    0.255724] RPC: Registered named UNIX socket transport module.              
+[    0.261722] RPC: Registered udp transport module.                            
+[    0.266422] RPC: Registered tcp transport module.                            
+[    0.271206] RPC: Registered tcp NFSv4.1 backchannel transport module.        
+[    0.278017] freq_udelay_jiffys[0].max_num = 10                               
+[    0.282486] cpufreq  udelay  loops_per_jiffy                                 
+[    0.286859] 12000     59867   59867                                          
+[    0.290138] 24000     119735  119735                                         
+[    0.293568] 60000     299338  299338                                         
+[    0.297012] 120000    598677  598677                                         
+[    0.300589] 200000    997796  997796                                         
+[    0.304076] 300000    1496694         1496694                                
+[    0.307783] 600000    2993389         2993389                                
+[    0.311514] 792000    3951274         3951274                                
+[    0.315200] 1008000   5028895         5028895                                
+[    0.318996] 1200000   5986779         5986779                                
+[    0.327386] squashfs: version 4.0 (2009/01/31) Phillip Lougher               
+[    0.334173] jffs2: version 2.2. © 2001-2006 Red Hat, Inc.                    
+[    0.340102] msgmni has been set to 179                                       
+[    0.345744] io scheduler noop registered                                     
+[    0.349672] io scheduler cfq registered (default)                            
+[    0.354718] wait stable.[288][cgu_vpu]                                       
+[    0.358441] cgu_vpu can not set to 450000000, will change!!!                 
+[    0.365664] jz-uart.0: ttyS0 at MMIO 0x10030000 (irq = 59) is a uart0        
+[    0.372358] jz-uart.1: ttyS1 at MMIO 0x10031000 (irq = 58) is a uart1        
+[    0.380167] console [ttyS1] enabled, bootconsole disabled                    
+[    0.380167] console [ttyS1] enabled, bootconsole disabled                    
+[    0.394990] brd: module loaded                                               
+[    0.400260] loop: module loaded                                              
+[    0.404110] zram: Created 2 device(s) ...                                    
+[    0.408324] wifi regulator missing                                           
+[    0.412002] logger: created 256K log 'log_main'                              
+[    0.417068] jz TCU driver register completed                                 
+[    0.422002] the id code = ef4018, the flash name is WIN25Q128                
+[    0.427961] jz-sfc jz-sfc: sfc use DMA mode                                  
+[    0.432324] jz-sfc jz-sfc: nor flash now use standard mode!                  
+[    0.438092] JZ SFC Controller for SFC channel 0 driver register              
+[    0.444256] 5 cmdlinepart partitions found on MTD device jz_sfc              
+[    0.450404] Creating 5 MTD partitions on "jz_sfc":                           
+[    0.455367] 0x000000000000-0x000000040000 : "boot"                           
+[    0.460858] 0x000000040000-0x0000002c0000 : "kernel"                         
+[    0.466534] 0x0000002c0000-0x0000006c0000 : "root"                           
+[    0.472040] 0x0000006c0000-0x000000ec0000 : "dtb"                            
+[    0.477412] 0x000000ec0000-0x000001000000 : "appfs"                          
+[    0.483028] SPI NOR MTD LOAD OK                                              
+[    0.486338] tun: Universal TUN/TAP device driver, 1.6                        
+[    0.491612] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>           
+[    0.498186] DWC IN OTG MODE                                                  
+[    0.501775] dwc2 dwc2: Keep PHY ON                                           
+[    0.505299] dwc2 dwc2: Using Buffer DMA mode                                 
+[    0.509758] dwc2 dwc2: Core Release: 3.00a                                   
+[    0.514043] dwc2 dwc2: DesignWare USB2.0 High-Speed Host Controller          
+[    0.520580] dwc2 dwc2: new USB bus registered, assigned bus number 1         
+[    0.527900] hub 1-0:1.0: USB hub found                                       
+[    0.531866] hub 1-0:1.0: 1 port detected                                     
+[    0.536060] dwc2 dwc2: DWC2 Host Initialized                                 
+[    0.540626] i2c /dev entries driver                                          
+[    0.544520] [BQ] i2c driver registered,,,,,,,,,,,,,,,                        
+[    0.550070] Bluetooth: HCI UART driver ver 2.2                               
+[    0.554676] Bluetooth: HCI H4 protocol initialized                           
+[    0.559770] mmc hostname:mmc0                                                
+[    0.562844] cgu_msc0 can not set to 24000000, will change!!!                 
+[    0.568722] jzmmc_v1.2 jzmmc_v1.2.0: vmmc regulator missing                  
+[    0.574540] mmc hostname:mmc0                                                
+[    0.577795] =========================cd:62    wp:-1   rst:-1  pwr:-1=========
+[    0.585898] jzmmc_v1.2 jzmmc_v1.2.0: register success!                       
+[    0.591303] mmc hostname:mmc1                                                
+[    0.594378] cgu_msc1 can not set to 24000000, will change!!!                 
+[    0.600311] jzmmc_v1.2 jzmmc_v1.2.1: vmmc regulator missing                  
+[    0.606125] mmc hostname:mmc1                                                
+[    0.609393] =========================cd:18    wp:-1   rst:-1  pwr:-1=========
+[    0.617376] dwc2 dwc2: ID PIN CHANGED!                                       
+[    0.621389] jzmmc_v1.2 jzmmc_v1.2.1: no detect pin available                 
+[    0.627256] jzmmc_v1.2 jzmmc_v1.2.1: card-detect pin must be valid when host6
+[    0.637490] jzmmc_v1.2 jzmmc_v1.2.1: register success!                       
+[    0.642886] wait stable.[288][cgu_msc0]                                      
+[    0.646998] sdhci: Secure Digital Host Controller Interface driver           
+[    0.653441] sdhci: Copyright(c) Pierre Ossman                                
+[    0.657948] sdhci-pltfm: SDHCI platform and OF driver helper                 
+[    0.663856] wait stable.[288][cgu_msc1]                                      
+[    0.668079] TCP: cubic registered                                            
+[    0.671562] NET: Registered protocol family 17                               
+[    0.676535] soc_vpu probe success,version:1.0.0-03203fd46d                   
+[    0.682588] input: gpio-keys as /devices/platform/gpio-keys/input/input0     
+[    0.689977] drivers/rtc/hctosys.c: unable to open rtc device (rtc0)          
+[    0.700394] VFS: Mounted root (squashfs filesystem) readonly on device 31:2. 
+[    0.708100] Freeing unused kernel memory: 216K (8046a000 - 804a0000)         
+[    1.079784] jzmmc_v1.2 jzmmc_v1.2.0: card inserted, state=0                  
+mdev is ok......                                                                
+net.core.wmem_max = 26214400                                                    
+net.core.wmem_default = 26214400                                                
+[    2.286673] host name:mmc0    host->ocr_avail:0x300000                       
+[    2.338125] jffs2: jffs2_scan_eraseblock(): Node at 0x001b6000 {0x1985, 0xe0)
+[    2.351425] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.361265] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.372115] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.383010] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.392861] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.402713] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.412551] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.423401] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.433264] jffs2: jffs2_scan_eraseblock(): Magic bitmask 0x1985 not found ad
+[    2.443122] jffs2: Further such events for this erase block will not be prind
+[    2.494817] wait stable.[288][cgu_msc0]                                      
+[    2.498852] cgu_msc0 can not set to 24000000, will change!!!                 
+[    2.539843] cgu_msc0 can not set to 24000000, will change!!!                 
+[    2.579770] mmc0: new SDHC card at address 0001                              
+[    2.587888] mmcblk0: mmc0:0001 EITSD 3.75 GiB                                
+[    2.594053] mmcblk0: unknown error -1 sending read/write command, card statu0
+[    2.604156] end_request: I/O error, dev mmcblk0, sector 0                    
+[    2.609908] Buffer I/O error on device mmcblk0, logical block 0              
+[    3.109767] jzmmc_v1.2 jzmmc_v1.2.0: timeout 500ms op:18 r sz:4096 state:2 Se
+[    3.619763] jzmmc_v1.2 jzmmc_v1.2.0: timeout 1000ms op:18 r sz:4096 state:2 e
+                                                                                
+Ingenic-g1_1 login: [    4.129756] jzmmc_v1.2 jzmmc_v1.2.0: timeout 1500ms op:1e
+[    4.639770] jzmmc_v1.2 jzmmc_v1.2.0: timeout 2000ms op:18 r sz:4096 state:2 e
+[    4.819878] cgu_isp can not set to 153000000, will change!!!                 
+[    4.825757] cgu_vpu can not set to 416000000, will change!!!                 
+[    4.864161] @@@@ tx-isp-probe ok(version H20240204a), compiler date=Feb  4 2@
+[    4.923750] pipe_request_dma: paddr = 0x4c00000                              
+[    4.928487] dma dma0chan24: Channel 24 have been requested.(phy id 7,type 0x)
+[    4.940495] pipe_request_dma: paddr = 0x4dc0000                              
+[    4.945229] dma dma0chan25: Channel 25 have been requested.(phy id 6,type 0x)
+[    4.954507] pipe_request_dma: paddr = 0x4b80000                              
+[    4.959241] dma dma0chan26: Channel 26 have been requested.(phy id 5,type 0x)
+[    4.971771] **********************************************[codec_probe:674]**
+[    4.985903] **********************************************[inner_codec_regis*
+[    5.009786] @@@@@ inner codec power up@@@@@@                                 
+[    5.014217] **********************************************[codec_init:89]****
+[    5.149767] jzmmc_v1.2 jzmmc_v1.2.0: timeout 2500ms op:18 r sz:4096 state:2 e
+[    5.429811] @@@@ audio driver ok(version H20230614a) @@@@@                   
+[    5.486750] Loading modules backported from Linux version v5.10.9-2022_0909-2
+[    5.497956] Backport generated by backports.git v5.10.42-1-0-gbee5c545       
+[    5.659771] jzmmc_v1.2 jzmmc_v1.2.0: timeout 3000ms op:18 r sz:4096 state:2 e
+[    5.739194] cfg80211: failed to load regulatory.db                           
+ifconfig: SIOCGIFFLAGS: No such device                                          
+[    6.636973] SQUASHFS error: xz_dec_run error, data probably corrupt          
+[    6.643549] SQUASHFS error: squashfs_read_data failed to read block 0x10a3d0 
+[    6.650918] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.657527] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.664572] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.671243] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.678251] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.684913] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.691945] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.698571] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.705611] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.712274] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.719275] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.725936] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.732967] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.739593] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.746635] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.753294] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.760324] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.766949] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.773995] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.780655] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.787657] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.794318] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.801345] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.807972] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.815008] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.821665] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.828665] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.835322] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.842357] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.848984] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.856020] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.862678] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.869676] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.876334] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.883360] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.890018] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.897016] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.903674] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.910698] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.917322] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.924420] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.931068] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.938038] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.944677] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.951667] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.958247] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.965268] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.971915] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.978884] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    6.985521] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    6.992506] do_page_fault() #3: sending SIGBUS to hostapd for invalid read am
+[    6.992506] 77c4ca5e (epc == 77ecddc8, ra == 77eba984)                       
+Bus error                                                                       
+[    7.015124] jffs2: notice: (56) check_node_data: wrong data CRC in data node.
+ip: can't find device 'wlan0'                                                   
+[    7.043329] jffs2: notice: (133) check_node_data: wrong data CRC in data nod.
+[    7.061278] jffs2: warning: (133) jffs2_do_read_inode_internal: Truncating i!
+start button monitoring............                                             
+[    7.780378] jffs2: notice: (56) check_node_data: wrong data CRC in data node.
+[    7.799068] jffs2: Data CRC 0ff94919 != calculated CRC b919a9fe for node at c
+[    7.813057] jffs2: Data CRC 790350cd != calculated CRC 24e02319 for node at 8
+====== Wi-Fi setup starting ======                                              
+[    7.823645] jffs2: notice: (143) read_dnode: node CRC failed on dnode at 0x37
+[    7.852697] jffs2: warning: (143) jffs2_do_read_inode_internal: Truncating i!
+[WIFI] Connecting to SSID: Teton-HQ                                             
+killall: wpa_supplicant: no process killed                                      
+killall: udhcpc: no process killed                                              
+[    7.894271] jffs2: notice: (56) read_dnode: node CRC failed on dnode at 0x487
+[    7.910267] jffs2: notice: (56) check_node_data: wrong data CRC in data node.
+[BOOT BTN] Monitoring GPIO64 for long press...                                  
+mount: mounting /dev/mmcblk0p1 on /system/mmc_ext/ failed: No such file or direy
+ifconfig: SIOCGIFFLAGS: No such device                                          
+[    8.011639] jffs2: notice: (56) read_dnode: node CRC failed on dnode at 0x4c2
+[    8.027220] jffs2: Data CRC dc96ae15 != calculated CRC 2cd88db9 for node at 0
+[    8.039940] jffs2: Node CRC bf07cfdb != calculated CRC b007cfdb for node at c
+[    8.063327] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    8.069988] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    8.076953] do_page_fault() #3: sending SIGBUS to wpa_supplicant for invalidm
+[    8.076953] 770b8a5e (epc == 77339dc8, ra == 77326984)                       
+Bus error                                                                       
+[WIFI] nl80211 failed, trying wext...                                           
+[    8.093735] SQUASHFS error: Unable to read data cache entry [10a3d0]         
+[    8.102524] SQUASHFS error: Unable to read page, block 10a3d0, size 553c     
+[    8.109493] do_page_fault() #3: sending SIGBUS to wpa_supplicant for invalidm
+[    8.109493] 772eea5e (epc == 7756fdc8, ra == 7755c984)                       
+Bus error                                                                       
+[WIFI] ERROR: Unable to start wpa_supplicant                                    
+[WIFI] Switching to AP mode...                                                  
+[    8.139873] jffs2: notice: (56) check_node_data: wrong data CRC in data node.
+[    8.159977] jffs2: notice: (56) check_node_data: wrong data CRC in data node.
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+[   34.669748] jzmmc_v1.2 jzmmc_v1.2.0: request time out, op=18 arg=0x00000000,1
+[   34.683102] jzmmc_v1.2 jzmmc_v1.2.0: Descriptor dump:                        
+[   34.688333] jzmmc_v1.2 jzmmc_v1.2.0:                                         
+[   44.200226] jzmmc_v1.2 jzmmc_v1.2.0: polling status(0x00000800) time out, op0
+[   44.209511] jzmmc_v1.2 jzmmc_v1.2.0: operate timeout over 3000ms, so do not !
+[   44.219894] mmcblk0: error -159 sending status command, retrying             
+[   44.226118] mmcblk0: error -159 sending status command, retrying             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not[   44.246114] mmcblk0: error -159 sending status command, aborting   
+ connected (state=0). Trying reconnect...                                       
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No su[   44.264491] e
+ch file or directory                                                            
+Failed to connect to non-global ctrl_ifname: wlan0  error: No su[   44.279315] d
+ch file or directory                                                            
+[   44.369764] wait stable.[288][cgu_msc0]                                      
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Still not COMPLETED after 10000 ms                                       
+[WiFi] Reconnection failed or timed out.                                        
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+[WiFi] Not connected (state=0). Trying reconnect...                             
+[WiFi] Sending wpa_cli reconnect...                                             
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+Failed to connect to non-global ctrl_ifname: wlan0  error: No such file or direy
+
+

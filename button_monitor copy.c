@@ -9,79 +9,95 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <pthread.h>
+#include <errno.h>
 
-
-#define GPIO_NUM "64"
-#define GPIO_PATH "/sys/class/gpio/gpio64/"
-#define AP_MODE_SCRIPT "/system/www/ap_mode_enable.sh"
+#define GPIO_NUM           "64"
+#define GPIO_PATH          "/sys/class/gpio/gpio64/"
+#define AP_MODE_SCRIPT     "/system/www/ap_mode_enable.sh"
 #define ENABLE_WIFI_SCRIPT "/system/www/enable_wifi.sh"
+#define APP_NAME           "keo-cam"   // Application started by enable_wifi.sh
 
-#define APP_NAME "keo-cam"  
+static int   ap_mode_active = 0; // 0 = STA mode, 1 = AP mode
+static pid_t ap_pid         = -1;
+static pid_t wifi_pid       = -1;
 
-static int ap_mode_active = 0; // 0 = normal STA mode, 1 = AP mode
+/* ========================= GPIO HELPERS ========================= */
 
-
-void export_gpio() {
+static void export_gpio(void)
+{
     int fd = open("/sys/class/gpio/export", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, GPIO_NUM, strlen(GPIO_NUM));
         close(fd);
     }
     usleep(200000);  // wait 200ms for sysfs to populate
 }
 
-void unexport_gpio() {
+static void unexport_gpio(void)
+{
     int fd = open("/sys/class/gpio/unexport", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, GPIO_NUM, strlen(GPIO_NUM));
         close(fd);
     }
 }
 
-void set_gpio_direction() {
+static void set_gpio_direction(void)
+{
     int fd = open(GPIO_PATH "direction", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, "in", 2);
         close(fd);
     }
 }
 
-void set_gpio_edge() {
+static void set_gpio_edge(void)
+{
     int fd = open(GPIO_PATH "edge", O_WRONLY);
-    if (fd >= 0) {
+    if (fd >= 0) 
+    {
         write(fd, "falling", 7);  // falling edge = button pressed (active low)
         close(fd);
     }
 }
 
-int read_gpio_value() {
+static int read_gpio_value(void)
+{
     int fd = open(GPIO_PATH "value", O_RDONLY);
     if (fd < 0) return -1;
 
     char buf;
-    read(fd, &buf, 1);
+    if (read(fd, &buf, 1) != 1) 
+    {
+        close(fd);
+        return -1;
+    }
+
     close(fd);
     return (buf == '0') ? 0 : 1;
 }
 
-////////////////////////////////////
+/* ====================== SCRIPT CONTROL HELPERS ====================== */
 
-static pid_t ap_pid = -1;   // store child pid
-static pid_t wifi_pid = -1;   // store child pid
-
-static int run_ap_script(void){
+static int run_ap_script(void)
+{
     pid_t pid = fork();
-    if (pid == 0) {
-        execl("/bin/sh", "sh", AP_MODE_SCRIPT, (char*)NULL);
+    if (pid == 0) 
+    {
+        execl("/bin/sh", "sh", AP_MODE_SCRIPT, (char *)NULL);
         _exit(127); // exec failed
     }
-    if (pid < 0) {
-        perror("fork");
+    if (pid < 0) 
+    {
+        perror("fork (AP)");
         return -1;
     }
 
-    ap_pid = pid;  // save child pid
-    return 0; // parent returns immediately
+    ap_pid = pid;
+    return 0;
 }
 
 static int run_wifi_script(void)
@@ -89,45 +105,47 @@ static int run_wifi_script(void)
     pid_t pid = fork();
     if (pid == 0) 
     {
-        execl("/bin/sh", "sh", ENABLE_WIFI_SCRIPT, (char*)NULL);
+        execl("/bin/sh", "sh", ENABLE_WIFI_SCRIPT, (char *)NULL);
         _exit(127); // exec failed
     }
     if (pid < 0) 
     {
-        perror("fork");
+        perror("fork (WIFI)");
         return -1;
     }
 
     wifi_pid = pid;
-    return 0; // parent returns immediately
+    return 0;
 }
 
-
-static int stop_wifi_script(void) 
+static int stop_wifi_script(void)
 {
-    if (wifi_pid > 0) {
-        if (kill(wifi_pid, SIGTERM) == 0) {
-            printf("Sent SIGTERM to %d\n", wifi_pid);
+    if (wifi_pid > 0) 
+    {
+        if (kill(wifi_pid, SIGTERM) == 0) 
+        {
+            printf("Sent SIGTERM to WIFI script pid=%d\n", wifi_pid);
             wifi_pid = -1;
             return 0;
-        } else {
-            perror("kill");
+        } 
+        else 
+        {
+            perror("kill (wifi_pid)");
             return -1;
         }
     }
-    return -1; // no process running
+    return -1; // no known wifi_pid
 }
 
- 
-
-int stop_application(void)
+static int stop_application(void)
 {
     char cmd[64];
     snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
 
     FILE *fp = popen(cmd, "r");
-    if (!fp) {
-        perror("popen");
+    if (!fp) 
+    {
+        perror("popen (pgrep)");
         return -1;
     }
 
@@ -143,7 +161,7 @@ int stop_application(void)
         } 
         else 
         {
-            perror("kill");
+            perror("kill (APP)");
         }
     } 
     else 
@@ -155,64 +173,191 @@ int stop_application(void)
     return 0;
 }
 
+/* ====================== WIFI STATUS / RECONNECT ====================== */
 
-
-// int main() {
-
-//     export_gpio();
-//     set_gpio_direction();
-//     set_gpio_edge();
-
-//     int fd = open(GPIO_PATH "value", O_RDONLY);
-//     if (fd < 0) {
-//         perror("Failed to open GPIO value");
-//         return 1;
-//     }
-
-//     struct pollfd pfd;
-//     pfd.fd = fd;
-//     pfd.events = POLLPRI | POLLERR;
-
-//     char buf[8];
-
-//     printf("[BOOT BTN] Monitoring GPIO64 for long press...\n");
-    
-//     run_wifi_script();
-
-
-//     while (1) {
-//         // Clear old value
-//         lseek(fd, 0, SEEK_SET);
-//         read(fd, buf, sizeof(buf));
-
-//         int ret = poll(&pfd, 1, -1);  // wait forever for falling edge
-//         if (ret > 0 && (pfd.revents & POLLPRI)) {
-//             time_t press_start = time(NULL);
-
-//             // Wait 2 seconds and check if still pressed
-//             sleep(2);
-
-//             if (read_gpio_value() == 0) {
-//                 printf("[BOOT BTN] Long press detected. Stop wifi.... Launching AP mode ...\n");
-//                 stop_wifi_script();
-//                 stop_application();
-//                 run_ap_script();
-//                 sleep(20);  // prevent rapid retriggering
-//             } else {
-//                 printf("[BOOT BTN] Short press ignored.\n");
-//             }
-//         }
-//     }
-
-//     close(fd);
-//     unexport_gpio();
-//     return 0;
-// }
-
-
-void *button_thread(void *arg)
+typedef enum 
 {
-    // all your GPIO export/direction/edge setup here
+    WIFI_STATE_UNKNOWN = 0,
+    WIFI_STATE_DISCONNECTED,
+    WIFI_STATE_COMPLETED
+} wifi_state_t;
+
+typedef struct 
+{
+    wifi_state_t state;
+    char ip[64];
+} wifi_status_t;
+
+
+typedef enum {
+    WIFI_SM_DISCONNECTED =0,
+    WIFI_SM_CONNECTED = 1
+} wifi_sm_state_t;
+
+typedef struct {
+    wifi_sm_state_t state; // connected / disconnected
+    int internet_ok; // 0/1
+    char ip[64]; // current IP
+} wifi_sm_status_t;
+
+static const char *WIFI_STATE_FILE = "/tmp/wifi_state";
+static const char *WIFI_STATE_TMP = "/tmp/wifi_state.tmp";
+
+
+static int write_wifi_state(const wifi_sm_status_t *st)
+{
+    int fd = open(WIFI_STATE_TMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if(fd < 0)
+    {
+        perror("[Boot Manager] open wifi_state.tmp failed\n");
+        return -1;
+    }
+
+    char buf[256];
+    int len = snprintf(buf, sizeof(buf),
+                        "STATE=%s\nIP=%s\nINTERNET=%d\n",
+        (st->state == WIFI_SM_CONNECTED) ? "CONNECTED" : "DISCONNECTED",
+        st->ip[0] ? st->ip : "",
+        st->internet_ok ? 1 : 0
+    );
+
+    ssize_t w = write(fd,  buf, len);
+
+    if(w!=len)
+    {
+        perror("[Boot Manager] write wifi_state.tmp failed\n");
+        close(fd);
+        return -1;
+    }
+
+    // Ensure data hits disk
+    if(fsync(fd) < 0)
+    {
+        perror("[Boot Manager] fsync wifi_state.tmp failed\n");
+        // not fatal , but log it
+    }
+
+    close(fd);
+
+    // Atomic rename // reader see either old or new file, never partial file
+    if(rename(WIFI_STATE_TMP, WIFI_STATE_FILE) < 0)
+    {
+        perror("[Boot Manager] rename wifi_state.tmp failed\n");
+        return -1;
+    }
+
+    return 0;
+
+
+}
+
+// Run a shell command and capture output into buffer
+static int run_cmd_capture(const char *cmd, char *out, size_t out_len)
+{
+    FILE *fp = popen(cmd, "r");
+    if (!fp) return -1;
+
+    size_t total = 0;
+    out[0] = '\0';
+
+    while (fgets(out + total, out_len - total, fp)) 
+    {
+        total = strlen(out);
+        if (total >= out_len - 1) break;
+    }
+
+    pclose(fp);
+    return 0;
+}
+
+// Fill wifi_status_t by parsing `wpa_cli status`
+static void wifi_get_status(wifi_status_t *st)
+{
+    memset(st, 0, sizeof(*st));
+    st->state = WIFI_STATE_UNKNOWN;
+
+    char buf[2048] = {0};
+
+    if (run_cmd_capture("/system/tools/wifi/wpa_cli -i wlan0 status", buf, sizeof(buf)) != 0) 
+    {
+        return;
+    }
+
+    char *saveptr;
+    char *line = strtok_r(buf, "\n", &saveptr);
+    while (line) 
+    {
+        if (strncmp(line, "wpa_state=", 10) == 0) 
+        {
+            const char *v = line + 10;
+            if (strcmp(v, "COMPLETED") == 0) 
+            {
+                st->state = WIFI_STATE_COMPLETED;
+            } 
+            else 
+            {
+                // Treat any non-COMPLETED as "not ready"
+                st->state = WIFI_STATE_DISCONNECTED;
+            }
+        } 
+        else if (strncmp(line, "ip_address=", 11) == 0) 
+        {
+            snprintf(st->ip, sizeof(st->ip), "%s", line + 11);
+        }
+
+        line = strtok_r(NULL, "\n", &saveptr);
+    }
+}
+
+static void wifi_run_dhcp(void)
+{
+    printf("[WiFi] Running DHCP via udhcpc...\n");
+    system("udhcpc -i wlan0 -n -t 3 -T 2 >/dev/console 2>&1");
+}
+
+// Wait until wpa_state=COMPLETED or timeout_ms
+static int wifi_wait_for_completed(int timeout_ms)
+{
+    const int step_ms = 500;
+    int waited = 0;
+    wifi_status_t st;
+
+    while (waited < timeout_ms) {
+        wifi_get_status(&st);
+
+        if (st.state == WIFI_STATE_COMPLETED) 
+        {
+            printf("[WiFi] State COMPLETED. ip=%s\n",
+                   st.ip[0] ? st.ip : "(none)");
+
+            // If wpa_cli has no IP, run DHCP
+            if (st.ip[0] == '\0') 
+            {
+                wifi_run_dhcp();
+            }
+            return 0;  // success
+        }
+
+        usleep(step_ms * 1000);
+        waited += step_ms;
+    }
+
+    printf("[WiFi] Still not COMPLETED after %d ms\n", timeout_ms);
+    return -1; // timeout
+}
+
+static void wifi_soft_reconnect(void)
+{
+    printf("[WiFi] Sending wpa_cli reconnect...\n");
+    system("/system/tools/wifi/wpa_cli -i wlan0 reconnect >/dev/console 2>&1");
+}
+
+/* ====================== BUTTON THREAD ====================== */
+
+static void *button_thread(void *arg)
+{
+    (void)arg;
+
     export_gpio();
     set_gpio_direction();
     set_gpio_edge();
@@ -236,21 +381,23 @@ void *button_thread(void *arg)
         lseek(fd, 0, SEEK_SET);
         read(fd, buf, sizeof(buf));
 
-        int ret = poll(&pfd, 1, -1);  // now can block forever
+        int ret = poll(&pfd, 1, -1);  // block forever until event
 
-        if (ret > 0 && (pfd.revents & POLLPRI)) {
-            time_t press_start = time(NULL);
-
-            // Wait 2 seconds and check if still pressed
+        if (ret > 0 && (pfd.revents & POLLPRI)) 
+        {
+            // Debounce / long press check
             sleep(2);
 
-            if (read_gpio_value() == 0) {
-                printf("[BOOT BTN] Long press detected. Stop wifi.... Launching AP mode ...\n");
+            if (read_gpio_value() == 0) 
+            {
+                printf("[BOOT BTN] Long press detected. Stop WIFI + APP, launch AP mode...\n");
                 stop_wifi_script();
                 stop_application();
                 run_ap_script();
-                ap_mode_active = 1;  // mark that we’re in AP mode now
-            } else {
+                ap_mode_active = 1;
+            } 
+            else 
+            {
                 printf("[BOOT BTN] Short press ignored.\n");
             }
         }
@@ -261,81 +408,124 @@ void *button_thread(void *arg)
     return NULL;
 }
 
+/* ====================== WIFI WATCHDOG THREAD ====================== */
 
-void wifi_soft_reconnect(void)
+
+
+
+static void *wifi_watchdog_thread(void *arg)
 {
-    system("/system/tools/wifi/wpa_cli -i wlan0 reconnect");
-}
+    (void)arg;
 
+    wifi_status_t st;
+    wifi_state_t last_state = WIFI_STATE_UNKNOWN;
+    wifi_sm_status_t sm = {0};
 
-// Returns 1 if connected, 0 if not.
-static int is_wifi_connected(void)
-{
-    int ret = system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1");
-    if (ret == 0) {
-        // ping success
-        return 1;
-    }
-    return 0;
-}
+    while (1) 
+    {
+        sleep(10);  // check every 10s 
 
-
-void *wifi_watchdog_thread(void *arg)
-{
-    while (1) {
-        sleep(60);  // wait 1 minute
-
-        if (ap_mode_active) {
-            // In AP mode, you usually don't want to force STA reconnect
+        if (ap_mode_active) 
+        {
+            // In AP mode, mark Wi-Fi as disconnected for keo-cam
+            sm.state       = WIFI_SM_DISCONNECTED;
+            sm.internet_ok = 0;
+            sm.ip[0]       = '\0';
+            write_wifi_state(&sm);
             continue;
         }
 
-        if (!is_wifi_connected()) {  // implement however you prefer (ping / link / hybrid)
-            printf("[WiFi] Disconnected. Trying to reconnect...\n");
+        wifi_get_status(&st);
 
-            // Only start new script if nothing already running
-            // if (wifi_pid <= 0) 
-            // {
-                wifi_soft_reconnect();
+        // Default values for this loop
+        sm.state       = WIFI_SM_DISCONNECTED;
+        sm.internet_ok = 0;
+        sm.ip[0]       = '\0';
 
-                // if (is_wifi_connected())
-                // {
-                //     printf("[WiFi] Reconnected..\n");
-                // }
-                // else
-                // {
-                //     printf("[WiFi] Reconnection Failed..\n");
-                // }
-                
-            // } 
-            // else 
-            // {
-            //     printf("[WiFi] Script already running with pid %d, skip restart.\n", wifi_pid);
-            // }
+        if (st.state != last_state) 
+        {
+            printf("[WiFi] State changed: %d -> %d, ip=%s\n",
+                   last_state, st.state,
+                   st.ip[0] ? st.ip : "(none)");
+        }
+
+        if (st.state == WIFI_STATE_COMPLETED) 
+        {
+            // We have link
+            sm.state = WIFI_SM_CONNECTED;
+
+            if (st.ip[0]) 
+            {
+                snprintf(sm.ip, sizeof(sm.ip), "%s", st.ip);
+            }
+
+            // Check internet reachability ONCE per loop here
+            int ping_ret = system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1");
+            sm.internet_ok = (ping_ret == 0);
+
+            // If ping failed, we can try DHCP again
+            if (!sm.internet_ok) 
+            {
+                printf("[WiFi] internet check failed. Re-running DHCP.\n");
+                wifi_run_dhcp();
+            } 
+            else 
+            {
+                printf("[WiFi] internet OK.\n");
+            }
+
+            // Publish status to /tmp/wifi_state
+            write_wifi_state(&sm);
+
+            last_state = st.state;
+            continue; // nothing else to do in this loop
+        }
+
+        // If we reach here, not COMPLETED
+        // Publish "disconnected" status for keo-cam
+        write_wifi_state(&sm);
+
+        printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
+
+        wifi_soft_reconnect();
+
+        if (wifi_wait_for_completed(10000) == 0) 
+        {
+            printf("[WiFi] Reconnected successfully.\n");
         } 
         else 
         {
-            printf("[WiFi] Still connected.\n");
+            printf("[WiFi] Reconnection failed or timed out.\n");
         }
+
+        last_state = st.state;
     }
 
     return NULL;
 }
 
+/* =============================== MAIN =============================== */
 
-int main()
+int main(void)
 {
     pthread_t tid_btn, tid_wifi;
-    run_wifi_script();
 
-    if(pthread_create(&tid_btn,NULL,button_thread, NULL) != 0)
+    if (pthread_create(&tid_btn, NULL, button_thread, NULL) != 0) 
     {
-        perror("pthread create button thread\n");
+        perror("pthread_create button_thread");
     }
 
-    if(pthread_create(&tid_wifi, NULL, wifi_watchdog_thread, NULL)!= 0)
+    // Start initial WiFi / application script
+    if (run_wifi_script() != 0) 
     {
-        perror("error pthead wifi\n");
+        fprintf(stderr, "Failed to start WIFI script\n");
+    }
+
+
+
+    if (pthread_create(&tid_wifi, NULL, wifi_watchdog_thread, NULL) != 0) 
+    {
+        perror("pthread_create wifi_watchdog_thread");
     }
 
     pthread_join(tid_btn, NULL);
