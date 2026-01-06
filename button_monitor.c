@@ -179,6 +179,7 @@ typedef enum
 {
     WIFI_STATE_UNKNOWN = 0,
     WIFI_STATE_DISCONNECTED,
+    WIFI_STATE_CONNECTING,
     WIFI_STATE_COMPLETED
 } wifi_state_t;
 
@@ -296,8 +297,7 @@ static void wifi_get_status(wifi_status_t *st)
             } 
             else 
             {
-                // Treat any non-COMPLETED as "not ready"
-                st->state = WIFI_STATE_DISCONNECTED;
+                st->state = WIFI_STATE_CONNECTING;
             }
         } 
         else if (strncmp(line, "ip_address=", 11) == 0) 
@@ -352,61 +352,6 @@ static void wifi_soft_reconnect(void)
     system("/system/tools/wifi/wpa_cli -i wlan0 reconnect >/dev/console 2>&1");
 }
 
-/* ====================== BUTTON THREAD ====================== */
-
-static void *button_thread(void *arg)
-{
-    (void)arg;
-
-    export_gpio();
-    set_gpio_direction();
-    set_gpio_edge();
-
-    int fd = open(GPIO_PATH "value", O_RDONLY);
-    if (fd < 0) {
-        perror("Failed to open GPIO value");
-        return NULL;
-    }
-
-    struct pollfd pfd;
-    pfd.fd = fd;
-    pfd.events = POLLPRI | POLLERR;
-
-    char buf[8];
-
-    printf("[BOOT BTN] Monitoring GPIO64 for long press...\n");
-
-    while (1) {
-        // Clear old value
-        lseek(fd, 0, SEEK_SET);
-        read(fd, buf, sizeof(buf));
-
-        int ret = poll(&pfd, 1, -1);  // block forever until event
-
-        if (ret > 0 && (pfd.revents & POLLPRI)) 
-        {
-            // Debounce / long press check
-            sleep(2);
-
-            if (read_gpio_value() == 0) 
-            {
-                printf("[BOOT BTN] Long press detected. Stop WIFI + APP, launch AP mode...\n");
-                stop_wifi_script();
-                stop_application();
-                run_ap_script();
-                ap_mode_active = 1;
-            } 
-            else 
-            {
-                printf("[BOOT BTN] Short press ignored.\n");
-            }
-        }
-    }
-
-    close(fd);
-    unexport_gpio();
-    return NULL;
-}
 
 /* ====================== WIFI WATCHDOG THREAD ====================== */
 
@@ -482,7 +427,7 @@ static void *wifi_watchdog_thread(void *arg)
         }
 
         // If we reach here, not COMPLETED
-        // Publish "disconnected" status for keo-cam
+        // Publish "disconnected" status 
         write_wifi_state(&sm);
 
         printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
@@ -503,6 +448,66 @@ static void *wifi_watchdog_thread(void *arg)
 
     return NULL;
 }
+
+
+
+/* ====================== BUTTON THREAD ====================== */
+
+static void *button_thread(void *arg)
+{
+    (void)arg;
+
+    export_gpio();
+    set_gpio_direction();
+    set_gpio_edge();
+
+    int fd = open(GPIO_PATH "value", O_RDONLY);
+    if (fd < 0) {
+        perror("Failed to open GPIO value");
+        return NULL;
+    }
+
+    struct pollfd pfd;
+    pfd.fd = fd;
+    pfd.events = POLLPRI | POLLERR;
+
+    char buf[8];
+
+    printf("[BOOT BTN] Monitoring GPIO64 for long press...\n");
+
+    while (1) {
+        // Clear old value
+        lseek(fd, 0, SEEK_SET);
+        read(fd, buf, sizeof(buf));
+
+        int ret = poll(&pfd, 1, -1);  // block forever until event
+
+        if (ret > 0 && (pfd.revents & POLLPRI)) 
+        {
+            // Debounce / long press check
+            sleep(2);
+
+            if (read_gpio_value() == 0) 
+            {
+                printf("[BOOT BTN] Long press detected. Stop WIFI + APP, launch AP mode...\n");
+                stop_wifi_script();
+                stop_application();
+                run_ap_script();
+                ap_mode_active = 1;
+            } 
+            else 
+            {
+                printf("[BOOT BTN] Short press ignored.\n");
+            }
+        }
+    }
+
+    close(fd);
+    unexport_gpio();
+    return NULL;
+}
+
+
 
 /* =============================== tiny server =============================== */
 
