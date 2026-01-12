@@ -11,6 +11,15 @@
 #include <pthread.h>
 #include <errno.h>
 
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/select.h>
+#include <sys/socket.h>
+
+#include <errno.h>
+#include <string.h>
+
+
 #define GPIO_NUM           "64"
 #define GPIO_PATH          "/sys/class/gpio/gpio64/"
 #define AP_MODE_SCRIPT     "/system/www/ap_mode_enable.sh"
@@ -204,6 +213,222 @@ typedef struct {
 static const char *WIFI_STATE_FILE = "/tmp/wifi_state";
 static const char *WIFI_STATE_TMP = "/tmp/wifi_state.tmp";
 
+#define UDHCPC_PIDFILE "/tmp/udhcpc.wlan0.pid"
+
+
+
+// ---------- small utils ----------
+
+static void trim_newline(char *s)
+{
+    if (!s) return;
+    for (char *p = s; *p; p++) 
+    {
+        if (*p == '\n' || *p == '\r') 
+        { 
+            *p = '\0'; 
+            break; 
+        }
+    }
+}
+
+static int run_cmd_capture_rc(const char *cmd, char *out, size_t out_len)
+{
+    FILE *fp = popen(cmd, "r");
+    if (!fp) return -1;
+
+    out[0] = '\0';
+    size_t total = 0;
+
+    while (fgets(out + total, (int)(out_len - total), fp)) 
+    {
+        total = strlen(out);
+        if (total >= out_len - 1) break;
+    }
+
+    int status = pclose(fp);
+    if (status == -1) return -1;
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) return -1;
+    
+    
+    return 0;
+}
+
+static int pid_alive(pid_t pid)
+{
+    if (pid <= 1) return 0;
+    return (kill(pid, 0) == 0);
+}
+
+static int udhcpc_running(void)
+{
+    FILE *f = fopen(UDHCPC_PIDFILE, "r");
+    if (!f) return 0;
+
+    int pid = 0;
+    if (fscanf(f, "%d", &pid) != 1)
+    {
+        fclose(f);
+        return 0;
+    }
+    fclose(f);
+    return pid_alive((pid_t)pid);
+}
+
+
+// Real IPv4 + default route + gateway helpers
+
+static int get_wlan0_ipv4(char *ip_out, size_t ip_len)
+{
+    char buf[256] = {0};
+
+   const char *cmd =
+    "PATH=/sbin:/bin:/usr/sbin:/usr/bin:$PATH; "
+    "ip -4 -o addr show dev wlan0 | "
+    "awk '{split($4,a,\"/\"); print a[1]; exit}'";
+
+
+    if (run_cmd_capture_rc(cmd, buf, sizeof(buf)) != 0)
+        return -1;
+
+    trim_newline(buf);
+    if (buf[0] == '\0')
+        return -1;
+
+    snprintf(ip_out, ip_len, "%s", buf);
+    return 0;
+}
+
+
+
+
+static int get_default_gateway(char *gw_out, size_t gw_len)
+{
+    char buf[256] = {0};
+    if (run_cmd_capture_rc("ip route | awk '/default/ {print $3; exit}'", buf, sizeof(buf)) != 0)
+        return -1;
+
+    trim_newline(buf);
+    if (buf[0] == '\0')
+        return -1;
+
+    snprintf(gw_out, gw_len, "%s", buf);
+    return 0;
+}
+
+static int have_default_route(void)
+{
+    char gw[64];
+    return (get_default_gateway(gw, sizeof(gw)) == 0);
+}
+
+
+static void wifi_run_dhcp_once(void)
+{
+    if (udhcpc_running()) {
+        printf("[WiFi] udhcpc already running, skip DHCP.\n");
+        return;
+    }
+
+    printf("[WiFi] Running DHCP via udhcpc...\n");
+
+    // Clear stray udhcpc from boot scripts
+    system("killall -q udhcpc >/dev/null 2>&1");
+    unlink(UDHCPC_PIDFILE);
+
+    system("udhcpc -i wlan0 -p " UDHCPC_PIDFILE " -n -t 3 -T 2 >/dev/console 2>&1");
+}
+
+
+static int internet_check_basic(void)
+{
+    char gw[64] = {0};
+
+    if (!have_default_route())
+        return 0;
+
+    if (get_default_gateway(gw, sizeof(gw)) != 0)
+        return 0;
+
+    // ping gateway (usually allowed; fast)
+    char cmd[256];
+    snprintf(cmd, sizeof(cmd), "ping -c 1 -W 1 %s >/dev/null 2>&1", gw);
+    if (system(cmd) != 0)
+        return 0;
+
+    // Optional: public ping (can be blocked; treat as "nice to have")
+    // If you enable this, don't trigger DHCP on failure.
+    // if (system("ping -c 1 -W 1 1.1.1.1 >/dev/null 2>&1") != 0) return 0;
+
+    return 1;
+}
+
+
+// ping -c 1 -W 1 192.168.0.1
+
+
+static int tcp_connect_check(const char *ip, int port, int timeout_ms)
+{
+    int fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (fd < 0) return 0;
+
+    // non-blocking
+    int flags = fcntl(fd, F_GETFL, 0);
+    fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port   = htons(port);
+
+    if (inet_pton(AF_INET, ip, &addr.sin_addr) != 1) {
+        close(fd);
+        return 0;
+    }
+
+    int r = connect(fd, (struct sockaddr*)&addr, sizeof(addr));
+    if (r == 0) { 
+        close(fd); 
+        return 1; 
+    }
+
+    if (errno != EINPROGRESS) { 
+        close(fd); 
+        return 0; 
+    }
+
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    FD_SET(fd, &wfds);
+
+    struct timeval tv;
+    tv.tv_sec  = timeout_ms / 1000;
+    tv.tv_usec = (timeout_ms % 1000) * 1000;
+
+    r = select(fd + 1, NULL, &wfds, NULL, &tv);
+    if (r <= 0) { 
+        close(fd); 
+        return 0; 
+    }
+
+    int soerr = 0;
+    socklen_t slen = sizeof(soerr);
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, &soerr, &slen);
+
+    close(fd);
+    return (soerr == 0);
+}
+
+
+
+#define CLOUD_IP   "139.162.41.206"
+#define CLOUD_PORT 22    // or 443 (preferred long-term)
+
+// static int internet_check_basic(void)
+// {
+//     return tcp_connect_check(CLOUD_IP, CLOUD_PORT, 1000); // 1s timeout
+// }
+
 
 static int write_wifi_state(const wifi_sm_status_t *st)
 {
@@ -231,12 +456,12 @@ static int write_wifi_state(const wifi_sm_status_t *st)
         return -1;
     }
 
-    // Ensure data hits disk
-    if(fsync(fd) < 0)
-    {
-        perror("[Boot Manager] fsync wifi_state.tmp failed\n");
-        // not fatal , but log it
-    }
+    // // Ensure data hits disk
+    // if(fsync(fd) < 0)
+    // {
+    //     perror("[Boot Manager] fsync wifi_state.tmp failed\n");
+        
+    // }
 
     close(fd);
 
@@ -252,98 +477,88 @@ static int write_wifi_state(const wifi_sm_status_t *st)
 
 }
 
-// Run a shell command and capture output into buffer
-static int run_cmd_capture(const char *cmd, char *out, size_t out_len)
+
+static wifi_state_t map_wpa_state(const char *v)
 {
-    FILE *fp = popen(cmd, "r");
-    if (!fp) return -1;
+    // Disconnected-like states
+    if (!v) return WIFI_STATE_UNKNOWN;
 
-    size_t total = 0;
-    out[0] = '\0';
-
-    while (fgets(out + total, out_len - total, fp)) 
-    {
-        total = strlen(out);
-        if (total >= out_len - 1) break;
+    if (!strcmp(v, "DISCONNECTED") ||
+        !strcmp(v, "INACTIVE") ||
+        !strcmp(v, "INTERFACE_DISABLED")) {
+        return WIFI_STATE_DISCONNECTED;
     }
 
-    pclose(fp);
-    return 0;
+    if (!strcmp(v, "COMPLETED")) {
+        return WIFI_STATE_COMPLETED;
+    }
+
+    // Everything else: we assume connecting/handshaking/scanning
+    return WIFI_STATE_CONNECTING;
 }
 
-// Fill wifi_status_t by parsing `wpa_cli status`
 static void wifi_get_status(wifi_status_t *st)
 {
     memset(st, 0, sizeof(*st));
     st->state = WIFI_STATE_UNKNOWN;
 
     char buf[2048] = {0};
-
-    if (run_cmd_capture("/system/tools/wifi/wpa_cli -i wlan0 status", buf, sizeof(buf)) != 0) 
-    {
+    if (run_cmd_capture_rc("/system/tools/wifi/wpa_cli -i wlan0 status", buf, sizeof(buf)) != 0) {
+        // last resort: try interface IP only
+        if (get_wlan0_ipv4(st->ip, sizeof(st->ip)) == 0)
+            st->state = WIFI_STATE_COMPLETED;
         return;
     }
 
-    char *saveptr;
-    char *line = strtok_r(buf, "\n", &saveptr);
-    while (line) 
-    {
-        if (strncmp(line, "wpa_state=", 10) == 0) 
-        {
-            const char *v = line + 10;
-            if (strcmp(v, "COMPLETED") == 0) 
-            {
-                st->state = WIFI_STATE_COMPLETED;
-            } 
-            else 
-            {
-                st->state = WIFI_STATE_CONNECTING;
-            }
-        } 
-        else if (strncmp(line, "ip_address=", 11) == 0) 
-        {
-            snprintf(st->ip, sizeof(st->ip), "%s", line + 11);
-        }
+    const char *wpa_v = NULL;
+    char wpa_ip[64] = {0};
 
+    char *saveptr = NULL;
+    char *line = strtok_r(buf, "\n", &saveptr);
+    while (line) {
+        if (!strncmp(line, "wpa_state=", 10)) {
+            wpa_v = line + 10;
+        } else if (!strncmp(line, "ip_address=", 11)) {
+            snprintf(wpa_ip, sizeof(wpa_ip), "%s", line + 11);
+        }
         line = strtok_r(NULL, "\n", &saveptr);
+    }
+
+    st->state = map_wpa_state(wpa_v);
+
+    // Prefer real interface IP
+    if (get_wlan0_ipv4(st->ip, sizeof(st->ip)) != 0) {
+        // Fallback to wpa_cli ip_address
+        if (wpa_ip[0]) snprintf(st->ip, sizeof(st->ip), "%s", wpa_ip);
+        else st->ip[0] = '\0';
     }
 }
 
-static void wifi_run_dhcp(void)
-{
-    printf("[WiFi] Running DHCP via udhcpc...\n");
-    system("udhcpc -i wlan0 -n -t 3 -T 2 >/dev/console 2>&1");
-}
 
-// Wait until wpa_state=COMPLETED or timeout_ms
+
 static int wifi_wait_for_completed(int timeout_ms)
 {
     const int step_ms = 500;
     int waited = 0;
     wifi_status_t st;
 
-    while (waited < timeout_ms) {
+    while (waited < timeout_ms) 
+    {
         wifi_get_status(&st);
-
         if (st.state == WIFI_STATE_COMPLETED) 
         {
-            printf("[WiFi] State COMPLETED. ip=%s\n",
-                   st.ip[0] ? st.ip : "(none)");
+            printf("[WiFi] State COMPLETED. ip=%s\n", st.ip[0] ? st.ip : "(none)");
 
-            // If wpa_cli has no IP, run DHCP
-            if (st.ip[0] == '\0') 
-            {
-                wifi_run_dhcp();
-            }
-            return 0;  // success
+            // If still no IP, try DHCP once
+            if (st.ip[0] == '\0')
+                wifi_run_dhcp_once();
+
+            return 0;
         }
-
         usleep(step_ms * 1000);
         waited += step_ms;
     }
-
-    printf("[WiFi] Still not COMPLETED after %d ms\n", timeout_ms);
-    return -1; // timeout
+    return -1;
 }
 
 static void wifi_soft_reconnect(void)
@@ -357,93 +572,152 @@ static void wifi_soft_reconnect(void)
 
 
 
-
 static void *wifi_watchdog_thread(void *arg)
 {
     (void)arg;
 
     wifi_status_t st;
     wifi_state_t last_state = WIFI_STATE_UNKNOWN;
+
+    int disconnected_count = 0;
+    int connecting_count   = 0;
+    int internet_fail_count = 0;
+
+    int backoff_sec = 10;          // start
+    const int backoff_max = 60;    // max backoff
+
     wifi_sm_status_t sm = {0};
 
     while (1) 
     {
-        sleep(10);  // check every 10s 
+        sleep(backoff_sec);
 
         if (ap_mode_active) 
         {
-            // In AP mode, mark Wi-Fi as disconnected for keo-cam
-            sm.state       = WIFI_SM_DISCONNECTED;
+            sm.state = WIFI_SM_DISCONNECTED;
             sm.internet_ok = 0;
-            sm.ip[0]       = '\0';
+            sm.ip[0] = '\0';
             write_wifi_state(&sm);
+
+            // reset counters while in AP mode
+            disconnected_count = connecting_count = internet_fail_count = 0;
+            backoff_sec = 10;
+            last_state = WIFI_STATE_UNKNOWN;
             continue;
         }
 
         wifi_get_status(&st);
 
-        // Default values for this loop
-        sm.state       = WIFI_SM_DISCONNECTED;
-        sm.internet_ok = 0;
-        sm.ip[0]       = '\0';
-
         if (st.state != last_state) 
         {
-            printf("[WiFi] State changed: %d -> %d, ip=%s\n",
-                   last_state, st.state,
-                   st.ip[0] ? st.ip : "(none)");
+            printf("[WiFi] State changed: %d -> %d, ip=%s\n", last_state, st.state, st.ip[0] ? st.ip : "(none)");
+            last_state = st.state;
         }
 
+        // Default publish
+        sm.state = WIFI_SM_DISCONNECTED;
+        sm.internet_ok = 0;
+        sm.ip[0] = '\0';
+
+        // ---------- COMPLETED ----------
         if (st.state == WIFI_STATE_COMPLETED) 
         {
-            // We have link
             sm.state = WIFI_SM_CONNECTED;
-
             if (st.ip[0]) 
             {
                 snprintf(sm.ip, sizeof(sm.ip), "%s", st.ip);
             }
 
-            // Check internet reachability ONCE per loop here
-            int ping_ret = system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1");
-            sm.internet_ok = (ping_ret == 0);
+            // If COMPLETED but no IP => DHCP once
+            if (st.ip[0] == '\0') 
+            {
+                printf("[WiFi] COMPLETED but no IP. DHCP once.\n");
+                wifi_run_dhcp_once();
+            }
 
-            // If ping failed, we can try DHCP again
+            // Internet check (don’t DHCP on fail)
+            sm.internet_ok = internet_check_basic();
             if (!sm.internet_ok) 
             {
-                printf("[WiFi] internet check failed. Re-running DHCP.\n");
-                wifi_run_dhcp();
+                internet_fail_count++;
+                printf("[WiFi] Internet check failed (%d).\n", internet_fail_count);
+
+                // Escalate only after several consecutive failures
+                if (internet_fail_count >= 6) 
+                { 
+                    // ~6 loops = 60s if backoff 10
+                    printf("[WiFi] Internet failing for a while. Trigger reconnect.\n");
+                    wifi_soft_reconnect();
+                    wifi_wait_for_completed(10000);
+                    internet_fail_count = 0;
+                }
             } 
             else 
             {
-                printf("[WiFi] internet OK.\n");
+                internet_fail_count = 0;
             }
 
-            // Publish status to /tmp/wifi_state
             write_wifi_state(&sm);
 
-            last_state = st.state;
-            continue; // nothing else to do in this loop
+            // Healthy => reset backoff/counters
+            disconnected_count = 0;
+            connecting_count = 0;
+            backoff_sec = 10;
+            continue;
         }
 
-        // If we reach here, not COMPLETED
-        // Publish "disconnected" status 
+        // ---------- CONNECTING ----------
+        if (st.state == WIFI_STATE_CONNECTING) 
+        {
+            connecting_count++;
+            write_wifi_state(&sm);
+
+            // Give it time to finish handshake; don't spam reconnect
+            if (connecting_count >= 6) 
+            { 
+                // ~60s at 10s interval
+                printf("[WiFi] Stuck CONNECTING too long. Reconnect.\n");
+                wifi_soft_reconnect();
+                wifi_wait_for_completed(10000);
+                connecting_count = 0;
+            }
+
+            // gentle backoff while not ready
+            // if (backoff_sec < backoff_max) backoff_sec += 10;
+
+            backoff_sec = 10;   // fixed while connecting
+
+            continue;
+        }
+
+        // ---------- DISCONNECTED / UNKNOWN ----------
+        disconnected_count++;
+        connecting_count = 0;
         write_wifi_state(&sm);
 
-        printf("[WiFi] Not connected (state=%d). Trying reconnect...\n", st.state);
+        printf("[WiFi] Disconnected/Unknown (state=%d). Attempt reconnect #%d\n",
+               st.state, disconnected_count);
 
-        wifi_soft_reconnect();
-
-        if (wifi_wait_for_completed(10000) == 0) 
+        // Reconnect only after a couple confirmations (avoid transient glitches)
+        if (disconnected_count >= 2) 
         {
-            printf("[WiFi] Reconnected successfully.\n");
-        } 
-        else 
+            wifi_soft_reconnect();
+            if (wifi_wait_for_completed(10000) == 0) 
+            {
+                printf("[WiFi] Reconnected successfully.\n");
+                disconnected_count = 0;
+                backoff_sec = 10;
+            } 
+            else 
+            {
+                printf("[WiFi] Reconnect timed out.\n");
+                if (backoff_sec < backoff_max) backoff_sec += 10;
+            }
+        } else 
         {
-            printf("[WiFi] Reconnection failed or timed out.\n");
+            // first time disconnected: wait another loop
+            if (backoff_sec < backoff_max) backoff_sec += 10;
         }
-
-        last_state = st.state;
     }
 
     return NULL;
