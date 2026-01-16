@@ -9,7 +9,7 @@ AP_ENABLE="/system/www/ap_mode_enable.sh"
 IFACE="wlan0"
 WPA_CONF="/etc/wpa_supplicant.conf"
 NFS_START="/system/start_nfs.sh"
-APPLICATION="/system/nfs/keo-cam"
+# APPLICATION="/system/nfs/keo-cam"
 #APPLICATION="/system/mmc_ext/keo-cam"
 
 echo "====== Wi-Fi setup starting ======"
@@ -24,6 +24,9 @@ fail_to_ap() {
         exit 1
     fi
 }
+
+# mound sd card
+mount /dev/mmcblk0p1 /system/mmc_ext/
 
 # Basic checks
 [ -x "$WIFI_TOOL_DIR/wpa_supplicant" ] || fail_to_ap "Missing wpa_supplicant"
@@ -52,8 +55,7 @@ killall wpa_supplicant  || true
 killall udhcpc          || true
 usleep 100000 # 100ms
 
-# mound sd card
-mount /dev/mmcblk0p1 /system/mmc_ext/
+
 
 # Interface up
 ifconfig "$IFACE" up || true
@@ -145,23 +147,23 @@ fi
 
 echo "====== Wi-Fi setup finished ======" 
 
-# Start NFS in background (so Wi-Fi is "ready" faster)
-if [ -x "$NFS_START" ]; then
-    echo "[WIFI] Starting NFS in background..."
-    sh "$NFS_START"
-else
-    echo "[WIFI] NFS script not found or not executable: $NFS_START" 
-fi
+# # Start NFS in background (so Wi-Fi is "ready" faster)
+# if [ -x "$NFS_START" ]; then
+#     echo "[WIFI] Starting NFS in background..."
+#     sh "$NFS_START"
+# else
+#     echo "[WIFI] NFS script not found or not executable: $NFS_START" 
+# fi
 
-sleep 2
+# sleep 2
 
-# Start application
-if [ -x "$APPLICATION" ]; then
-    echo "[WIFI] Starting application: $APPLICATION" 
-    "$APPLICATION" &
-else
-    echo "[WIFI] Application not found or not executable: $APPLICATION" 
-fi
+# # Start application
+# if [ -x "$APPLICATION" ]; then
+#     echo "[WIFI] Starting application: $APPLICATION" 
+#     "$APPLICATION" &
+# else
+#     echo "[WIFI] Application not found or not executable: $APPLICATION" 
+# fi
 
 
 exit 0

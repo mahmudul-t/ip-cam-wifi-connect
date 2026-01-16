@@ -18,17 +18,21 @@
 
 #include <errno.h>
 #include <string.h>
-
+#include <sys/wait.h>
 
 #define GPIO_NUM           "64"
 #define GPIO_PATH          "/sys/class/gpio/gpio64/"
 #define AP_MODE_SCRIPT     "/system/www/ap_mode_enable.sh"
 #define ENABLE_WIFI_SCRIPT "/system/www/enable_wifi.sh"
 #define APP_NAME           "keo-cam"   // Application started by enable_wifi.sh
+#define APP_PATH           "/system/mmc_ext/keo-cam"
+
 
 static int   ap_mode_active = 0; // 0 = STA mode, 1 = AP mode
 static pid_t ap_pid         = -1;
 static pid_t wifi_pid       = -1;
+static pid_t app_pid        = -1;
+
 
 /* ========================= GPIO HELPERS ========================= */
 
@@ -127,6 +131,41 @@ static int run_wifi_script(void)
     return 0;
 }
 
+static int run_wifi_script_and_wait(void)
+{
+    pid_t pid = fork();
+
+    if(pid == 0)
+    {
+        execl("/bin/sh", "sh", ENABLE_WIFI_SCRIPT, (char *)NULL);
+        perror("execl (ENABLE_WIFI_SCRIPT)");
+        _exit(127);
+    }
+     else if (pid < 0)
+    {
+        perror("fork (WIFI)");
+        return -1;
+    }
+
+    // Parent waits
+    int status = 0;
+    if (waitpid(pid, &status, 0) < 0)
+    {
+        perror("waitpid (wifi)");
+        return -1;
+    }
+
+    if (WIFEXITED(status))
+    {
+        int code = WEXITSTATUS(status);
+        printf("[WIFI] script exited, code=%d\n", code);
+        return code;   // 0 = success
+    }
+
+    printf("[WIFI] script ended abnormally\n");
+    return -1;
+}
+
 static int stop_wifi_script(void)
 {
     if (wifi_pid > 0) 
@@ -146,41 +185,95 @@ static int stop_wifi_script(void)
     return -1; // no known wifi_pid
 }
 
-static int stop_application(void)
-{
-    char cmd[64];
-    snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
+// static int stop_application(void)
+// {
+//     char cmd[64];
+//     snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
 
-    FILE *fp = popen(cmd, "r");
-    if (!fp) 
+//     FILE *fp = popen(cmd, "r");
+//     if (!fp) 
+//     {
+//         perror("popen (pgrep)");
+//         return -1;
+//     }
+
+//     char pid_str[16];
+//     if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
+//     {
+//         pid_t pid = (pid_t)atoi(pid_str);
+//         printf("Found %s PID: %d\n", APP_NAME, pid);
+
+//         if (kill(pid, SIGTERM) == 0) 
+//         {
+//             printf("Sent SIGTERM to %s\n", APP_NAME);
+//         } 
+//         else 
+//         {
+//             perror("kill (APP)");
+//         }
+//     } 
+//     else 
+//     {
+//         printf("%s not running\n", APP_NAME);
+//     }
+
+//     pclose(fp);
+//     return 0;
+// }
+
+
+static int start_application(void)
+{
+    pid_t pid = fork();
+
+    if(pid == 0)
     {
-        perror("popen (pgrep)");
+        // chile process >> run keo-cam
+        printf("start application.......................>>>>>>>>\n");
+        execl(APP_PATH, "keo-cam", (char *)NULL);
+
+        perror("execl keo-cam");
+
+        _exit(127);
+    }
+    else if (pid < 0)
+    {
+        perror("fork app");
         return -1;
     }
 
-    char pid_str[16];
-    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
-    {
-        pid_t pid = (pid_t)atoi(pid_str);
-        printf("Found %s PID: %d\n", APP_NAME, pid);
-
-        if (kill(pid, SIGTERM) == 0) 
-        {
-            printf("Sent SIGTERM to %s\n", APP_NAME);
-        } 
-        else 
-        {
-            perror("kill (APP)");
-        }
-    } 
-    else 
-    {
-        printf("%s not running\n", APP_NAME);
-    }
-
-    pclose(fp);
+    //parent
+    app_pid = pid;
+    printf("Started keo-cam, pid=%d\n", app_pid);
+    
     return 0;
 }
+
+
+static int stop_application(void)
+{
+    if(app_pid > 0)
+    {
+        if(kill(app_pid, SIGTERM) == 0)
+        {
+            printf("sent SIGTERM to keo-cam pid = %d\n", app_pid);
+            app_pid = -1;
+            return 0;
+        }
+        else
+        {
+            perror("kill app pid\n");
+            return -1;
+        }
+    } 
+
+
+    printf("keo-cam not running (no stored pid)\n");
+    return -1;
+}
+
+
+
 
 /* ====================== WIFI STATUS / RECONNECT ====================== */
 
@@ -342,23 +435,23 @@ static void wifi_run_dhcp_once(void)
 
 static int internet_check_basic(void)
 {
-    char gw[64] = {0};
+    // char gw[64] = {0};
 
-    if (!have_default_route())
-        return 0;
+    // if (!have_default_route())
+    //     return 0;
 
-    if (get_default_gateway(gw, sizeof(gw)) != 0)
-        return 0;
+    // if (get_default_gateway(gw, sizeof(gw)) != 0)
+    //     return 0;
 
-    // ping gateway (usually allowed; fast)
-    char cmd[256];
-    snprintf(cmd, sizeof(cmd), "ping -c 1 -W 1 %s >/dev/null 2>&1", gw);
-    if (system(cmd) != 0)
-        return 0;
+    // // ping gateway (usually allowed; fast)
+    // char cmd[256];
+    // snprintf(cmd, sizeof(cmd), "ping -c 1 -W 1 %s >/dev/null 2>&1", gw);
+    // if (system(cmd) != 0)
+    //     return 0;
 
     // Optional: public ping (can be blocked; treat as "nice to have")
     // If you enable this, don't trigger DHCP on failure.
-    // if (system("ping -c 1 -W 1 1.1.1.1 >/dev/null 2>&1") != 0) return 0;
+    if (system("ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1") != 0) return 0;
 
     return 1;
 }
@@ -655,6 +748,7 @@ static void *wifi_watchdog_thread(void *arg)
             else 
             {
                 internet_fail_count = 0;
+                printf("[WiFi] Internet ok\n");
             }
 
             write_wifi_state(&sm);
@@ -749,7 +843,8 @@ static void *button_thread(void *arg)
 
     printf("[BOOT BTN] Monitoring GPIO64 for long press...\n");
 
-    while (1) {
+    while (1) 
+    {
         // Clear old value
         lseek(fd, 0, SEEK_SET);
         read(fd, buf, sizeof(buf));
@@ -982,7 +1077,8 @@ static const char* detect_mode(char ip_out[STR_MAX])
 /* Persist configs to file + (optional) wpa_supplicant */
 static int persist_all(const char *ssid, const char *wifi_password,
                        const char *username, const char *user_password,
-                       const char *camera_id){
+                       const char *camera_id)
+                       {
     /* make sure dir exists */
     system("mkdir -p /system/etc >/dev/null 2>&1");
 
@@ -1080,21 +1176,35 @@ static void handle_onboard(int client, const char *body)
     ap_mode_active = 0;
 
 
-   pid_t pid = fork();
-    if (pid == 0) 
+//    pid_t pid = fork();
+//     if (pid == 0) 
+//     {
+//         printf("handle_onboard: exec /system/www/enable_wifi.sh");
+//         execl("/bin/sh", "sh", "/system/www/enable_wifi.sh", (char*)NULL);
+//         printf("handle_onboard: exec failed: %s", strerror(errno));
+//         _exit(0);
+//     } 
+//     else if (pid > 0) 
+//     {
+//         printf("handle_onboard: spawned enable_wifi.sh pid=%d", (int)pid);
+//     } 
+//     else 
+//     {
+//         printf("handle_onboard: fork failed: %s", strerror(errno));
+//     }
+
+
+    int ret = run_wifi_script_and_wait();
+
+    if (ret == 0)
     {
-        printf("handle_onboard: exec /system/www/enable_wifi.sh");
-        execl("/bin/sh", "sh", "/system/www/enable_wifi.sh", (char*)NULL);
-        printf("handle_onboard: exec failed: %s", strerror(errno));
-        _exit(0);
-    } 
-    else if (pid > 0) 
+        printf("[SYS] Wi-Fi script finished. Starting keo-cam...\n");
+        start_application();
+    }
+    else
     {
-        printf("handle_onboard: spawned enable_wifi.sh pid=%d", (int)pid);
-    } 
-    else 
-    {
-        printf("handle_onboard: fork failed: %s", strerror(errno));
+        printf("[SYS] Wi-Fi script failed. Not starting app.\n");
+        // optional: run_ap_script();
     }
 
 }
@@ -1309,11 +1419,19 @@ int main(void)
         perror("pthread_create button_thread");
     }
 
-    // Start initial WiFi / application script
-    if (run_wifi_script() != 0) 
+    int ret = run_wifi_script_and_wait();
+
+    if (ret == 0)
     {
-        fprintf(stderr, "Failed to start WIFI script\n");
+        printf("[SYS] Wi-Fi script finished. Starting keo-cam...\n");
+        start_application();
     }
+    else
+    {
+        printf("[SYS] Wi-Fi script failed. Not starting app.\n");
+        // optional: run_ap_script();
+    }
+
 
 
 

@@ -16,10 +16,13 @@
 #define AP_MODE_SCRIPT     "/system/www/ap_mode_enable.sh"
 #define ENABLE_WIFI_SCRIPT "/system/www/enable_wifi.sh"
 #define APP_NAME           "keo-cam"   // Application started by enable_wifi.sh
+#define APP_PATH "/system/bin/keo-cam"
 
 static int   ap_mode_active = 0; // 0 = STA mode, 1 = AP mode
 static pid_t ap_pid         = -1;
 static pid_t wifi_pid       = -1;
+static pid_t app_pid        = -1;
+
 
 /* ========================= GPIO HELPERS ========================= */
 
@@ -137,41 +140,96 @@ static int stop_wifi_script(void)
     return -1; // no known wifi_pid
 }
 
-static int stop_application(void)
-{
-    char cmd[64];
-    snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
+// static int stop_application(void)
+// {
+//     char cmd[64];
+//     snprintf(cmd, sizeof(cmd), "pgrep %s", APP_NAME);
 
-    FILE *fp = popen(cmd, "r");
-    if (!fp) 
+//     FILE *fp = popen(cmd, "r");
+//     if (!fp) 
+//     {
+//         perror("popen (pgrep)");
+//         return -1;
+//     }
+
+//     char pid_str[16];
+//     if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
+//     {
+//         pid_t pid = (pid_t)atoi(pid_str);
+//         printf("Found %s PID: %d\n", APP_NAME, pid);
+
+//         if (kill(pid, SIGTERM) == 0) 
+//         {
+//             printf("Sent SIGTERM to %s\n", APP_NAME);
+//         } 
+//         else 
+//         {
+//             perror("kill (APP)");
+//         }
+//     } 
+//     else 
+//     {
+//         printf("%s not running\n", APP_NAME);
+//     }
+
+//     pclose(fp);
+//     return 0;
+// }
+
+
+static int start_application(void)
+{
+    pid_t pid = fork();
+
+    if(pid == 0)
     {
-        perror("popen (pgrep)");
+        // chile process >> run keo-cam
+        execl(APP_PATH, "keo-cam", (char *)NULL);
+
+        perror("execl keo-cam");
+
+        _exit(127);
+    }
+    else if (pid < 0)
+    {
+        perror("fork app");
         return -1;
     }
 
-    char pid_str[16];
-    if (fgets(pid_str, sizeof(pid_str), fp) != NULL) 
-    {
-        pid_t pid = (pid_t)atoi(pid_str);
-        printf("Found %s PID: %d\n", APP_NAME, pid);
-
-        if (kill(pid, SIGTERM) == 0) 
-        {
-            printf("Sent SIGTERM to %s\n", APP_NAME);
-        } 
-        else 
-        {
-            perror("kill (APP)");
-        }
-    } 
-    else 
-    {
-        printf("%s not running\n", APP_NAME);
-    }
-
-    pclose(fp);
+    //parent
+    app_pid = pid;
+    printf("Started keo-cam, pid=%d\n", app_pid);
+    
     return 0;
 }
+
+
+static int stop_application(void)
+{
+    if(app_pid > 0)
+    {
+        if(kill(app_pid, SIGTERM) == 0)
+        {
+            printf("sent SIGTERM to keo-cam pid = %d\n", app_pid);
+            app_pid = -1;
+            return 0;
+        }
+        else
+        {
+            perror("kill app pid\n");
+            return -1;
+        }
+    } 
+
+
+    printf("keo-cam not running (no stored pid)\n");
+    return -1;
+}
+
+
+
+
+
 
 /* ====================== WIFI STATUS / RECONNECT ====================== */
 
