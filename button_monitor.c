@@ -1078,14 +1078,15 @@ static const char* detect_mode(char ip_out[STR_MAX])
 static int persist_all(const char *ssid, const char *wifi_password,
                        const char *username, const char *user_password,
                        const char *camera_id)
-                       {
+                       
+{
     /* make sure dir exists */
     system("mkdir -p /system/etc >/dev/null 2>&1");
 
     char txt[1024];
     snprintf(txt, sizeof(txt),
-        "ssid=%s\n"
-        "wifi_psk=%s\n"
+        "ssid=\"%s\"\n"
+        "wifi_psk=\"%s\"\n"
         "username=%s\n"
         "password=%s\n"
         "camera_id=%s\n"
@@ -1241,7 +1242,8 @@ static void load_cfg(char *ssid, char *username, char *camera_id, int *has_wifi_
 }
 
 /* ---------- GET /status ---------- */
-static void handle_status(int client){
+static void handle_status(int client)
+{
     char ip[STR_MAX]; const char *mode = detect_mode(ip);
 
     char ssid[STR_MAX], username[STR_MAX], camera_id[STR_MAX];
